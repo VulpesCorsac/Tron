@@ -1,0 +1,19 @@
+#include "..\stdafx.h"
+#include "..\Headers\Game.h"
+
+int main(int argc, char** argv) {
+
+    cerr << "input 4 points" << endl;
+    Point a, b, c, d;
+    cin >> a.x >> a.y;
+    cin >> b.x >> a.y;
+    cin >> c.x >> a.y;
+    cin >> d.x >> a.y;
+
+    glutInit(&argc, argv);
+
+    Game* game = new Game();
+    game->Run();
+
+    return 0;
+}

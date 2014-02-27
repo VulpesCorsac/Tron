@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="headers\Bot_Logic.h" open="1" top="0" tabpos="2">
+		<Cursor position="160" topLine="0" />
+	</File>
+	<File name="headers\Game.h" open="0" top="0" tabpos="1">
+		<Cursor position="2055" topLine="57" />
+	</File>
+	<File name="headers\Main.h" open="0" top="0" tabpos="6">
+		<Cursor position="1382" topLine="51" />
+	</File>
+	<File name="headers\Player.h" open="0" top="0" tabpos="2">
+		<Cursor position="25" topLine="0" />
+	</File>
+	<File name="headers\render.h" open="0" top="0" tabpos="6">
+		<Cursor position="1008" topLine="29" />
+	</File>
+	<File name="sources\Bot_Logic.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="996" topLine="21" />
+	</File>
+	<File name="sources\Game.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="353" topLine="0" />
+	</File>
+	<File name="sources\Our_Math.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="2603" topLine="67" />
+	</File>
+	<File name="sources\Player.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="183" topLine="49" />
+	</File>
+	<File name="sources\Render.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="2008" topLine="77" />
+	</File>
+	<File name="sources\main.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="102" topLine="0" />
+	</File>
+	<File name="stdafx.h" open="0" top="0" tabpos="6">
+		<Cursor position="160" topLine="3" />
+	</File>
+</CodeBlocks_layout_file>
