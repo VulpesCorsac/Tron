@@ -1,0 +1,19 @@
+#ifndef MAIN_H_INCLUDED
+#define MAIN_H_INCLUDED
+
+#include "Point.h"
+
+#define sqr(a) ((a)*(a))
+
+typedef double type;
+
+// абсолютное значение
+type abs(type a);
+
+// начальная скорость
+const type Speed0 = 1.0;
+
+// точность до
+const double Eps = 1e-5;
+
+#endif // MAIN_H_INCLUDED

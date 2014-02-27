@@ -1,0 +1,12 @@
+#ifndef POINT_H_INCLUDED
+#define POINT_H_INCLUDED
+
+#include @
+
+// точка
+struct Point {
+    type x;
+    type y;
+};
+
+#endif // POINT_H_INCLUDED
