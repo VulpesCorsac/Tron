@@ -16,6 +16,8 @@
 #include <map>
 #include <assert.h>
 
+#include <winsock.h>
+
 #include <windows.h>
 #include <gl\gl.h>
 

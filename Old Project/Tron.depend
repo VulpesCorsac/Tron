@@ -390,3 +390,131 @@
 1362926618 d:\tron\trunk\glut\freeglut_ext.h
 	<stdarg.h>
 
+1397073143 source:c:\users\Владимир\documents\github\tron\old project\stdafx.h
+	<algorithm>
+	<stdlib.h>
+	<iostream>
+	<stdio.h>
+	<iomanip>
+	<math.h>
+	<time.h>
+	<string.h>
+	<string>
+	<vector>
+	<queue>
+	<set>
+	<map>
+	<assert.h>
+	<winsock.h>
+	<windows.h>
+	<gl\gl.h>
+	"glext.h"
+	"glut\glut.h"
+	"glut\freeglut_ext.h"
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\glut\glut.h
+	"freeglut_std.h"
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\glut\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\glut\freeglut_ext.h
+	<stdarg.h>
+
+1396985336 source:c:\users\Владимир\documents\github\tron\old project\sources\bot_logic.cpp
+	"..\stdafx.h"
+	"..\Headers\Bot_Logic.h"
+	"..\Headers\Player.h"
+	"..\Headers\Main.h"
+	"..\Headers\Game.h"
+
+1397073143 c:\users\Владимир\documents\github\tron\old project\stdafx.h
+	<algorithm>
+	<stdlib.h>
+	<iostream>
+	<stdio.h>
+	<iomanip>
+	<math.h>
+	<time.h>
+	<string.h>
+	<string>
+	<vector>
+	<queue>
+	<set>
+	<map>
+	<assert.h>
+	<winsock.h>
+	<windows.h>
+	<gl\gl.h>
+	"glext.h"
+	"glut\glut.h"
+	"glut\freeglut_ext.h"
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\headers\bot_logic.h
+	"..\stdafx.h"
+	"Main.h"
+	"Player.h"
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\headers\main.h
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\headers\player.h
+	"Main.h"
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\headers\game.h
+	"main.h"
+	"player.h"
+	"render.h"
+
+1396985336 c:\users\Владимир\documents\github\tron\old project\headers\render.h
+	"main.h"
+	"player.h"
+
+1396985336 source:c:\users\Владимир\documents\github\tron\old project\sources\game.cpp
+	"..\stdafx.h"
+	"..\Headers\Game.h"
+	"..\Headers\Bot_logic.h"
+
+1397152647 source:c:\users\Владимир\documents\github\tron\old project\sources\main.cpp
+	"..\stdafx.h"
+	"..\Headers\Game.h"
+	"..\headers\Client.h"
+	"..\headers\Server.h"
+
+1396985336 source:c:\users\Владимир\documents\github\tron\old project\sources\our_math.cpp
+	"..\stdafx.h"
+	"..\Headers\Main.h"
+
+1396985336 source:c:\users\Владимир\documents\github\tron\old project\sources\player.cpp
+	"..\stdafx.h"
+	"..\Headers\Player.h"
+
+1396985336 source:c:\users\Владимир\documents\github\tron\old project\sources\render.cpp
+	"..\stdafx.h"
+	"..\headers\render.h"
+
+1397152443 source:c:\users\Владимир\documents\github\tron\old project\sources\client.cpp
+	"..\headers\Client.h"
+	"..\headers\Server.h"
+
+1397152335 c:\users\Владимир\documents\github\tron\old project\headers\client.h
+	"..\headers\Server.h"
+
+1397152697 c:\users\Владимир\documents\github\tron\old project\headers\server.h
+
+1397152206 source:c:\users\Владимир\documents\github\tron\old project\sources\server.cpp
+	"..\headers\Client.h"
+	"..\headers\Server.h"
+
