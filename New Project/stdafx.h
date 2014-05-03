@@ -23,6 +23,11 @@
 #include <map>
 #include <assert.h>
 
+//#define GLEW_STATIC wtf it doesn't work but k
+
+#include <glew.h>
+#include <glm/glm.hpp>
+
 #include <windows.h>
 #include <gl\gl.h>
 

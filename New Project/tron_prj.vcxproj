@@ -58,7 +58,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wsock32.lib;soil.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,6 +83,8 @@
   <ItemGroup>
     <ClInclude Include="GeoGeometry\GeoGeometry.hpp" />
     <ClInclude Include="GeoGeometry\Math_templates.hpp" />
+    <ClInclude Include="graph2D.h" />
+    <ClInclude Include="gui.h" />
     <ClInclude Include="headers\Client.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\InitConstants.hpp" />
@@ -91,9 +93,13 @@
     <ClInclude Include="headers\gengine.h" />
     <ClInclude Include="headers\Server.h" />
     <ClInclude Include="headers\Wall.hpp" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="graph2D.cpp" />
+    <ClCompile Include="gui.cpp" />
+    <ClCompile Include="mesh.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Game.cpp" />
     <ClCompile Include="sources\main.cpp" />

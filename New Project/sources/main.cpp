@@ -2,6 +2,7 @@
 #include "Headers\Game.h"
 #include "Headers\Client.h"
 #include "Headers\Server.h"
+#include "Headers\gEngine.h"
 
 
 int main(int argc, char** argv) {
@@ -15,8 +16,9 @@ int main(int argc, char** argv) {
 //    CClient vov;
  //   vov.connect("127.0.0.1"); 
 
-
-	Init_Constants Init;
+	glutInit(&argc, argv);
+	Init_Constants* Init = new Init_Constants();
+	/*
 	cout << Init.Field_Width << endl;
 	cout << Init.Field_Width << endl;
 	cout << Init.Field_Length << endl;
@@ -27,8 +29,10 @@ int main(int argc, char** argv) {
 	cout << Init.Rocket_Speed << endl;
 	cout << Init.Rocket_Length << endl;
 	cout << Init.Bomb_Time << endl;
-	cout << Init.Bomb_Radius << endl;
+	cout << Init.Bomb_Radius << endl;*/
 
+	CGEngine* eng = new CGEngine(Init);
+	eng->start();
 
     return 0;
 }

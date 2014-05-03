@@ -20,13 +20,16 @@ public:
     double LightCycle_Width;
     double LightCycle_DefaultSpeed;
 
-    // Rocket Constants
+    // Rocket Constants //lol rockets
     double Rocket_Speed;
     double Rocket_Length;
 
     //Bomb Constants
     double Bomb_Time;
     double Bomb_Radius;
+
+	//Graphics Constants
+	int resX, resY;
 
 private:
     // Assertion of constant values
@@ -105,7 +108,11 @@ public:
                 std::cin >> this->Bomb_Time;
             else if (s == "Bomb_Radius")
                 std::cin >> this->Bomb_Radius;
-            else
+			else if(s == "ResolutionX")
+				std::cin >> resX;
+			else if(s == "ResolutionY")
+				std::cin >> resY;
+			else 
                 std::cerr << "Error in reading config.cfg file: unknown attribte:" << s << std::endl;
 
             std::getline(std::cin, s);

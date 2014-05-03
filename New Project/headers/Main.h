@@ -7,7 +7,7 @@
 const double Eps = 1e-5;
 const double Sur = 1e-2;
 
-typedef double type;
+typedef float type;
 
 // направление
 struct Direction {
@@ -72,9 +72,9 @@ struct Point {
 class Line
 {
 public:
-    double a, b, c;
+    type a, b, c;
     // Создание прямой ax + by + c = 0
-    Line (double _a = 0, double _b = 0, double _c = 0)
+	Line(type _a = 0, type _b = 0, type _c = 0)
     {
         a = _a;
         b = _b;
