@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\include;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,17 +81,20 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Bot_Logic.h" />
+    <ClInclude Include="GeoGeometry\GeoGeometry.hpp" />
+    <ClInclude Include="GeoGeometry\Math_templates.hpp" />
     <ClInclude Include="headers\Client.h" />
     <ClInclude Include="headers\Game.h" />
+    <ClInclude Include="headers\InitConstants.hpp" />
+    <ClInclude Include="headers\LightCycle.hpp" />
     <ClInclude Include="headers\Main.h" />
     <ClInclude Include="headers\Player.h" />
     <ClInclude Include="headers\render.h" />
     <ClInclude Include="headers\Server.h" />
+    <ClInclude Include="headers\Wall.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\Bot_Logic.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Game.cpp" />
     <ClCompile Include="sources\main.cpp" />

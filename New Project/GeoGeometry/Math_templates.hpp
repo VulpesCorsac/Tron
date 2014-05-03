@@ -35,6 +35,7 @@ T GCD(T a, T b) {
 
 template < class T >
 T SIGN(T a)
+{
     if (a == 0)
         return 0;
     if (a > 0)

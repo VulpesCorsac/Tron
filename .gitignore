@@ -21,3 +21,6 @@
 *.log
 *.ipch
 *.idb
+*.opensdf
+New Project/tron_prj.opensdf
+*.exe
