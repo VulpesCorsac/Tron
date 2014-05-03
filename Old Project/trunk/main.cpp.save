@@ -1,0 +1,122 @@
+#include <iostream>
+#include <vector>
+#include <assert.h>
+#include "Point.h"
+#include 
+
+using namespace std;
+
+// игрок
+class Player {
+public:
+    type speed;
+    vector < Point > turns;
+    Direction direction;
+    Point position;
+    int team;
+
+    // проверка валидности данных
+    bool Check() {
+        if (position.x < Eps)
+            return false;
+        if (position.y < Eps)
+            return false;
+        if (abs(sqr(direction.dx) + sqr(direction.dy) - 1) > Eps)
+            return false;
+        if (abs(sqr(direction.dx) + sqr(direction.dy)) < Eps)
+            return false;
+
+        return true;
+    }
+
+    // пустой конструктор
+    Player() {
+        team = 0;
+        speed = Speed0;
+        turns.clear();
+        direction.dx = 0;
+        direction.dy = 0;
+        position.x = -1;
+        position.y = -1;
+    }
+
+    // конструктор по начальной точке и начальному направлению
+    Player(Point starting_point, Direction starting_direction, int including_team) {
+        team = including_team;
+        speed = Speed0;
+        turns.clear();
+        direction.dx = starting_direction.dx;
+        direction.dy = starting_direction.dy;
+        position.x = starting_point.x;
+        position.y = starting_point.y;
+
+        assert(Check());
+    }
+
+    // поворот вправо
+    void Turn_Right() {
+        type old_dx = direction.dx;
+        direction.dx = direction.dy;
+        direction.dy = -old_dx;
+
+        turns.push_back(position);
+    }
+
+    // поворот влево
+    void Turn_Left() {
+        type old_dx = direction.dx;
+        direction.dx = -direction.dy;
+        direction.dy = old_dx;
+
+        turns.push_back(position);
+    }
+
+    // обновление
+    void Update(type dt) {
+        position.x += direction.dx*dt;
+        position.y += direction.dy*dt;
+
+        assert(Check());
+    }
+
+    // деструктор
+    ~Player() {
+        team = 0;
+        speed = -1;
+        turns.clear();
+        direction.dx = 0;
+        direction.dy = 0;
+        position.x = -1;
+        position.y = -1;
+    }
+
+};
+
+// игра
+class Game {
+public:
+    vector < Player > players;
+    int number_of_players;
+
+    // пустой конструктор
+    Game() {
+        number_of_players = 0;
+        players.clear();
+    }
+
+    // добавление дового игрока
+    void Add_Player (Player new_player) {
+        number_of_players++;
+        players.push_back(new_player);
+    }
+
+    // деструктор
+    ~Game() {
+        number_of_players = 0;
+        players.clear();
+    }
+};
+
+int main() {
+
+}

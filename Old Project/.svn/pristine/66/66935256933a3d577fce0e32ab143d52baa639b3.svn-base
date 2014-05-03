@@ -1,0 +1,38 @@
+
+#include "..\stdafx.h"
+#include "..\headers\render.h"
+
+Render* g_render;
+
+void r_display(void) {
+    g_render->draw();
+}
+
+Render::Render()
+{
+
+}
+
+Render::~Render()
+{
+
+}
+
+bool Render::initialize()
+{
+    int argc = 0;
+    glutInit(&argc, NULL);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(800, 600);
+    glutInitWindowPosition(50, 50);
+    glutCreateWindow("Tron");
+    glutDisplayFunc(r_display);
+    g_render = this;
+    return true;
+}
+
+void Render::draw()
+{
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glutSwapBuffers();
+}

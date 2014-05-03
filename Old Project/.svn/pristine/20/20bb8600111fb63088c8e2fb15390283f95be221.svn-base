@@ -1,0 +1,37 @@
+#include <iostream>
+#include <vector>
+#include <assert.h>
+#include "Point.h"
+#include "Direction.h"
+#include "Player.h"
+
+using namespace std;
+
+// игра
+class Game {
+public:
+    vector < Player > players;
+    int number_of_players;
+
+    // пустой конструктор
+    Game() {
+        number_of_players = 0;
+        players.clear();
+    }
+
+    // добавление дового игрока
+    void Add_Player (Player new_player) {
+        number_of_players++;
+        players.push_back(new_player);
+    }
+
+    // деструктор
+    ~Game() {
+        number_of_players = 0;
+        players.clear();
+    }
+};
+
+int main() {
+
+}

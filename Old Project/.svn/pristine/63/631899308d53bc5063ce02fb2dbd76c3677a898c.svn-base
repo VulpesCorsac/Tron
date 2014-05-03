@@ -1,0 +1,80 @@
+# depslib dependency file v1.0
+1361821582 source:c:\c++ projects\tron\main.cpp
+	<iostream>
+	<vector>
+	<assert.h>
+	"Point.h"
+	"Direction.h"
+	"Player.h"
+
+1361821333 c:\c++ projects\tron\point.h
+	"Main.h"
+
+1361822308 c:\c++ projects\tron\main.h
+
+1361821332 c:\c++ projects\tron\direction.h
+	"Main.h"
+
+1361822254 c:\c++ projects\tron\player.h
+	"Main.h"
+	"Point.h"
+	"Direction.h"
+
+1361822117 source:c:\c++ projects\tron\player.cpp
+	<iostream>
+	<vector>
+	<assert.h>
+	"Player.h"
+
+1362063451 source:d:\tron\main.cpp
+	"stdafx.h"
+	"Point.h"
+	"Direction.h"
+	"Player.h"
+
+1361821333 d:\tron\point.h
+	"Main.h"
+
+1361822308 d:\tron\main.h
+
+1361821332 d:\tron\direction.h
+	"Main.h"
+
+1362059949 d:\tron\player.h
+	"Main.h"
+	"Point.h"
+	"Direction.h"
+
+1362062663 d:\tron\stdafx.h
+	<iostream>
+	<vector>
+	<assert.h>
+	<windows.h>
+	<gl\gl.h>
+	"glut\glut.h"
+
+1362059935 source:d:\tron\our_math.cpp
+	"stdafx.h"
+	"Main.h"
+
+1362059930 source:d:\tron\player.cpp
+	"stdafx.h"
+	"Player.h"
+
+1066736514 d:\tron\glut\glut.h
+	"freeglut_std.h"
+
+1362062181 d:\tron\glut\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1362062663 source:d:\tron\stdafx.h
+	<iostream>
+	<vector>
+	<assert.h>
+	<windows.h>
+	<gl\gl.h>
+	"glut\glut.h"
+

@@ -1,0 +1,9 @@
+
+#include "stdafx.h"
+#include "Main.h"
+
+type abs(type a) {
+    if (a < 0)
+        return -a;
+    return a;
+}

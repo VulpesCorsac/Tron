@@ -1,0 +1,223 @@
+# depslib dependency file v1.0
+1368540165 source:d:\tron\trunk\stdafx.h
+	<algorithm>
+	<stdlib.h>
+	<iostream>
+	<stdio.h>
+	<iomanip>
+	<math.h>
+	<time.h>
+	<string.h>
+	<string>
+	<vector>
+	<queue>
+	<set>
+	<map>
+	<assert.h>
+	<windows.h>
+	<gl\gl.h>
+	"glext.h"
+	"glut\glut.h"
+	"glut\freeglut_ext.h"
+
+1333549758 d:\tron\trunk\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1362926618 d:\tron\trunk\glut\glut.h
+	"freeglut_std.h"
+
+1362905834 d:\tron\trunk\glut\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1368554072 source:d:\tron\trunk\sources\game.cpp
+	"..\stdafx.h"
+	"..\Headers\Game.h"
+	"..\Headers\Bot_logic.h"
+
+1368540165 d:\tron\trunk\stdafx.h
+	<algorithm>
+	<stdlib.h>
+	<iostream>
+	<stdio.h>
+	<iomanip>
+	<math.h>
+	<time.h>
+	<string.h>
+	<string>
+	<vector>
+	<queue>
+	<set>
+	<map>
+	<assert.h>
+	<windows.h>
+	<gl\gl.h>
+	"glext.h"
+	"glut\glut.h"
+	"glut\freeglut_ext.h"
+
+1368618825 d:\tron\trunk\headers\game.h
+	"main.h"
+	"player.h"
+	"render.h"
+
+1368017964 d:\tron\trunk\headers\main.h
+
+1368017100 d:\tron\trunk\headers\player.h
+	"Main.h"
+
+1368619084 d:\tron\trunk\headers\render.h
+	"main.h"
+	"player.h"
+
+1363197126 source:d:\tron\trunk\sources\main.cpp
+	"..\stdafx.h"
+	"..\Headers\Game.h"
+
+1363198240 source:d:\tron\trunk\sources\our_math.cpp
+	"..\stdafx.h"
+	"..\Headers\Main.h"
+
+1363781540 source:d:\tron\trunk\sources\player.cpp
+	"..\stdafx.h"
+	"..\Headers\Player.h"
+
+1368619196 source:d:\tron\trunk\sources\render.cpp
+	"..\stdafx.h"
+	"..\headers\render.h"
+
+1362926618 d:\tron\trunk\glut\freeglut_ext.h
+	<stdarg.h>
+
+1368608770 source:d:\tron\trunk\sources\bot_logic.cpp
+	"..\stdafx.h"
+	"..\Headers\Bot_Logic.h"
+	"..\Headers\Player.h"
+	"..\Headers\Main.h"
+	"..\Headers\Game.h"
+
+1368595886 d:\tron\trunk\headers\bot_logic.h
+	"..\stdafx.h"
+	"Main.h"
+	"Player.h"
+
+1368540166 source:c:\c++ projects\tron\trunk\stdafx.h
+	<algorithm>
+	<stdlib.h>
+	<iostream>
+	<stdio.h>
+	<iomanip>
+	<math.h>
+	<time.h>
+	<string.h>
+	<string>
+	<vector>
+	<queue>
+	<set>
+	<map>
+	<assert.h>
+	<windows.h>
+	<gl\gl.h>
+	"glext.h"
+	"glut\glut.h"
+	"glut\freeglut_ext.h"
+
+1333549758 c:\c++ projects\tron\trunk\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1362926618 c:\c++ projects\tron\trunk\glut\glut.h
+	"freeglut_std.h"
+
+1362905834 c:\c++ projects\tron\trunk\glut\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1362926618 c:\c++ projects\tron\trunk\glut\freeglut_ext.h
+	<stdarg.h>
+
+1363198240 source:c:\c++ projects\tron\trunk\sources\our_math.cpp
+	"..\stdafx.h"
+	"..\Headers\Main.h"
+
+1368540166 c:\c++ projects\tron\trunk\stdafx.h
+	<algorithm>
+	<stdlib.h>
+	<iostream>
+	<stdio.h>
+	<iomanip>
+	<math.h>
+	<time.h>
+	<string.h>
+	<string>
+	<vector>
+	<queue>
+	<set>
+	<map>
+	<assert.h>
+	<windows.h>
+	<gl\gl.h>
+	"glext.h"
+	"glut\glut.h"
+	"glut\freeglut_ext.h"
+
+1368017964 c:\c++ projects\tron\trunk\headers\main.h
+
+1363781540 source:c:\c++ projects\tron\trunk\sources\player.cpp
+	"..\stdafx.h"
+	"..\Headers\Player.h"
+
+1368017100 c:\c++ projects\tron\trunk\headers\player.h
+	"Main.h"
+
+1368619198 source:c:\c++ projects\tron\trunk\sources\render.cpp
+	"..\stdafx.h"
+	"..\headers\render.h"
+
+1368619086 c:\c++ projects\tron\trunk\headers\render.h
+	"main.h"
+	"player.h"
+
+1363197126 source:c:\c++ projects\tron\trunk\sources\main.cpp
+	"..\stdafx.h"
+	"..\Headers\Game.h"
+
+1368618826 c:\c++ projects\tron\trunk\headers\game.h
+	"main.h"
+	"player.h"
+	"render.h"
+
+1368619352 source:c:\c++ projects\tron\trunk\sources\game.cpp
+	"..\stdafx.h"
+	"..\Headers\Game.h"
+	"..\Headers\Bot_logic.h"
+
+1368595886 c:\c++ projects\tron\trunk\headers\bot_logic.h
+	"..\stdafx.h"
+	"Main.h"
+	"Player.h"
+
+1368608770 source:c:\c++ projects\tron\trunk\sources\bot_logic.cpp
+	"..\stdafx.h"
+	"..\Headers\Bot_Logic.h"
+	"..\Headers\Player.h"
+	"..\Headers\Main.h"
+	"..\Headers\Game.h"
+

@@ -1,0 +1,12 @@
+#ifndef DIRECTION_H_INCLUDED
+#define DIRECTION_H_INCLUDED
+
+#include "Main.h"
+
+// направление
+struct Direction {
+    type dx;
+    type dy;
+};
+
+#endif // DIRECTION_H_INCLUDED

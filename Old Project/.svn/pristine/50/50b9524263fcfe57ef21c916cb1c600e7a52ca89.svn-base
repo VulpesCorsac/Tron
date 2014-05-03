@@ -1,0 +1,14 @@
+#ifndef STDAFX_H_INCLUDED
+#define STDAFX_H_INCLUDED
+
+#include <iostream>
+#include <vector>
+#include <assert.h>
+
+#include <windows.h>
+#include <gl\gl.h>
+#include "glut\glut.h"
+
+using namespace std;
+
+#endif // STDAFX_H_INCLUDED

@@ -1,0 +1,17 @@
+#ifndef RENDER_H_INCLUDED
+#define RENDER_H_INCLUDED
+
+#include "main.h"
+#include "player.h"
+
+class Render
+{
+public:
+    Render();
+    ~Render();
+
+    bool initialize();
+    void draw();
+};
+
+#endif // RENDER_H_INCLUDED

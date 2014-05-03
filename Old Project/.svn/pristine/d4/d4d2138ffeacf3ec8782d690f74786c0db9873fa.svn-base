@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1361821582 source:c:\c++ projects\tron\main.cpp
+	<iostream>
+	<vector>
+	<assert.h>
+	"Point.h"
+	"Direction.h"
+	"Player.h"
+
+1361821333 c:\c++ projects\tron\point.h
+	"Main.h"
+
+1361822308 c:\c++ projects\tron\main.h
+
+1361821332 c:\c++ projects\tron\direction.h
+	"Main.h"
+
+1361822254 c:\c++ projects\tron\player.h
+	"Main.h"
+	"Point.h"
+	"Direction.h"
+
+1361822117 source:c:\c++ projects\tron\player.cpp
+	<iostream>
+	<vector>
+	<assert.h>
+	"Player.h"
+

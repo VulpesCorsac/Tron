@@ -1,0 +1,19 @@
+#ifndef STDAFX_H_INCLUDED
+#define STDAFX_H_INCLUDED
+
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <assert.h>
+#include <set>
+#include <string>
+
+
+#include <windows.h>
+#include <gl\gl.h>
+#include "glut\glut.h"
+//vovan shkolnik
+
+using namespace std;
+
+#endif // STDAFX_H_INCLUDED
