@@ -20,6 +20,61 @@ public:
     double LightCycle_Width;
     double LightCycle_DefaultSpeed;
 
+    // Rocket Constants
+    double Rocket_Speed;
+    double Rocket_Length;
+
+    //Bomb Constants
+    double Bomb_Time;
+    double Bomb_Radius;
+
+private:
+    // Assertion of constant values
+    bool Check() {
+        if (this->Field_Width <= 0) {
+            std::cerr << "Field_Width isn't positive!" << std::endl;
+            return false;
+        }
+        if (this->Field_Length <= 0) {
+            std::cerr << "Field_Length isn't positive!" << std::endl;
+            return false;
+        }
+        if (this->Wall_Width < 0) {
+            std::cerr << "Wall_Width is negative!" << std::endl;
+            return false;
+        }
+        if (this->LightCycle_Length < 0) {
+            std::cerr << "LightCycle_Length is negative!" << std::endl;
+            return false;
+        }
+        if (this->LightCycle_Width < 0) {
+            std::cerr << "LightCycle_Width is negative!" << std::endl;
+            return false;
+        }
+        if (this->LightCycle_DefaultSpeed <= 0) {
+            std::cerr << "LightCycle_DefaultSpeed isn't positive!" << std::endl;
+            return false;
+        }
+        if (this->Rocket_Speed <= 0) {
+            std::cerr << "Rocket_Speed isn't positive!" << std::endl;
+            return false;
+        }
+        if (this->Rocket_Length <= 0) {
+            std::cerr << "Rocket_Length isn't positive!" << std::endl;
+            return false;
+        }
+        if (this->Bomb_Time <= 0) {
+            std::cerr << "Bomb_Time isn't positive!" << std::endl;
+            return false;
+        }
+        if (this->Bomb_Radius <= 0) {
+            std::cerr << "Bomb_Radius isn't positive!" << std::endl;
+            return false;
+        }
+        return true;
+    }
+
+public:
     // Initing constants
     void Init_from_config_file() {
         if (freopen("config.cfg", "r", stdin) == NULL) {
@@ -28,39 +83,39 @@ public:
         }
 
         std::string s;
+
         while (std::cin >> s) {
-            if(s == "Field_Width") {
-                    std::cin >> this->Field_Width;
-                    assert(this->Field_Width > 0 && "Field_Width isn't positive");
-            } else
-            if(s == "Field_Length") {
-                    std::cin >> this->Field_Length;
-                    assert(this->Field_Length >= 0 && "Field_Length isn't positive");
-            } else
-            if(s == "Wall_Width") {
-                    std::cin >> this->Wall_Width;
-                    assert(this->Wall_Width >= 0 && "Wall_Width is negative");
-            } else
-            if(s == "LightCycle_Length") {
-                    std::cin >> this->LightCycle_Length;
-                    assert(this->LightCycle_Length >= 0 && "LightCycle_Length is negative");
-            } else
-            if(s == "LightCycle_Width") {
-                    std::cin >> this->LightCycle_Width;
-                    assert(this->LightCycle_Width >= 0 && "LightCycle_Width is negative");
-            } else
-            if(s == "LightCycle_DefaultSpeed") {
-                    std::cin >> this->LightCycle_DefaultSpeed;
-                    assert(this->LightCycle_DefaultSpeed > 0 && "LightCycle_DefaultSpeed isn't positive");
-            } else {
-                std::cerr << "Error in reading config.cfg file: unknown attribte" << std::endl;
-                throw(-1);
-            }
+            if (s == "Field_Width")
+                std::cin >> this->Field_Width;
+            else if (s == "Field_Length")
+                std::cin >> this->Field_Length;
+            else if (s == "Wall_Width")
+                std::cin >> this->Wall_Width;
+            else if (s == "LightCycle_Length")
+                std::cin >> this->LightCycle_Length;
+            else if (s == "LightCycle_Width")
+                std::cin >> this->LightCycle_Width;
+            else if (s == "LightCycle_DefaultSpeed")
+                std::cin >> this->LightCycle_DefaultSpeed;
+            else if (s == "Rocket_Speed")
+                std::cin >> this->Rocket_Speed;
+            else if (s == "Rocket_Length")
+                std::cin >> this->Rocket_Length;
+            else if (s == "Bomb_Time")
+                std::cin >> this->Bomb_Time;
+            else if (s == "Bomb_Radius")
+                std::cin >> this->Bomb_Radius;
+            else
+                std::cerr << "Error in reading config.cfg file: unknown attribte:" << s << std::endl;
 
             std::getline(std::cin, s);
         }
 
         fclose(stdin);
+        if (!Check()) {
+            std::cerr << "Constant check failed!" << std::endl;
+            throw -1;
+        }
     }
 
     // Constructor
