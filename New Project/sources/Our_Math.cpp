@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Headers\Main.h"
+#include "Headers\Main.h"
 
 /*
 type abs(type a) {

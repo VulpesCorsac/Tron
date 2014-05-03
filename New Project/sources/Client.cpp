@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "..\headers\Client.h"
-#include "..\headers\Server.h"
+#include "headers\Client.h"
+#include "headers\Server.h"
 
 
 CClient :: CClient()

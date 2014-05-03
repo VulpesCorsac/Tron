@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "..\Headers\Game.h"
+#include "Headers\Game.h"

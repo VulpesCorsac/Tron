@@ -88,8 +88,7 @@
     <ClInclude Include="headers\InitConstants.hpp" />
     <ClInclude Include="headers\LightCycle.hpp" />
     <ClInclude Include="headers\Main.h" />
-    <ClInclude Include="headers\Player.h" />
-    <ClInclude Include="headers\render.h" />
+    <ClInclude Include="headers\gengine.h" />
     <ClInclude Include="headers\Server.h" />
     <ClInclude Include="headers\Wall.hpp" />
     <ClInclude Include="stdafx.h" />
@@ -99,8 +98,7 @@
     <ClCompile Include="sources\Game.cpp" />
     <ClCompile Include="sources\main.cpp" />
     <ClCompile Include="sources\Our_Math.cpp" />
-    <ClCompile Include="sources\Player.cpp" />
-    <ClCompile Include="sources\Render.cpp" />
+    <ClCompile Include="sources\gengine.cpp" />
     <ClCompile Include="sources\Server.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
