@@ -33,4 +33,14 @@ T GCD(T a, T b) {
     return a + b;
 }
 
+template < class T >
+T sign(T a) {
+    if (a == 0)
+        return 0;
+    if (a > 0)
+        return 1;
+    else
+        return -1;
+}
+
 #endif // MATH_TEMPLATES_HPP_INCLUDED

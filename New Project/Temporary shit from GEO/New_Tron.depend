@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1399108693 source:c:\data\dropbox\c++ projects\new_tron\main.cpp
+	<iostream>
+	"InitConstants.hpp"
+
+1399108668 c:\data\dropbox\c++ projects\new_tron\initconstants.hpp
+	<iostream>
+	<stdio.h>
+	<string>
+	<assert.h>
+
+1399108693 source:c:\users\corsac\documents\github\tron\new project\temporary shit from geo\main.cpp
+	<iostream>
+	"InitConstants.hpp"
+
+1399108668 c:\users\corsac\documents\github\tron\new project\temporary shit from geo\initconstants.hpp
+	<iostream>
+	<stdio.h>
+	<string>
+	<assert.h>
+

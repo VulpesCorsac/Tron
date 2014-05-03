@@ -18,6 +18,7 @@ public:
     // LeghtCycle Constants
     double LightCycle_Length;
     double LightCycle_Width;
+    double LightCycle_DefaultSpeed;
 
     // Initing constants
     void Init_from_config_file() {
@@ -30,11 +31,11 @@ public:
         while (std::cin >> s) {
             if(s == "Field_Width") {
                     std::cin >> this->Field_Width;
-                    assert(this->Field_Width >= 0 && "Field_Width is negative");
+                    assert(this->Field_Width > 0 && "Field_Width isn't positive");
             } else
             if(s == "Field_Length") {
                     std::cin >> this->Field_Length;
-                    assert(this->Field_Length >= 0 && "Field_Length is negative");
+                    assert(this->Field_Length >= 0 && "Field_Length isn't positive");
             } else
             if(s == "Wall_Width") {
                     std::cin >> this->Wall_Width;
@@ -47,6 +48,10 @@ public:
             if(s == "LightCycle_Width") {
                     std::cin >> this->LightCycle_Width;
                     assert(this->LightCycle_Width >= 0 && "LightCycle_Width is negative");
+            } else
+            if(s == "LightCycle_DefaultSpeed") {
+                    std::cin >> this->LightCycle_DefaultSpeed;
+                    assert(this->LightCycle_DefaultSpeed > 0 && "LightCycle_DefaultSpeed isn't positive");
             } else {
                 std::cerr << "Error in reading config.cfg file: unknown attribte" << std::endl;
                 throw(-1);
