@@ -1,11 +1,6 @@
 #ifndef INITIALCONSTANTS_HPP_INCLUDED
 #define INITIALCONSTANTS_HPP_INCLUDED
 
-#include <iostream>
-#include <stdio.h>
-#include <string>
-#include <assert.h>
-
 class Init_Constants {
 public:
     // Field Constants

@@ -1,7 +1,7 @@
 #ifndef LIGHTCYCLE_HPP_INCLUDED
 #define LIGHTCYCLE_HPP_INCLUDED
 
-#include "GeoGeometry\GeoGeometry.hpp"
+#include "stdafx.h"
 
 class LightCycle {
     Point2D < double > Current_Point;

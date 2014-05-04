@@ -1,7 +1,7 @@
 #ifndef PLAYER_HPP_INCLUDED
 #define PLAYER_HPP_INCLUDED
 
-#include "LightCycle.hpp"
+#include "stdafx.h"
 
 class Player {
 	// Current Point and direction

@@ -23,6 +23,14 @@
 #include <map>
 #include <assert.h>
 
+#include "GeoGeometry\GeoGeometry.hpp"
+#include "headers\InitConstants.h"
+#include "headers\LightCycle.h"
+#include "headers\Player.h"
+#include "headers\Wall.h"
+#include "headers\Game.h"
+#include "headers\Game_Engine.h"
+
 //#define GLEW_STATIC wtf it doesn't work but k
 
 #include <glew.h>

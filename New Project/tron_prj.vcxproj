@@ -87,14 +87,14 @@
     <ClInclude Include="gui.h" />
     <ClInclude Include="headers\Client.h" />
     <ClInclude Include="headers\Game.h" />
-    <ClInclude Include="headers\Game_Engine.hpp" />
-    <ClInclude Include="headers\InitConstants.hpp" />
-    <ClInclude Include="headers\LightCycle.hpp" />
+    <ClInclude Include="headers\Game_Engine.h" />
+    <ClInclude Include="headers\InitConstants.h" />
+    <ClInclude Include="headers\LightCycle.h" />
     <ClInclude Include="headers\Main.h" />
     <ClInclude Include="headers\gengine.h" />
-    <ClInclude Include="headers\Player.hpp" />
+    <ClInclude Include="headers\Player.h" />
     <ClInclude Include="headers\Server.h" />
-    <ClInclude Include="headers\Wall.hpp" />
+    <ClInclude Include="headers\Wall.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

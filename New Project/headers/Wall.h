@@ -1,7 +1,7 @@
 #ifndef WALL_HPP_INCLUDED
 #define WALL_HPP_INCLUDED
 
-#include "GeoGeometry\GeoGeometry.hpp"
+#include "stdafx.h"
 
 class Wall {
     Segment2D < double > wall;

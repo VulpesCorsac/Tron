@@ -2,7 +2,7 @@
 #define RENDER_H_INCLUDED
 
 #include "main.h"
-#include "InitConstants.hpp"
+#include "InitConstants.h"
 #include "mesh.h"
 #include "gui.h"
 

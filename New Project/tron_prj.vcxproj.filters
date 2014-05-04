@@ -39,9 +39,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -57,15 +54,6 @@
     <ClInclude Include="headers\Server.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Wall.hpp">
-      <Filter>Header Files\Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\InitConstants.hpp">
-      <Filter>Header Files\Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\LightCycle.hpp">
-      <Filter>Header Files\Shared</Filter>
-    </ClInclude>
     <ClInclude Include="headers\gengine.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
@@ -77,6 +65,24 @@
     </ClInclude>
     <ClInclude Include="graph2D.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game_Engine.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\InitConstants.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\LightCycle.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Player.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Wall.h">
+      <Filter>Header Files\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +115,12 @@
     </ClCompile>
     <ClCompile Include="graph2D.cpp">
       <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Game_Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
