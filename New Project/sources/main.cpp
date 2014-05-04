@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "Headers\Game.h"
-#include "Headers\Client.h"
-#include "Headers\Server.h"
-#include "Headers\gEngine.h"
+#include "headers\Game.h"
+#include "headers\Client.h"
+#include "headers\Server.h"
+#include "headers\gEngine.h"
 
 
 int main(int argc, char** argv) {

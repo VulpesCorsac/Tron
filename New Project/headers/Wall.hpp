@@ -4,7 +4,7 @@
 #include "GeoGeometry\GeoGeometry.hpp"
 
 class Wall {
-    Segment2D < double > Wall;
+    Segment2D < double > wall;
     int PlayerNumber;
 };
 
