@@ -16,6 +16,12 @@ class Player {
 	// Alive?
 	bool Alive;
 
+	// Bomb ammount
+	int Bomb_Ammount;
+
+	// Rocket ammount
+	int Rocket_Ammount;
+
 };
 
 #endif // PLAYER_HPP_INCLUDED
