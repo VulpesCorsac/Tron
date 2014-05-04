@@ -7,6 +7,7 @@
 #include "Classes\Line2D.hpp"
 #include "Classes\Segment2D.hpp"
 #include "Classes\Circle.hpp"
+#include "Classes\Polygon2D.hpp"
 
 #include "Functions\Functions2D.hpp"
 

@@ -18,6 +18,11 @@ public:
         this->R = Vector.Norm();
     }
 
+    Circle(const Point2D < T > &Point, const T &_R) {
+        this->Centre = Point;
+        this->R = _R;
+    }
+
     ~Circle() {
 
     }

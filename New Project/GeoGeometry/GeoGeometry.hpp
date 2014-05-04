@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 #include "Math_templates.hpp"
 #include "2D\Geometry2D.hpp"
