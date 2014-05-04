@@ -12,10 +12,10 @@ public:
 	int Players_Ammount;
 
 	// All Players
-	std::vector < Player > Players;
+	vector < Player > Players;
 
 	// All Walls
-	std::vector < Wall > Walls;
+	vector < Wall > Walls;
 };
 
 #endif // GAME_HPP_INCLUDED
