@@ -1,5 +1,5 @@
-#ifndef GAME_HPP_INCLUDED
-#define GAME_HPP_INCLUDED
+#ifndef GAME_H_INCLUDED
+#define GAME_H_INCLUDED
 
 #include "stdafx.h"
 
@@ -16,6 +16,12 @@ public:
 
 	// All Walls
 	vector < Wall > Walls;
+
+	//All Bombs
+	vector < Bomb > Bombs;
+
+	//All Rockets
+	vector < Rocket > Rockets;
 };
 
-#endif // GAME_HPP_INCLUDED
+#endif // GAME_H_INCLUDED

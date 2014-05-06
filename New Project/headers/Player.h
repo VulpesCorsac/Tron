@@ -1,5 +1,5 @@
-#ifndef PLAYER_HPP_INCLUDED
-#define PLAYER_HPP_INCLUDED
+#ifndef PLAYER_H_INCLUDED
+#define PLAYER_H_INCLUDED
 
 #include "stdafx.h"
 
@@ -24,4 +24,4 @@ class Player {
 
 };
 
-#endif // PLAYER_HPP_INCLUDED
+#endif // PLAYER_H_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef WALL_HPP_INCLUDED
-#define WALL_HPP_INCLUDED
+#ifndef WALL_H_INCLUDED
+#define WALL_H_INCLUDED
 
 #include "stdafx.h"
 
@@ -8,4 +8,4 @@ class Wall {
     int PlayerNumber;
 };
 
-#endif // WALL_HPP_INCLUDED
+#endif // WALL_H_INCLUDED

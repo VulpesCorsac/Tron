@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{9f73c4f6-7a84-4260-a159-c2d61cbdef73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shared">
+      <UniqueIdentifier>{29d45b2f-c337-43aa-8f30-cb58fc55a6ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -84,18 +87,18 @@
     <ClInclude Include="headers\Wall.h">
       <Filter>Header Files\Shared</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Bomb.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Rocket.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\Our_Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\gengine.cpp">
@@ -116,11 +119,29 @@
     <ClCompile Include="graph2D.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Game.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
     <ClCompile Include="sources\Game_Engine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Our_Math.cpp">
+      <Filter>Source Files\Shared</Filter>
     </ClCompile>
     <ClCompile Include="sources\Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Rocket.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Bomb.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\LightCycle.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Wall.cpp">
+      <Filter>Source Files\Shared</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,14 +23,6 @@
 #include <map>
 #include <assert.h>
 
-#include "GeoGeometry\GeoGeometry.hpp"
-#include "headers\InitConstants.h"
-#include "headers\LightCycle.h"
-#include "headers\Player.h"
-#include "headers\Wall.h"
-#include "headers\Game.h"
-#include "headers\Game_Engine.h"
-
 //#define GLEW_STATIC wtf it doesn't work but k
 
 #include <glew.h>
@@ -45,6 +37,16 @@
 #include "freeglut_ext.h"
 
 using namespace std;
+
+#include "GeoGeometry\GeoGeometry.hpp"
+#include "headers\InitConstants.h"
+#include "headers\LightCycle.h"
+#include "headers\Wall.h"
+#include "headers\Rocket.h"
+#include "headers\Player.h"
+#include "headers\Bomb.h"
+#include "headers\Game.h"
+#include "headers\Game_Engine.h"
 
 #define fori(i, n) for (int i = 0; i < n; i++)
 #define forvec(vType, vName, i) for (vector<vType>::iterator i = vName.begin(); i != vName.end(); i++)

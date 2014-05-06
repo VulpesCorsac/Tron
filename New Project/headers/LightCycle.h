@@ -1,5 +1,5 @@
-#ifndef LIGHTCYCLE_HPP_INCLUDED
-#define LIGHTCYCLE_HPP_INCLUDED
+#ifndef LIGHTCYCLE_H_INCLUDED
+#define LIGHTCYCLE_H_INCLUDED
 
 #include "stdafx.h"
 
@@ -8,4 +8,4 @@ class LightCycle {
     Vector2D < double > Direction;
 };
 
-#endif // LIGHTCYCLE_HPP_INCLUDED
+#endif // LIGHTCYCLE_H_INCLUDED

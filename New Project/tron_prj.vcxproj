@@ -85,6 +85,7 @@
     <ClInclude Include="GeoGeometry\Math_templates.hpp" />
     <ClInclude Include="graph2D.h" />
     <ClInclude Include="gui.h" />
+    <ClInclude Include="headers\Bomb.h" />
     <ClInclude Include="headers\Client.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\Game_Engine.h" />
@@ -93,6 +94,7 @@
     <ClInclude Include="headers\Main.h" />
     <ClInclude Include="headers\gengine.h" />
     <ClInclude Include="headers\Player.h" />
+    <ClInclude Include="headers\Rocket.h" />
     <ClInclude Include="headers\Server.h" />
     <ClInclude Include="headers\Wall.h" />
     <ClInclude Include="mesh.h" />
@@ -102,14 +104,18 @@
     <ClCompile Include="graph2D.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="sources\Bomb.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Game.cpp" />
     <ClCompile Include="sources\Game_Engine.cpp" />
+    <ClCompile Include="sources\LightCycle.cpp" />
     <ClCompile Include="sources\main.cpp" />
     <ClCompile Include="sources\Our_Math.cpp" />
     <ClCompile Include="sources\gengine.cpp" />
     <ClCompile Include="sources\Player.cpp" />
+    <ClCompile Include="sources\Rocket.cpp" />
     <ClCompile Include="sources\Server.cpp" />
+    <ClCompile Include="sources\Wall.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

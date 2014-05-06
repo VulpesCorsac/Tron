@@ -1,5 +1,5 @@
-#ifndef GAME_ENGINE_HPP_INCLUDED
-#define GAME_ENGINE_HPP_INCLUDED
+#ifndef GAME_ENGINE_H_INCLUDED
+#define GAME_ENGINE_H_INCLUDED
 
 #include "Game.h"
 
@@ -9,4 +9,4 @@ class Game_Engine {
 
 };
 
-#endif // GAME_ENGINE_HPP_INCLUDED
+#endif // GAME_ENGINE_H_INCLUDED
