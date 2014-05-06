@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Shared">
       <UniqueIdentifier>{29d45b2f-c337-43aa-8f30-cb58fc55a6ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\ObjLoader">
+      <UniqueIdentifier>{1dcd3fcf-ee6d-4841-8b7d-ce3fef1f3464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render\ObjLoader">
+      <UniqueIdentifier>{78a17007-5a5a-40d6-baf9-53ee19dcac87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -93,6 +99,15 @@
     <ClInclude Include="headers\Rocket.h">
       <Filter>Header Files\Shared</Filter>
     </ClInclude>
+    <ClInclude Include="ObjLoader\listobj.h">
+      <Filter>Header Files\Engine\ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjLoader\obj_parser.h">
+      <Filter>Header Files\Engine\ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjLoader\objLoader.h">
+      <Filter>Header Files\Engine\ObjLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -142,6 +157,15 @@
     </ClCompile>
     <ClCompile Include="sources\Wall.cpp">
       <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLoader\objLoader.cpp">
+      <Filter>Source Files\Render\ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLoader\obj_parser.cpp">
+      <Filter>Source Files\Render\ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLoader\listobj.cpp">
+      <Filter>Source Files\Render\ObjLoader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
