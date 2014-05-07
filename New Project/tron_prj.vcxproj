@@ -98,12 +98,18 @@
     <ClInclude Include="headers\Server.h" />
     <ClInclude Include="headers\Wall.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="ObjLoader\listobj.h" />
+    <ClInclude Include="ObjLoader\objLoader.h" />
+    <ClInclude Include="ObjLoader\obj_parser.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graph2D.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="ObjLoader\listobj.cpp" />
+    <ClCompile Include="ObjLoader\objLoader.cpp" />
+    <ClCompile Include="ObjLoader\obj_parser.cpp" />
     <ClCompile Include="sources\Bomb.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Game.cpp" />

@@ -53,5 +53,7 @@ using namespace std;
 
 #endif // STDAFX_H_INCLUDED
 
+//disables deprecation warning
+#pragma warning( disable : 4996 )
 
 // TODO: reference additional headers your program requires here
