@@ -4,6 +4,7 @@
 #include "stdafx.h"
 
 class Wall {
+public:
     Segment2D < double > wall;
     int PlayerNumber;
 };

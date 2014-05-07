@@ -4,6 +4,7 @@
 #include "stdafx.h"
 
 class Player {
+public:
 	// Current Point and direction
 	LightCycle MyCycle;
 

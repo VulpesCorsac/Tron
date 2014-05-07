@@ -4,6 +4,7 @@
 #include "stdafx.h"
 
 class LightCycle {
+public:
     Point2D < double > Current_Point;
     Vector2D < double > Direction;
 };

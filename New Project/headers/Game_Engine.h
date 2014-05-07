@@ -4,6 +4,7 @@
 #include "Game.h"
 
 class Game_Engine {
+public:
 	// Game itself
 	Game Current_Game;
 
