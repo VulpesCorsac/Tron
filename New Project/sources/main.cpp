@@ -6,15 +6,15 @@
 
 
 int main(int argc, char** argv) {
-   // glutInit(&argc, argv);
+//	glutInit(&argc, argv);
 
-    //Game* game = new Game();
-  //  game->Run();
+//	Game* game = new Game();
+//	game->Run();
 
-   // CServer vovan; plz no vovan here, gtfo from mai main
- //   vovan.think();
-//    CClient vov;
- //   vov.connect("127.0.0.1"); 
+//	CServer vovan; // plz no vovan here, gtfo from mai main. Shkol'niki!
+//	vovan.think();
+//	CClient vov;
+//	vov.connect("127.0.0.1"); 
 
 	glutInit(&argc, argv);
 	Init_Constants* Init = new Init_Constants();
