@@ -4,7 +4,6 @@
 #include "headers\Server.h"
 #include "headers\gEngine.h"
 
-
 int main(int argc, char** argv) {
 //	glutInit(&argc, argv);
 

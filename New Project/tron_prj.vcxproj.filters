@@ -40,6 +40,24 @@
     <Filter Include="Source Files\GraphOBJ">
       <UniqueIdentifier>{9ab18c76-d672-4514-a65b-2a69f0688acf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Geom\2D">
+      <UniqueIdentifier>{d546d303-3ad1-4432-b436-09629629670e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geom\3D">
+      <UniqueIdentifier>{6198f414-8a9f-4efe-a273-58c877424fca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geom\2D\Functions">
+      <UniqueIdentifier>{ea2e7651-a0ed-45d3-b1b5-aeb7ac19d319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geom\2D\Classes">
+      <UniqueIdentifier>{bf751e98-4392-44b4-b194-1ba60b540f45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geom\3D\Classes">
+      <UniqueIdentifier>{3213f21e-879d-40bc-8cd4-093b0fa5b780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geom\3D\Functions">
+      <UniqueIdentifier>{90f06c14-39b1-4084-a1e3-0e05bbb8c284}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -50,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="headers\Main.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeoGeometry\GeoGeometry.hpp">
-      <Filter>Header Files\Geom</Filter>
     </ClInclude>
     <ClInclude Include="GeoGeometry\Math_templates.hpp">
       <Filter>Header Files\Geom</Filter>
@@ -107,6 +122,99 @@
     </ClInclude>
     <ClInclude Include="ObjLoader\objLoader.h">
       <Filter>Header Files\GraphOBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Geometry2D.hpp">
+      <Filter>Header Files\Geom\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Classes\Circle.hpp">
+      <Filter>Header Files\Geom\2D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Classes\Line2D.hpp">
+      <Filter>Header Files\Geom\2D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Classes\Line2DPV.hpp">
+      <Filter>Header Files\Geom\2D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Classes\Point2D.hpp">
+      <Filter>Header Files\Geom\2D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Classes\Polygon2D.hpp">
+      <Filter>Header Files\Geom\2D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Classes\Segment2D.hpp">
+      <Filter>Header Files\Geom\2D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Classes\Vector2D.hpp">
+      <Filter>Header Files\Geom\2D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\A_in_B2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\A_to_B2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Distanses2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Line2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Point2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.h">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Segment2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Vector2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Geometry3D.hpp">
+      <Filter>Header Files\Geom\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Classes\Line3D.hpp">
+      <Filter>Header Files\Geom\3D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Classes\Plane3D.hpp">
+      <Filter>Header Files\Geom\3D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Classes\Point3D.hpp">
+      <Filter>Header Files\Geom\3D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Classes\Segment3D.hpp">
+      <Filter>Header Files\Geom\3D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Classes\Sphere.hpp">
+      <Filter>Header Files\Geom\3D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Classes\Vector3D.hpp">
+      <Filter>Header Files\Geom\3D\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Functions\A_in_B3D.hpp">
+      <Filter>Header Files\Geom\3D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Functions\A_to_B3D.hpp">
+      <Filter>Header Files\Geom\3D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Functions\Distanses3D.hpp">
+      <Filter>Header Files\Geom\3D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Functions\Functions_Line3D.hpp">
+      <Filter>Header Files\Geom\3D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Functions\Functions_Vector3D.hpp">
+      <Filter>Header Files\Geom\3D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\3D\Functions\Functions3D.hpp">
+      <Filter>Header Files\Geom\3D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\GeoGeometry.hpp">
+      <Filter>Header Files\Geom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

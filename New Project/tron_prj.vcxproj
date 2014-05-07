@@ -81,6 +81,36 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GeoGeometry\2D\Classes\Circle.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Classes\Line2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Classes\Line2DPV.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Classes\Point2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Classes\Polygon2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Classes\Segment2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Classes\Vector2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\A_in_B2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\A_to_B2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Distanses2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Line2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Point2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.h" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Segment2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Vector2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Geometry2D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Classes\Line3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Classes\Plane3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Classes\Point3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Classes\Segment3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Classes\Sphere.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Classes\Vector3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Functions\A_in_B3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Functions\A_to_B3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Functions\Distanses3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Functions\Functions3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Functions\Functions_Line3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Functions\Functions_Vector3D.hpp" />
+    <ClInclude Include="GeoGeometry\3D\Geometry3D.hpp" />
     <ClInclude Include="GeoGeometry\GeoGeometry.hpp" />
     <ClInclude Include="GeoGeometry\Math_templates.hpp" />
     <ClInclude Include="graph2D.h" />
