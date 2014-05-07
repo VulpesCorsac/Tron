@@ -143,5 +143,8 @@
     <ClCompile Include="sources\Wall.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="sources\InitConstants.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
