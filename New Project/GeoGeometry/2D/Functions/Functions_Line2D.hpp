@@ -7,15 +7,6 @@ bool Are_parallel_lines(const Line2D < T > &Line1, const Line2D < T > &Line2) {
 }
 
 template < class T >
-bool Cross_line(const Line2D < T > &Line1, const Line2D < T > &Line2, Point2D < T > &Point) {
-    if (Are_parallel_lines(Line1, Line2))
-        return false;
-    Point.x = (Line2.B*Line1.C - Line1.B*Line2.C) / (Line2.A*Line1.B - Line1.A*Line2.B);
-    Point.y = (Line1.B != 0 ? (-Line1.C - Line1.A*Point.x) / Line1.B : (-Line2.C - Line2.A*Point.x) / Line2.B);
-    return true;
-}
-
-template < class T >
 Line2D < T > Perp_line(const Line2D < T > &Line, const Point2D < T > &Point) {
     return Line2D < T > (Line.B, -Line.A, -Line.B*Point.x + Line.A*Point.y);
 }

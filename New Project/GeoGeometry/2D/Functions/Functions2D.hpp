@@ -9,5 +9,6 @@
 #include "Functions_Vector2D.hpp"
 #include "Functions_Segment2D.hpp"
 #include "Functions_Polygon2D.h"
+#include "Crossing2D.hpp"
 
 #endif // FUNCTIONS2D_HPP_INCLUDED

@@ -90,6 +90,7 @@
     <ClInclude Include="GeoGeometry\2D\Classes\Vector2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\A_in_B2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\A_to_B2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Crossing2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Distanses2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Line2D.hpp" />
@@ -147,7 +148,6 @@
     <ClCompile Include="sources\InitConstants.cpp" />
     <ClCompile Include="sources\LightCycle.cpp" />
     <ClCompile Include="sources\main.cpp" />
-    <ClCompile Include="sources\Our_Math.cpp" />
     <ClCompile Include="sources\gengine.cpp" />
     <ClCompile Include="sources\Player.cpp" />
     <ClCompile Include="sources\Rocket.cpp" />

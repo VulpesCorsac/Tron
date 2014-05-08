@@ -4,12 +4,18 @@
 #include "Game.h"
 
 class Game_Engine {
-public:
-	// All constants
-	Init_Constants Constants;
+private:
+	// Converts from game classes to polygon
+	Polygon2D < double > Polygon_from_cycle(const LightCycle &Cycle);
+	Polygon2D < double > Polygon_from_wall(const Wall &Segment);
 
-	// Game itself
-	Game Current_Game;
+	// Intersect polygon in turning
+	bool Intersect_in_turning(const Polygon2D < double > &Turned, const Polygon2D < double > &Static, const double &alpha);
+
+public:
+	// Data	
+	Init_Constants* Constants; // All constants
+	Game Current_Game; // Game itself
 
 };
 

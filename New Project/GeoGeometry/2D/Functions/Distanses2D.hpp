@@ -18,4 +18,11 @@ T dist(const Line2D < T > &Line1, const Line2D < T > &Line2) {
     return _ABS(Line1.C - Line2.C) / (_SQR(Line1.A) + _SQR(Line2.B));
 }
 
+template < class T >
+T dist(const Point2D < T > &Point, const Circle < T > &_Circle) {
+	if (dist(Point, _Circle.Centre) <= _Circle.R)
+		return 0;
+	return (dist(Point, _Circle.Centre) - _Circle.R);
+}
+
 #endif // DISTANSES2D_HPP_INCLUDED

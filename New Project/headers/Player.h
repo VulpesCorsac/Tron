@@ -13,7 +13,6 @@ public:
 	bool Alive; // Alive?
 	void Kill(void); // Kill player
 
-
 	// Bombs
 	int Bomb_Ammount; // Bomb ammount
 	void Gotta_Bomb(void); // Increase bomb ammount

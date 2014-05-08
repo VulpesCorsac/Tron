@@ -216,6 +216,9 @@
     <ClInclude Include="GeoGeometry\GeoGeometry.hpp">
       <Filter>Header Files\Geom</Filter>
     </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Crossing2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -246,9 +249,6 @@
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
     <ClCompile Include="sources\Game_Engine.cpp">
-      <Filter>Source Files\Shared</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\Our_Math.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
     <ClCompile Include="sources\Player.cpp">
