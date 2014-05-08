@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "headers\Rocket.h"
 
-void Rocket::Shoot(Point2D < double > Start, Vector2D < double > Dir, double _Speed, double Len) {
+void Rocket::Shoot(const Point2D < double > &Start, const Vector2D < double > &Dir, const double &_Speed, const double &Len) {
 	this->Start_Point = Start;
 	this->Current_Point = Start;
 	this->Direction = Dir;
@@ -9,18 +9,18 @@ void Rocket::Shoot(Point2D < double > Start, Vector2D < double > Dir, double _Sp
 	this->Length = Len;
 }
 
-void Rocket::UPD(double dt) {
+void Rocket::UPD(const double &dt) {
 	this->Current_Point += (dt*this->Speed)*Norm(this->Direction);
 }
 
-bool Rocket::Explode() {
+bool Rocket::Explode(void) {
 	return (dist(this->Start_Point, this->Current_Point) >= this->Length);
 }
 
-Rocket::Rocket(Point2D < double > Start, Vector2D < double > Dir, double _Speed, double Len) {
+Rocket::Rocket(const Point2D < double > &Start, const Vector2D < double > &Dir, const double &_Speed, const double &Len) {
 	Shoot(Start, Dir, _Speed, Len);
 }
 
-Rocket::~Rocket() {
+Rocket::~Rocket(void) {
 
 }

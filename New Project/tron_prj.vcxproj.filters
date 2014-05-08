@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Shared">
       <UniqueIdentifier>{1e26d100-6001-4fde-b920-db17db64e5a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine">
-      <UniqueIdentifier>{e75868f5-c6f4-4c1c-919d-7657c928aab2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Render">
       <UniqueIdentifier>{7356b268-8f9e-4e8c-b4f4-578d383a2ed5}</UniqueIdentifier>
     </Filter>
@@ -58,6 +55,9 @@
     <Filter Include="Header Files\Geom\3D\Functions">
       <UniqueIdentifier>{90f06c14-39b1-4084-a1e3-0e05bbb8c284}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Render">
+      <UniqueIdentifier>{e75868f5-c6f4-4c1c-919d-7657c928aab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -79,16 +79,16 @@
       <Filter>Header Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="headers\gengine.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="mesh.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="gui.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="graph2D.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game.h">
       <Filter>Header Files\Shared</Filter>
@@ -278,5 +278,10 @@
     <ClCompile Include="ObjLoader\listobj.cpp">
       <Filter>Source Files\GraphOBJ</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WorkDir\config.cfg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

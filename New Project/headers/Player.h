@@ -5,24 +5,27 @@
 
 class Player {
 public:
-	// Current Point and direction
-	LightCycle MyCycle;
+	// Player Data
+	LightCycle MyCycle; // Current Point and direction
+	Init_Constants* Constants; // Constants
+	int Player_Number; // PLayer number
+	int Team_Number; // Team number
+	bool Alive; // Alive?
+	void Kill(void); // Kill player
 
-	// PLayer number
-	int Player_Number;
+
+	// Bombs
+	int Bomb_Ammount; // Bomb ammount
+	void Gotta_Bomb(void); // Increase bomb ammount
+	Bomb Place_Bomb(void); // Place Bomb
+
+	// Rockets
+	int Rocket_Ammount; // Rocket ammount
+	void Gotta_Rocket(void); // Increase rocket ammount
+	Rocket Shoot_Rocket(void); // Shoot Rocket;
 	
-	// Team number
-	int Team_Number;
-
-	// Alive?
-	bool Alive;
-
-	// Bomb ammount
-	int Bomb_Ammount;
-
-	// Rocket ammount
-	int Rocket_Ammount;
-
+	Player(const Point2D < double > &St_Point, const Vector2D < double > &St_Direction, Init_Constants* _Constants);
+	~Player();
 };
 
 #endif // PLAYER_H_INCLUDED

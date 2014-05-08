@@ -43,8 +43,8 @@ using namespace std;
 #include "headers\LightCycle.h"
 #include "headers\Wall.h"
 #include "headers\Rocket.h"
-#include "headers\Player.h"
 #include "headers\Bomb.h"
+#include "headers\Player.h"
 #include "headers\Game.h"
 #include "headers\Game_Engine.h"
 

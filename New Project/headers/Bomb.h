@@ -10,16 +10,16 @@ public:
 	double Radius;
 
 	// Place bomb
-	void Place(Point2D < double > Point, double Time_Left, double _R);
+	void Place(const Point2D < double > &Point, const double &Time_Left, const double &_R);
 
 	// UPD
-	void UPD(double dt);
+	void UPD(const double &dt);
 	
 	// Explode
-	bool Explode();
+	bool Explode(void);
 
-	Bomb(Point2D < double > Point, double Time_Left, double _R);
-	~Bomb();
+	Bomb(const Point2D < double > &Point, const double &Time_Left, const double &_R);
+	~Bomb(void);
 };
 
 #endif // BOMB_H_INCLUDED

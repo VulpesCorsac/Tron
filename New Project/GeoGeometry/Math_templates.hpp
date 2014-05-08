@@ -44,4 +44,12 @@ T SIGN(T a)
         return -1;
 }
 
+template < class T >
+T Heviside(T a) {
+	if (a < 0)
+		return 0;
+	else
+		return 1;
+}
+
 #endif // MATH_TEMPLATES_HPP_INCLUDED

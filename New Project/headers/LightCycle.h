@@ -10,17 +10,21 @@ public:
 	double Speed;
 	
 	//Placing the bike
-	void Place(Point2D < double > Start_Point, Vector2D < double > Dir, double _Speed);
+	void Place(const Point2D < double > &Start_Point, const Vector2D < double > &Dir, const double &_Speed);
 
 	// UPD
-	void UPD(double dt);
+	void UPD(const double &dt);
 
 	// Turn
-	void Turn(double aplha);
-	void Turn(bool is_left_turn);
+	void Turn(const double &aplha);
+	void Turn(const bool &is_left_turn);
 
-	LightCycle(Point2D < double > Start_Point, Vector2D < double > Dir, double _Speed);
-	~LightCycle();
+	// Update speed
+	void SpeedUp(const double &New_Speed);
+
+	LightCycle(const Point2D < double > &Start_Point, const Vector2D < double > &Dir, const double &_Speed);
+	LightCycle(void);
+	~LightCycle(void);
 
 };
 

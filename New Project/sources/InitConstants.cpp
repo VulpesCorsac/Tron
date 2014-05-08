@@ -34,12 +34,28 @@ bool Init_Constants::Check() {
 		std::cerr << "Rocket_Length isn't positive!" << std::endl;
 		return false;
 	}
+	if (this->Rocket_Default_Ammount < 0) {
+		std::cerr << "Rocket_Default_Ammount is negative!" << std::endl;
+		return false;
+	}
 	if (this->Bomb_Time <= 0) {
 		std::cerr << "Bomb_Time isn't positive!" << std::endl;
 		return false;
 	}
 	if (this->Bomb_Radius <= 0) {
 		std::cerr << "Bomb_Radius isn't positive!" << std::endl;
+		return false;
+	}
+	if (this->Bomb_Default_Ammount < 0) {
+		std::cerr << "Bomb_Default_Ammount is negative!" << std::endl;
+		return false;
+	}
+	if (this->resX <= 0) {
+		std::cerr << "ResolutionX isn't positive!" << std::endl;
+		return false;
+	}
+	if (this->resY <= 0) {
+		std::cerr << "ResolutionY isn't positive!" << std::endl;
 		return false;
 	}
 	return true;
@@ -70,14 +86,18 @@ void Init_Constants::Init_from_config_file() {
 			std::cin >> this->Rocket_Speed;
 		else if (s == "Rocket_Length")
 			std::cin >> this->Rocket_Length;
+		else if (s == "Rocket_Default_Ammount")
+			std::cin >> this->Rocket_Default_Ammount;
 		else if (s == "Bomb_Time")
 			std::cin >> this->Bomb_Time;
 		else if (s == "Bomb_Radius")
 			std::cin >> this->Bomb_Radius;
+		else if (s == "Bomb_Default_Ammount")
+			std::cin >> this->Bomb_Default_Ammount;
 		else if (s == "ResolutionX")
-			std::cin >> resX;
+			std::cin >> this->resX;
 		else if (s == "ResolutionY")
-			std::cin >> resY;
+			std::cin >> this->resY;
 		else
 			std::cerr << "Error in reading config.cfg file: unknown attribte:" << s << std::endl;
 

@@ -12,16 +12,16 @@ public:
 	double Length;
 	
 	// Shoot
-	void Shoot(Point2D < double > Start, Vector2D < double > Dir, double _Speed, double Len);
+	void Shoot(const Point2D < double > &Start, const Vector2D < double > &Dir, const double &_Speed, const double &Len);
 	
 	// UPD
-	void UPD(double dt);
+	void UPD(const double &dt);
 
 	// Explode
-	bool Explode();
+	bool Explode(void);
 
-	Rocket(Point2D < double > Start, Vector2D < double > Dir, double _Speed, double Len);
-	~Rocket();
+	Rocket(const Point2D < double > &Start, const Vector2D < double > &Dir, const double &_Speed, const double &Len);
+	~Rocket(void);
 };
 
 #endif // ROCKET_H_INCLUDED

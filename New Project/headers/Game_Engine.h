@@ -5,6 +5,9 @@
 
 class Game_Engine {
 public:
+	// All constants
+	Init_Constants Constants;
+
 	// Game itself
 	Game Current_Game;
 

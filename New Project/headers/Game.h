@@ -5,9 +5,6 @@
 
 class Game {
 public:
-    // All constants
-    Init_Constants Constants;
-
 	// Players Ammount
 	int Players_Ammount;
 

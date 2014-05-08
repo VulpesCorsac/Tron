@@ -22,10 +22,12 @@ public:
     // Rocket Constants //lol rockets
     double Rocket_Speed;
     double Rocket_Length;
+	int Rocket_Default_Ammount;
 
     //Bomb Constants
     double Bomb_Time;
     double Bomb_Radius;
+	int Bomb_Default_Ammount;
 
 	//Graphics Constants
 	int resX, resY;

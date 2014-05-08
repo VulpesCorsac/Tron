@@ -12,6 +12,11 @@ public:
         this->B = _B;
     }
 
+	Segment2D() {
+		this->A = Point2D < T > (0, 0);
+		this->B = Point2D < T > (0, 0);
+	}
+
     ~Segment2D () {
 
     }
