@@ -263,7 +263,7 @@
     <ClCompile Include="ObjLoader\listobj.cpp">
       <Filter>Source Files\GraphOBJ</Filter>
     </ClCompile>
-    <ClCompile Include="sources\`.cpp">
+    <ClCompile Include="sources\Game_Engine.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
   </ItemGroup>
