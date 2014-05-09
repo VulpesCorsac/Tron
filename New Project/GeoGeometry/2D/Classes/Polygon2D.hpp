@@ -42,6 +42,33 @@ public:
         return (!(Polygon1 == Polygon2));
     }
 
+	friend Polygon2D < T > operator + (const Polygon2D < T > &Polygon, const Vector2D < T > &Vector) {
+		Polygon2D < T > Temp = Polygon;
+		for (size_t i = 0; i < Temp.Polygon.size(); i++)
+			Temp.Polygon[i] += Vector;
+		return Temp;
+	}
+
+	friend Polygon2D < T > operator += (Polygon2D < T > &Polygon, const Vector2D < T > &Vector) {
+		for (size_t i = 0; i < Polygon.Polygon.size(); i++)
+			Polygon.Polygon[i] += Vector;
+		return Polygon;
+	}
+
+	friend Polygon2D < T > operator - (const Polygon2D < T > &Polygon, const Vector2D < T > &Vector) {
+		Polygon2D < T > Temp = Polygon;
+		for (size_t i = 0; i < Temp.Polygon.size(); i++)
+			Temp.Polygon[i] -= Vector;
+		return Temp;
+	}
+
+	friend Polygon2D < T > operator -= (Polygon2D < T > &Polygon, const Vector2D < T > &Vector) {
+		for (size_t i = 0; i < Polygon.Polygon.size(); i++)
+			Polygon.Polygon[i] -= Vector;
+		return Polygon;
+	}
+
+
     friend std::ostream& operator << (std::ostream& outputstream, const Polygon2D &_Polygon) {
         outputstream << "[";
         for (size_t i = 0; i < _Polygon.Polygon.size() - 1; i++)

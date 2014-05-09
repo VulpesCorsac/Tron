@@ -36,6 +36,26 @@ public:
         return (!(Segment1 == Segment2));
     }
 
+	friend Segment3D < T > operator + (const Segment3D < T > &Segment, const Vector3D < T > &Vector) {
+		return Segment2D < T >(Segment.A + Vector, Segment.B + Vector);
+	}
+
+	friend Segment3D < T > operator += (Segment3D < T > &Segment, const Vector3D < T > &Vector) {
+		Segment.A += Vector;
+		Segment.B += Vector;
+		return Segment;
+	}
+
+	friend Segment3D < T > operator - (const Segment3D < T > &Segment, const Vector3D < T > &Vector) {
+		return Segment2D < T >(Segment.A - Vector, Segment.B - Vector);
+	}
+
+	friend Segment3D < T > operator -= (Segment3D < T > &Segment, const Vector3D < T > &Vector) {
+		Segment.A -= Vector;
+		Segment.B -= Vector;
+		return Segment;
+	}
+
     friend std::ostream& operator << (std::ostream& outputstream, const Segment3D &Segment) {
         outputstream << "[" << Segment.A << "," << Segment.B << "]";
         return outputstream;

@@ -22,7 +22,7 @@ public:
     }
 
     T length() const {
-        return sqrt(_SQR(B.x - A.x) + _SQR(B.y - A.y) + _SQR(B.z - A.z));
+        return sqrt(_SQR(B.x - A.x) + _SQR(B.y - A.y));
     }
 
     Segment2D &operator = (const Segment2D &Segment) {
@@ -41,7 +41,27 @@ public:
         return (!(Segment1 == Segment2));
     }
 
-    friend std::ostream& operator << (std::ostream& outputstream, const Segment2D &Segment) {
+	friend Segment2D < T > operator + (const Segment2D < T > &Segment, const Vector2D < T > &Vector) {
+		return Segment2D < T >(Segment.A + Vector, Segment.B + Vector);
+	}
+
+	friend Segment2D < T > operator += (Segment2D < T > &Segment, const Vector2D < T > &Vector) {
+		Segment.A += Vector;
+		Segment.B += Vector;
+		return Segment;
+	}
+
+	friend Segment2D < T > operator - (const Segment2D < T > &Segment, const Vector2D < T > &Vector) {
+		return Segment2D < T >(Segment.A - Vector, Segment.B + Vector);
+	}
+
+	friend Segment2D < T > operator -= (Segment2D < T > &Segment, const Vector2D < T > &Vector) {
+		Segment.A -= Vector;
+		Segment.B -= Vector;
+		return Segment;
+	}
+
+	friend std::ostream& operator << (std::ostream& outputstream, const Segment2D &Segment) {
         outputstream << "[" << Segment.A << "," << Segment.B << "]";
         return outputstream;
     }

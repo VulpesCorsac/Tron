@@ -144,7 +144,7 @@
     <ClCompile Include="sources\Bomb.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Game.cpp" />
-    <ClCompile Include="sources\Game_Engine.cpp" />
+    <ClCompile Include="sources\`.cpp" />
     <ClCompile Include="sources\InitConstants.cpp" />
     <ClCompile Include="sources\LightCycle.cpp" />
     <ClCompile Include="sources\main.cpp" />

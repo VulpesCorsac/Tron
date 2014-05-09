@@ -248,9 +248,6 @@
     <ClCompile Include="sources\Game.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="sources\Game_Engine.cpp">
-      <Filter>Source Files\Shared</Filter>
-    </ClCompile>
     <ClCompile Include="sources\Player.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
@@ -277,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="ObjLoader\listobj.cpp">
       <Filter>Source Files\GraphOBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\`.cpp">
+      <Filter>Source Files\Shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
