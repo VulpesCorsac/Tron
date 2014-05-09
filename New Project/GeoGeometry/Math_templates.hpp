@@ -4,15 +4,20 @@
 // Helpful Functions
 
 template < class T >
-T _ABS(const T &x) {
+T ABS(const T &x) {
     if (x < 0)
         return -x;
     return x;
 }
 
 template < class T >
-T _SQR(const T &x) {
+T SQR(const T &x) {
     return x * x;
+}
+
+template < class T >
+T SQRT(const T &x) {
+	return sqrt(x);
 }
 
 template < class T >
@@ -34,8 +39,7 @@ T GCD(T a, T b) {
 }
 
 template < class T >
-T SIGN(T a)
-{
+T SIGN(T a) {
     if (a == 0)
         return 0;
     if (a > 0)
@@ -45,7 +49,7 @@ T SIGN(T a)
 }
 
 template < class T >
-T Heviside(T a) {
+T Heaviside(T a) {
 	if (a < 0)
 		return 0;
 	else

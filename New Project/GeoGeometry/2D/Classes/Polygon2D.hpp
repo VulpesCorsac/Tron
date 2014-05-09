@@ -68,7 +68,6 @@ public:
 		return Polygon;
 	}
 
-
     friend std::ostream& operator << (std::ostream& outputstream, const Polygon2D &_Polygon) {
         outputstream << "[";
         for (size_t i = 0; i < _Polygon.Polygon.size() - 1; i++)
@@ -86,6 +85,7 @@ public:
             inputstream >> _Polygon.Polygon[i];
         return inputstream;
     }
+
 };
 
 #endif // POLYGON2D_HPP_INCLUDED

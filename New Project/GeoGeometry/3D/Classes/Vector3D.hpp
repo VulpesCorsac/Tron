@@ -31,7 +31,7 @@ public:
     }
 
     double Norm() const {
-        return sqrt(_SQR(this->x) + _SQR(this->y) + _SQR(this->z));
+        return SQRT(SQR(this->x) + SQR(this->y) + SQR(this->z));
     }
 
     Vector3D &operator = (const Vector3D &Vector) {
@@ -44,9 +44,9 @@ public:
     }
 
     friend bool operator == (const Vector3D &Vector1, const Vector3D &Vector2) {
-        return (_ABS(Vector1.x - Vector2.x) < EPS &&
-                _ABS(Vector1.y - Vector2.y) < EPS &&
-                _ABS(Vector1.z - Vector2.z) < EPS);
+        return (ABS(Vector1.x - Vector2.x) < EPS &&
+                ABS(Vector1.y - Vector2.y) < EPS &&
+                ABS(Vector1.z - Vector2.z) < EPS);
     }
 
     friend bool operator != (const Vector3D &Vector1, const Vector3D &Vector2) {

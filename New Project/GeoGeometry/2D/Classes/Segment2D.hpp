@@ -22,7 +22,7 @@ public:
     }
 
     T length() const {
-        return sqrt(_SQR(B.x - A.x) + _SQR(B.y - A.y));
+        return dist(this->A, this->B);
     }
 
     Segment2D &operator = (const Segment2D &Segment) {

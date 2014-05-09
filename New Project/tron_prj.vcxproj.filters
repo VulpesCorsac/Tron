@@ -147,31 +147,16 @@
     <ClInclude Include="GeoGeometry\2D\Classes\Vector2D.hpp">
       <Filter>Header Files\Geom\2D\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\A_in_B2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\A_to_B2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\Distanses2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Line2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Point2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.h">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Segment2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Vector2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
     <ClInclude Include="GeoGeometry\3D\Geometry3D.hpp">
@@ -216,7 +201,10 @@
     <ClInclude Include="GeoGeometry\GeoGeometry.hpp">
       <Filter>Header Files\Geom</Filter>
     </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\Crossing2D.hpp">
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Circle.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,7 +17,7 @@ public:
     }
 
     T length() const {
-        return sqrt(_SQR(B.x - A.x) + _SQR(B.y - A.y) + _SQR(B.z - A.z));
+        return SQRT(SQR(B.x - A.x) + SQR(B.y - A.y) + SQR(B.z - A.z));
     }
 
     Segment3D &operator = (const Segment3D &Segment) {

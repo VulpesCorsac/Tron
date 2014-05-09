@@ -10,9 +10,9 @@ Polygon2D < double > Game_Engine::Polygon_from(const Point2D < double > &C_p, co
 		Pol.push_back(Pol[1] + V);
 	}
 	else {
-		Pol.push_back(Point2D < double >(C_p.x + w / (2.0*sqrt(1 + _SQR(V.x / V.y))), 0));
+		Pol.push_back(Point2D < double >(C_p.x + w / (2.0*SQRT(1 + SQR(V.x / V.y))), 0));
 		Pol[0].y = C_p.y - V.x*(Pol[0].x - C_p.x) / V.y;
-		Pol.push_back(Point2D < double >(C_p.x - w / (2.0*sqrt(1 + _SQR(V.x / V.y))), 0));
+		Pol.push_back(Point2D < double >(C_p.x - w / (2.0*SQRT(1 + SQR(V.x / V.y))), 0));
 		Pol[1].y = C_p.y - V.x*(Pol[1].x - C_p.x) / V.y;
 		Pol.push_back(Pol[1] + V);
 		Pol.push_back(Pol[0] + V);

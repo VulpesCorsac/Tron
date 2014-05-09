@@ -13,7 +13,6 @@ public:
 	vector < Rocket > Rockets; //All Rockets
 	
 	void Kill_PLayer(const int &Player_number); // Kill Player
-
 };
 
 #endif // GAME_H_INCLUDED

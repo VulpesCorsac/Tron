@@ -88,14 +88,10 @@
     <ClInclude Include="GeoGeometry\2D\Classes\Polygon2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Classes\Segment2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Classes\Vector2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\A_in_B2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\A_to_B2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\Crossing2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\Distanses2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Circle.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Line2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Point2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.h" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Segment2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Vector2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Geometry2D.hpp" />
