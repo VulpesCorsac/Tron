@@ -58,6 +58,7 @@ int Cross_segment_circle(const Segment2D < T > &Segment, const Circle < T > &_Ci
 
 template < class T >
 bool Cross_polygon(const Polygon2D < T > &Polygon1, const Polygon2D < T > &Polygon2) {
+	assert(Polygon1.Polygon.size() >= 2 && Polygon2.Polygon.size() >= 2 && "One of polygons contain less than 2 points - that's not enough for intersecting!");
 	std::vector < Point2D < T > > Vector1 = Polygon1.Polygon;
 	Vector1.push_back(Vector1[0]);
 	std::vector < Point2D < T > > Vector2 = Polygon2.Polygon;
@@ -75,10 +76,10 @@ template < class T >
 bool Cross_polygon_in_turning(const Polygon2D < T > &Turning, const Polygon2D < T > &Static, const T &alpha, const long long &n) {
 	Polygon2D < T > Turned = Turning;
 	T d_alpha = alpha / n;
-	for (T temp = 0; _ABS(temp-alpha) <= EPS; temp += d_alpha) {
+	for (int i = 0; i <= n; i++) {
 		if (Cross_polygon(Turned, Static))
 			return true;
-		Turned = turn(Turning, temp);
+		Turned = turn(Turning, i*d_alpha);
 	}
 	return false;
 }
