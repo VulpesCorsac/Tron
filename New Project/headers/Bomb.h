@@ -20,6 +20,11 @@ public:
 
 	Bomb(const Point2D < double > &Point, const double &Time_Left, const double &_R);
 	~Bomb(void);
+
+	Bomb &operator = (const Bomb &_Bomb);
+	friend bool operator == (const Bomb &Bomb1, const Bomb &Bomb2);
+	friend bool operator != (const Bomb &Bomb1, const Bomb &Bomb2);
+
 };
 
 #endif // BOMB_H_INCLUDED

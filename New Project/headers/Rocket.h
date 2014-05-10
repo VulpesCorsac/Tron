@@ -22,6 +22,11 @@ public:
 
 	Rocket(const Point2D < double > &Start, const Vector2D < double > &Dir, const double &_Speed, const double &Len);
 	~Rocket(void);
+
+	Rocket &operator = (const Rocket &_Rocket);
+	friend bool operator == (const Rocket &Rocket1, const Rocket &Rocket2);
+	friend bool operator != (const Rocket &Rocket1, const Rocket &Rocket2);
+
 };
 
 #endif // ROCKET_H_INCLUDED
