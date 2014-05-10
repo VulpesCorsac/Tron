@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "headers\Game_Engine.h"
 
+int Game_Engine::round(const double &x) const {
+	return (int)floor(x + 0.5);
+}
+
 Polygon2D < double > Game_Engine::Polygon_from(const Point2D < double > &C_p, const Vector2D < double > &V, const double w) {
 	vector < Point2D < double > > Pol;
 	if (V.y == 0) {
@@ -72,7 +76,7 @@ void Game_Engine::Bomb_Add(const vector < Bomb > &Bombs) {
 }
 
 bool Game_Engine::Bomb_Delete(const int &n) {
-	if (n >= this->Current_Game.Bombs.size()) {
+	if (n >= (int)this->Current_Game.Bombs.size()) {
 		cerr << "Trying to delete bomb that does not exist" << endl;
 		throw - 1;
 	}
@@ -110,7 +114,7 @@ void Game_Engine::Rocket_Add(const vector < Rocket > &Rockets) {
 }
 
 bool Game_Engine::Rocket_Delete(const int &n) {
-	if (n >= this->Current_Game.Rockets.size()) {
+	if (n >= (int)this->Current_Game.Rockets.size()) {
 		cerr << "Trying to delete rocket that does not exist" << endl;
 		throw - 1;
 	}
@@ -148,7 +152,7 @@ void Game_Engine::Wall_Add(const vector < Wall > &Walls) {
 }
 
 bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
-	if (n >= this->Current_Game.Walls.size()) {
+	if (n >= (int)this->Current_Game.Walls.size()) {
 		cerr << "Trying to modify wall that does not exist" << endl;
 		throw - 1;
 	}
@@ -190,7 +194,7 @@ void Game_Engine::Bonus_Add(const vector < Bonus > &Bonuses) {
 }
 
 bool Game_Engine::Bonus_Delete(const int &n) {
-	if (n >= this->Current_Game.Bonuses.size()) {
+	if (n >= (int)this->Current_Game.Bonuses.size()) {
 		cerr << "Trying to delete bonus that does not exist" << endl;
 		throw - 1;
 	}
@@ -251,4 +255,46 @@ void Game_Engine::PLayer_Kill(const int &Player_number) {
 		if (this->Current_Game.Walls[i].PlayerNumber == Player_number)
 			this->Current_Game.Walls[i].PlayerNumber = -1;
 	return;
+}
+
+void Game_Engine::Player_Add(Player &_Player) {
+	this->Current_Game.Players_Ammount++;
+	_Player.Player_Number = this->Current_Game.Players_Ammount;
+	this->Current_Game.Players.push_back(_Player);
+	return;
+}
+
+void Game_Engine::Player_Add(vector < Player > &Players) {
+	for (size_t i = 0; i < Players.size(); i++)
+		Player_Add(Players[i]);
+	return;
+}
+
+Player Game_Engine::Player_Generate(void) {
+	double x, y;
+	int Width  = round(this->Constants->Field_Width);
+	int Length = round(this->Constants->Field_Length);
+	x = (double)(rand() % Width);
+	y = (double)(rand() % Length);
+	Point2D < double > Point(x, y);
+
+	int dir = rand() % 4;
+	switch (dir) {
+		case 0: x =  1; y =  0; break;
+		case 1: x =  0; y =  1; break;
+		case 2: x = -1; y =  0; break;
+		case 3: x =  0; y = -1; break;
+		default: x = 0; y =  0; break;
+	}
+	Vector2D < double > Direction(x, y);
+
+	Player Temp(Point, Direction, this->Constants);
+	return Temp;
+}
+
+vector < Player > Game_Engine::Player_Generate(const int &n) {
+	vector < Player > Temp(n);
+	for (int i = 0; i < n; i++)
+		Temp[i] = Player_Generate();
+	return Temp;
 }

@@ -5,6 +5,9 @@
 
 class Game_Engine {
 private:
+	// Helpful
+	int round(const double &x) const;
+
 	// Converts from game classes to polygon
 	Polygon2D < double > Polygon_from(const Point2D < double > &C_p, const Vector2D < double > &V, const double w);
 	Polygon2D < double > Polygon_from_cycle(const LightCycle &Cycle);
@@ -17,6 +20,7 @@ private:
 	bool Intersect(const LightCycle &Cycle1, const LightCycle &Cycle2);
 	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
+	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt); // TO DO:
 
 public:
 	// Data	
@@ -50,9 +54,12 @@ public:
 	bool Bonus_Delete(const Bonus &_Bonus);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
 
-	void PLayer_Kill(const int &Player_number);
 	bool Player_Turn(const int &Player_number); // TO DO:
-	bool Player_Add(const Player &Player); // TO DO:
+	Player Player_Generate(void);
+	vector < Player > Player_Generate(const int &n);
+	void Player_Add(Player &_Player);
+	void Player_Add(vector < Player > &Players);
+	void PLayer_Kill(const int &Player_number);
 
 	void UPD(); // TO DO:
 
