@@ -11,6 +11,7 @@ public:
 	vector < Wall > Walls; // All Walls
 	vector < Bomb > Bombs; //All Bombs
 	vector < Rocket > Rockets; //All Rockets
+	vector < Bonus > Bonuses; // All Bonuses
 
 };
 

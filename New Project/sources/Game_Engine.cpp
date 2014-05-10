@@ -147,7 +147,45 @@ void Game_Engine::Wall_Add(const vector < Wall > &Walls) {
 	return;
 }
 
-void Game_Engine::Kill_PLayer(const int &Player_number) {
+void Game_Engine::Bonus_Add(const Bonus &_Bonus) {
+	this->Current_Game.Bonuses.push_back(_Bonus);
+	return;
+}
+
+void Game_Engine::Bonus_Add(const vector < Bonus > &Bonuses) {
+	for (size_t i = 0; i < Bonuses.size(); i++)
+		Bonus_Add(Bonuses[i]);
+	return;
+}
+
+bool Game_Engine::Bonus_Delete(const int &n) {
+	if (n >= this->Current_Game.Bonuses.size()) {
+		cerr << "Trying to delete bonus that does not exist" << endl;
+		throw - 1;
+	}
+	this->Current_Game.Bonuses.erase(this->Current_Game.Bonuses.begin() + n);
+	return true;
+}
+
+bool Game_Engine::Bonus_Delete(const Bonus &_Bonus) {
+	bool f = false;
+	for (size_t i = 0; i < this->Current_Game.Bonuses.size(); i++)
+	if (_Bonus == this->Current_Game.Bonuses[i]) {
+		f = Bonus_Delete((int) i);
+		break;
+	}
+	return f;
+}
+
+bool Game_Engine::Bonus_Delete(const vector < Bonus > &Bonuses) {
+	bool f = false;
+	for (size_t i = 0; i < Bonuses.size(); i++)
+	if (Bonus_Delete(Bonuses[i]))
+		f = true;
+	return f;
+}
+
+void Game_Engine::PLayer_Kill(const int &Player_number) {
 	assert(Player_number <= this->Current_Game.Players_Ammount && "Player you are trying to kill has a greater number, than it can be");
 	assert(Player_number >= 0 && "You are trying to kill a player with a negative number");
 	int killed = 0;

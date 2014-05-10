@@ -40,13 +40,19 @@ public:
 
 	void Wall_Add(const Wall &_Wall);
 	void Wall_Add(const vector < Wall > &Walls);
-	bool Wall_Modify(const int &n); // TO DO:
-	bool Wall_Modify(const Wall &_Wall); // TO DO:
-	bool Wall_Modify(const vector < Wall > &Walls); // TO DO:
+	bool Wall_Modify(const int &n, const Wall &New_Wall); // TO DO:
+	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall); // TO DO:
+	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls); // TO DO:
 
-	void Kill_PLayer(const int &Player_number);
-	bool Turn_Player(const int &Player_number); // TO DO:
-	bool Add_Player(const Player &Player); // TO DO:
+	void Bonus_Add(const Bonus &_Bonus);
+	void Bonus_Add(const vector < Bonus > &Bonuses);
+	bool Bonus_Delete(const int &n);
+	bool Bonus_Delete(const Bonus &_Bonus);
+	bool Bonus_Delete(const vector < Bonus > &Bonuses);
+
+	void PLayer_Kill(const int &Player_number);
+	bool Player_Turn(const int &Player_number); // TO DO:
+	bool Player_Add(const Player &Player); // TO DO:
 
 	void UPD(); // TO DO:
 
