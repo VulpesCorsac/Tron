@@ -84,7 +84,7 @@ bool Game_Engine::Bomb_Delete(const Bomb &_Bomb) {
 	bool f = false;
 	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
 		if (_Bomb == this->Current_Game.Bombs[i]) {
-			f = Bomb_Delete((int) i);
+			f = Bomb_Delete((int)i);
 			break;
 		}
 	return f;
@@ -121,18 +121,18 @@ bool Game_Engine::Rocket_Delete(const int &n) {
 bool Game_Engine::Rocket_Delete(const Rocket &_Rocket) {
 	bool f = false;
 	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
-	if (_Rocket == this->Current_Game.Rockets[i]) {
-		f = Rocket_Delete((int) i);
-		break;
-	}
+		if (_Rocket == this->Current_Game.Rockets[i]) {
+			f = Rocket_Delete((int) i);
+			break;
+		}
 	return f;
 }
 
 bool Game_Engine::Rocket_Delete(const vector < Rocket > &Rockets) {
 	bool f = false;
 	for (size_t i = 0; i < Rockets.size(); i++)
-	if (Rocket_Delete(Rockets[i]))
-		f = true;
+		if (Rocket_Delete(Rockets[i]))
+			f = true;
 	return f;
 }
 
@@ -145,6 +145,37 @@ void Game_Engine::Wall_Add(const vector < Wall > &Walls) {
 	for (size_t i = 0; i < Walls.size(); i++)
 		Wall_Add(Walls[i]);
 	return;
+}
+
+bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
+	if (n >= this->Current_Game.Walls.size()) {
+		cerr << "Trying to modify wall that does not exist" << endl;
+		throw - 1;
+	}
+	this->Current_Game.Walls[n] = New_Wall;
+	return true;
+}
+
+bool Game_Engine::Wall_Modify(const Wall &_Wall, const Wall &New_Wall) {
+	bool f = false;
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
+		if (_Wall == this->Current_Game.Walls[i]) {
+			f = Wall_Modify((int)i, New_Wall);
+			break;
+		}
+	return f;
+}
+
+bool Game_Engine::Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls) {
+	if (Walls.size() != New_Walls.size()) {
+		cerr << "Error! Walls ans New_Walls have different sizes" << endl;
+		throw - 1;
+	}
+	bool f = false;
+	for (size_t i = 0; i < Walls.size(); i++)
+		if (Wall_Modify(Walls[i], New_Walls[i]))
+			f = true;
+	return f;
 }
 
 void Game_Engine::Bonus_Add(const Bonus &_Bonus) {
@@ -180,8 +211,8 @@ bool Game_Engine::Bonus_Delete(const Bonus &_Bonus) {
 bool Game_Engine::Bonus_Delete(const vector < Bonus > &Bonuses) {
 	bool f = false;
 	for (size_t i = 0; i < Bonuses.size(); i++)
-	if (Bonus_Delete(Bonuses[i]))
-		f = true;
+		if (Bonus_Delete(Bonuses[i]))
+			f = true;
 	return f;
 }
 
@@ -198,14 +229,14 @@ void Game_Engine::PLayer_Kill(const int &Player_number) {
 	}
 	else {
 		for (int i = 0; i < this->Current_Game.Players_Ammount; i++)
-		if (this->Current_Game.Players[i].Player_Number == Player_number) {
-			if (!this->Current_Game.Players[i].Alive)
-				killed = 2;
-			else
-				killed = 1;
-			this->Current_Game.Players[i].Kill();
-			break;
-		}
+			if (this->Current_Game.Players[i].Player_Number == Player_number) {
+				if (!this->Current_Game.Players[i].Alive)
+					killed = 2;
+				else
+					killed = 1;
+				this->Current_Game.Players[i].Kill();
+				break;
+			}
 	}
 	if (killed == 0) {
 		cerr << "Trying to kill a Player, that is not in Players range" << endl;
@@ -217,7 +248,7 @@ void Game_Engine::PLayer_Kill(const int &Player_number) {
 	}
 
 	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-	if (this->Current_Game.Walls[i].PlayerNumber == Player_number)
-		this->Current_Game.Walls[i].PlayerNumber = -1;
+		if (this->Current_Game.Walls[i].PlayerNumber == Player_number)
+			this->Current_Game.Walls[i].PlayerNumber = -1;
 	return;
 }

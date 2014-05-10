@@ -40,9 +40,9 @@ public:
 
 	void Wall_Add(const Wall &_Wall);
 	void Wall_Add(const vector < Wall > &Walls);
-	bool Wall_Modify(const int &n, const Wall &New_Wall); // TO DO:
-	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall); // TO DO:
-	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls); // TO DO:
+	bool Wall_Modify(const int &n, const Wall &New_Wall);
+	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
+	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls);
 
 	void Bonus_Add(const Bonus &_Bonus);
 	void Bonus_Add(const vector < Bonus > &Bonuses);
