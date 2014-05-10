@@ -23,7 +23,7 @@ Bomb Player::Place_Bomb(void) {
 
 Rocket Player::Shoot_Rocket(void) {
 	assert(this->Rocket_Ammount > 0);
-	return Rocket(this->MyCycle.Current_Point, this->MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Speed);
+	return Rocket(this->MyCycle.Current_Point, this->MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Speed, this->Constants->Rocket_Radius);
 }
 
 Player::Player(const Point2D < double > &St_Point, const Vector2D < double > &St_Direction, Init_Constants* _Constants) {

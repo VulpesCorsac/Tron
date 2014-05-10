@@ -207,6 +207,9 @@
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Bonus.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -264,6 +267,9 @@
       <Filter>Source Files\GraphOBJ</Filter>
     </ClCompile>
     <ClCompile Include="sources\Game_Engine.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Bonus.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
   </ItemGroup>

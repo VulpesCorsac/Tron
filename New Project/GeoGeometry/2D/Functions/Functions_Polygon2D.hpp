@@ -51,4 +51,29 @@ bool Cross_polygon_in_turning(const Polygon2D < T > &Turning, const Point2D < T 
 	return Cross_polygon_in_turning(Turning - Vector, Static - Vector, alpha, n);
 }
 
+template < class T >
+bool Polygon_in_circle(const Polygon2D < T > &Polygon, const Circle < T > &_Circle) {
+	for (size_t i = 0; i < Polygon.Polygon.size(); i++)
+		if (Point_in_circle(Polygon.Polygon[i], _Circle))
+			return true;
+	return false;
+}
+
+template < class T >
+bool Cross_polygon_circle(const Polygon2D < T > &Polygon, const Circle < T > &_Circle) {
+	Point2D < T > P1, P2;
+	Segment2D < T > Seg;
+	for (size_t i = 0; i < Polygon.Polygon.size() - 1; i++) {
+		Seg.A = Polygon.Polygon[i];
+		Seg.B = Polygon.Polygon[i + 1];
+		if (Cross_segment_circle(Seg, _Circle, P1, P2))
+			return true;
+	}
+	Seg.A = Polygon.Polygon[0];
+	Seg.B = Polygon.Polygon[Polygon.Polygon.size() - 1];
+	if (Cross_segment_circle(Seg, _Circle, P1, P2))
+		return true;
+	return false;
+}
+
 #endif // FUNCTIONS_POLYGON2D_HPP_INCLUDED

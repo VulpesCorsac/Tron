@@ -113,6 +113,7 @@
     <ClInclude Include="graph2D.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="headers\Bomb.h" />
+    <ClInclude Include="headers\Bonus.h" />
     <ClInclude Include="headers\Client.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\Game_Engine.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="ObjLoader\objLoader.cpp" />
     <ClCompile Include="ObjLoader\obj_parser.cpp" />
     <ClCompile Include="sources\Bomb.cpp" />
+    <ClCompile Include="sources\Bonus.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Game.cpp" />
     <ClCompile Include="sources\Game_Engine.cpp" />

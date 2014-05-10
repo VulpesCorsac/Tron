@@ -36,6 +36,30 @@ bool Game_Engine::Intersect(const LightCycle &Cycle1, const LightCycle &Cycle2) 
 	return Cross_polygon(Polygon_from_cycle(Cycle1), Polygon_from_cycle(Cycle2));
 }
 
+bool Game_Engine::Intersect(const LightCycle &Cycle, const Bomb &_Bomb) {
+	Polygon2D < double > Poly = Polygon_from_cycle(Cycle);
+	Circle < double > Circ(_Bomb.Current_Point, _Bomb.Radius);
+	return (Cross_polygon_circle(Poly, Circ) || Polygon_in_circle(Poly, Circ));
+}
+
+bool Game_Engine::Intersect(const LightCycle &Cycle, const Rocket &_Rocket) {
+	Polygon2D < double > Poly = Polygon_from_cycle(Cycle);
+	Circle < double > Circ(_Rocket.Current_Point, _Rocket.Radius);
+	return (Cross_polygon_circle(Poly, Circ) || Polygon_in_circle(Poly, Circ));
+}
+
+bool Game_Engine::Intersect(const Wall &_Wall, const Bomb &_Bomb) {
+	Point2D < double > P1, P2;
+	Circle < double > Circ(_Bomb.Current_Point, _Bomb.Radius);
+	return(Cross_segment_circle(_Wall.Segment, Circ, P1, P2));
+}
+
+bool Game_Engine::Intersect(const Wall &_Wall, const Rocket &_Rocket) {
+	Point2D < double > P1, P2;
+	Circle < double > Circ(_Rocket.Current_Point, _Rocket.Radius);
+	return(Cross_segment_circle(_Wall.Segment, Circ, P1, P2));
+}
+
 void Game_Engine::Bomb_Add(const Bomb &_Bomb) {
 	this->Current_Game.Bombs.push_back(_Bomb);
 	return;
@@ -110,6 +134,17 @@ bool Game_Engine::Rocket_Delete(const vector < Rocket > &Rockets) {
 	if (Rocket_Delete(Rockets[i]))
 		f = true;
 	return f;
+}
+
+void Game_Engine::Wall_Add(const Wall &_Wall) {
+	this->Current_Game.Walls.push_back(_Wall);
+	return;
+}
+
+void Game_Engine::Wall_Add(const vector < Wall > &Walls) {
+	for (size_t i = 0; i < Walls.size(); i++)
+		Wall_Add(Walls[i]);
+	return;
 }
 
 void Game_Engine::Kill_PLayer(const int &Player_number) {

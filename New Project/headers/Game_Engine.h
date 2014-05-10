@@ -12,11 +12,11 @@ private:
 
 	// Intersects
 	bool Intersect(const LightCycle &Cycle, const Wall &_Wall);
-	bool Intersect(const LightCycle &Cycle, const Bomb &_Bomb); // TO DO:
-	bool Intersect(const LightCycle &Cycle, const Rocket &_Rocket); // TO DO:
+	bool Intersect(const LightCycle &Cycle, const Bomb &_Bomb);
+	bool Intersect(const LightCycle &Cycle, const Rocket &_Rocket);
 	bool Intersect(const LightCycle &Cycle1, const LightCycle &Cycle2);
-	bool Intersect(const Wall &_Wall, const Bomb &_Bomb); // TO DO:
-	bool Intersect(const Wall &_Wall, const Rocket &_Rocket); // TO DO:
+	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
+	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 
 public:
 	// Data	
@@ -38,12 +38,17 @@ public:
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
 	bool Rocket_Explosion(); // TO DO:
 
-	void Wall_Add(const Wall &_Wall); // TO DO:
+	void Wall_Add(const Wall &_Wall);
+	void Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Modify(const int &n); // TO DO:
 	bool Wall_Modify(const Wall &_Wall); // TO DO:
 	bool Wall_Modify(const vector < Wall > &Walls); // TO DO:
 
 	void Kill_PLayer(const int &Player_number);
+	bool Turn_Player(const int &Player_number); // TO DO:
+	bool Add_Player(const Player &Player); // TO DO:
+
+	void UPD(); // TO DO:
 
 };
 

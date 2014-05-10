@@ -44,6 +44,7 @@ using namespace std;
 #include "headers\Wall.h"
 #include "headers\Rocket.h"
 #include "headers\Bomb.h"
+#include "headers\Bonus.h"
 #include "headers\Player.h"
 #include "headers\Game.h"
 #include "headers\Game_Engine.h"
