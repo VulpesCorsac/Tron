@@ -26,6 +26,10 @@ public:
 	LightCycle(void);
 	~LightCycle(void);
 
+	LightCycle &operator = (const LightCycle &Cycle);
+	friend bool operator == (const LightCycle &Cycle1, const LightCycle &Cycle2);
+	friend bool operator != (const LightCycle &Cycle1, const LightCycle &Cycle2);
+
 };
 
 #endif // LIGHTCYCLE_H_INCLUDED

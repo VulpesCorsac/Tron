@@ -20,10 +20,6 @@ public:
         this->C = -this->A*Point1.x - this->B*Point1.y;
     }
 
-    Line2D(const Line2DPV < T > &Line) {
-        Line2D(Line.Point, Line.Point + Line.Vector);
-    }
-
     ~Line2D() {
 
     }
@@ -38,9 +34,9 @@ public:
     }
 
     friend bool operator == (const Line2D &Line1, const Line2D &Line2) {
-        return (_ABS(Line1.A*Line2.B - Line2.A*Line1.B) < EPS &&
-                _ABS(Line1.B*Line2.C - Line2.B*Line1.C) < EPS &&
-                _ABS(Line1.C*Line2.A - Line2.C*Line1.A) < EPS);
+        return (ABS(Line1.A*Line2.B - Line2.A*Line1.B) < EPS &&
+                ABS(Line1.B*Line2.C - Line2.B*Line1.C) < EPS &&
+                ABS(Line1.C*Line2.A - Line2.C*Line1.A) < EPS);
     }
 
     friend bool operator != (const Line2D &Line1, const Line2D &Line2) {

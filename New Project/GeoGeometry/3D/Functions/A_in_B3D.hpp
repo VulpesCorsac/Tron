@@ -18,7 +18,7 @@ bool Point_in_line(const Point3D < T > &Point, const Line3D < T > &Line) {
 
 template < class T >
 bool Point_in_plane(const Point3D < T > &Point, const Plane3D < T > &Plane) {
-    return (_ABS(Point_to_plane(Point, Plane)) < EPS);
+    return (ABS(Point_to_plane(Point, Plane)) < EPS);
 }
 
 template < class T >

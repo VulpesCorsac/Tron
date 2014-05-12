@@ -43,10 +43,10 @@ public:
     }
 
     friend bool operator == (const Plane3D &Plane1, const Plane3D &Plane2) {
-        return (_ABS(Plane1.A*Plane2.B - Plane2.A*Plane1.B) < EPS &&
-                _ABS(Plane1.B*Plane2.C - Plane2.B*Plane1.C) < EPS &&
-                _ABS(Plane1.C*Plane2.D - Plane2.C*Plane1.D) < EPS &&
-                _ABS(Plane1.D*Plane2.A - Plane2.D*Plane1.A) < EPS);
+        return (ABS(Plane1.A*Plane2.B - Plane2.A*Plane1.B) < EPS &&
+                ABS(Plane1.B*Plane2.C - Plane2.B*Plane1.C) < EPS &&
+                ABS(Plane1.C*Plane2.D - Plane2.C*Plane1.D) < EPS &&
+                ABS(Plane1.D*Plane2.A - Plane2.D*Plane1.A) < EPS);
     }
 
     friend bool operator != (const Plane3D &Plane1, const Plane3D &Plane2) {

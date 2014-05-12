@@ -25,8 +25,8 @@ public:
     }
 
     friend bool operator == (const Point2D &Point1, const Point2D &Point2) {
-        return (_ABS(Point1.x - Point2.x) < EPS &&
-                _ABS(Point1.y - Point2.y) < EPS);
+        return (ABS(Point1.x - Point2.x) < EPS &&
+                ABS(Point1.y - Point2.y) < EPS);
     }
 
     friend bool operator != (const Point2D &Point1, const Point2D &Point2) {

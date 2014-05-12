@@ -12,25 +12,20 @@ public:
         this->Vector = _Vector;
     }
 
-    Line2DPV(const Point2D < T > &_Point1, const Point2D < T > &_Point2) {
-        this->Point = _Point1;
-        this->Vector = Vector2D < T > (_Point1, _Point2);
+    Line2DPV(const Line2D < T > _Line) {
+        if (_Line.A != 0 && _Line.B != 0) {
+            this->Point = Point2D < T > (0, -_Line.C/_Line.B);
+            this->Vector = Vector2D < T > (this->Point, Point2D < T > (-_Line.C/_Line.A, 0));
+        } else {
+            if (_Line.A == 0) {
+                this->Point = Point2D < T > (0, -_Line.C/_Line.B);
+                this->Vector = Vector2D < T > (0, 1);
+            } else {
+                this->Point = Point2D < T > (-_Line.C/_Line.A, 0);
+                this->Vector = Vector2D < T > (1, 0);
+            }
+        }
     }
-
-//    Line2DPV(const Line2D < T > _Line) {
-//        if (_Line.A != 0 && _Line.B != 0) {
-//            this->Point = Point2D < T > (0, -_Line.C/_Line.B);
-//            this->Vector = Vector2D < T > (this->Point, Point2D < T > (-_Line.C/_Line.A, 0));
-//        } else {
-//            if (_Line.A == 0) {
-//                this->Point = Point2D < T > (0, -_Line.C/_Line.B);
-//                this->Vector = Vector2D < T > (0, 1);
-//            } else {
-//                this->Point = Point2D < T > (-_Line.C/_Line.A, 0);
-//                this->Vector = Vector2D < T > (1, 0);
-//            }
-//        }
-//    }
 
     ~Line2DPV() {
 
@@ -43,6 +38,7 @@ public:
         this->Vector = Line.Vector;
         return *this;
     }
+
     friend bool operator == (const Line2DPV &Line1, const Line2DPV &Line2) {
         return (Point_in_line_2D(Line1.Point, Line2) && Point_in_line_2D(Line1.Point + Line1.Vector, Line2) &&
                 Point_in_line_2D(Line2.Point, Line1) && Point_in_line_2D(Line2.Point + Line2.Vector, Line1));
@@ -61,6 +57,7 @@ public:
         inputstream >> Line.Point >> Line.Vector;
         return inputstream;
     }
+
 };
 
 #endif // Line2DPV_H_INCLUDED

@@ -24,3 +24,22 @@ Bomb::Bomb(const Point2D < double > &Point, const double &Time_Left, const doubl
 Bomb::~Bomb(void) {
 
 }
+
+Bomb &Bomb::operator = (const Bomb &_Bomb) {
+	if (this == &_Bomb)
+		return *this;
+	this->Current_Point = _Bomb.Current_Point;
+	this->Radius = _Bomb.Radius;
+	this->Time_for_explosion = _Bomb.Time_for_explosion;
+	return *this;
+}
+
+bool operator == (const Bomb &Bomb1, const Bomb &Bomb2) {
+	return (Bomb1.Current_Point == Bomb2.Current_Point &&
+		ABS(Bomb1.Radius - Bomb2.Radius) <= EPS &&
+		ABS(Bomb1.Time_for_explosion - Bomb2.Time_for_explosion) <= EPS);
+}
+
+bool operator != (const Bomb &Bomb1, const Bomb &Bomb2) {
+	return (!(Bomb1 == Bomb2));
+}

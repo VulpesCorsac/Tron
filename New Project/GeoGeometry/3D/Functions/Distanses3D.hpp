@@ -3,7 +3,7 @@
 
 template < class T >
 T dist(const Point3D < T > &Point1, const Point3D < T > &Point2) {
-    return sqrt(_SQR(Point1.x - Point2.x) + _SQR(Point1.y - Point2.y) + _SQR(Point1.z - Point2.z));
+    return SQRT(SQR(Point1.x - Point2.x) + SQR(Point1.y - Point2.y) + SQR(Point1.z - Point2.z));
 }
 
 template < class T >
@@ -16,8 +16,8 @@ template < class T >
 T dist(const Point3D < T > &Point, const Segment3D < T > &Segment) {
     Vector3D < T > V1(Point, Segment.A), V2(Point, Segment.B);
     Vector3D < T > S = Vector_mul(V1, V2);
-    if (_SQR(V1.Norm()) >= _SQR(V2.Norm()) + _SQR(Segment.length()) ||
-        _SQR(V2.Norm()) >= _SQR(V1.Norm()) + _SQR(Segment.length()))
+    if (SQR(V1.Norm()) >= SQR(V2.Norm()) + SQR(Segment.length()) ||
+        SQR(V2.Norm()) >= SQR(V1.Norm()) + SQR(Segment.length()))
         return std::min(dist(Point, Segment.A), dist(Point, Segment.B));
     else
         return (S.Norm() / Segment.length());
@@ -33,13 +33,13 @@ T dist(const Point3D < T > &Point, const Sphere < T > &Sphere) {
 
 template < class T >
 T dist(const Point3D < T > &Point, const Plane3D < T > &Plane) {
-    return (_ABS(Point_to_plane(Point, Plane))) /(sqrt(_SQR(Plane.A) + _SQR(Plane.B) + _SQR(Plane.C)));
+    return (ABS(Point_to_plane(Point, Plane))) /(SQRT(SQR(Plane.A) + SQR(Plane.B) + SQR(Plane.C)));
 }
 
 template < class T >
 T dist (const Line3D < T > &Line, const Plane3D < T > &Plane) {
     if ((Point_in_plane_3D(Line.Point, Plane) && Point_in_plane_3D(Line.Point + Line.Vector, Plane)) ||
-        _ABS(Plane.A*Line.Vector.x + Plane.B*Line.Vector.y + Plane.C*Line.Vector.z) >= EPS)
+        ABS(Plane.A*Line.Vector.x + Plane.B*Line.Vector.y + Plane.C*Line.Vector.z) >= EPS)
         return 0;
     return dist(Line.Point, Plane);
 }

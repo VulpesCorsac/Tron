@@ -1,25 +1,21 @@
-#ifndef CROSSING2D_HPP_INCLUDED
-#define CROSSING2D_HPP_INCLUDED
+#ifndef FUNCTIONS_CIRCLE_HPP_INCLUDED
+#define FUNCTIONS_CIRCLE_HPP_INCLUDED
 
 template < class T >
-bool Cross_line(const Line2D < T > &Line1, const Line2D < T > &Line2, Point2D < T > &Point) {
-	if (Are_parallel_lines(Line1, Line2))
-		return false;
-	Point.x = (Line2.B*Line1.C - Line1.B*Line2.C) / (Line2.A*Line1.B - Line1.A*Line2.B);
-	Point.y = (Line1.B != 0 ? (-Line1.C - Line1.A*Point.x) / Line1.B : (-Line2.C - Line2.A*Point.x) / Line2.B);
-	return true;
+bool Point_in_circle(const Point2D < T > &Point, const Circle < T > &_Circle) {
+	return (dist(Point, _Circle) <= EPS);
 }
 
 template < class T >
-bool Cross_segment(const Segment2D < T > &Segment1, const Segment2D < T > &Segment2) {
-	Line2D < T > Line1(Segment1.A, Segment1.B);
-	Line2D < T > Line2(Segment2.A, Segment2.B);
-	Point2D < T > Cross_Point;
-	if (!Cross_line(Line1, Line2, Cross_Point))
-		return false;
-	if (Point_in_box(Segment1.A, Segment1.B, Cross_Point) && Point_in_box(Segment2.A, Segment2.B, Cross_Point))
-		return true;
-	return false;
+bool Point_on_circle(const Point2D < T > &Point, const Circle < T > &_Circle) {
+	return (ABS(dist(Point, _Circle.Centre) - _Circle.R) <= EPS);
+}
+
+template < class T >
+T dist(const Point2D < T > &Point, const Circle < T > &_Circle) {
+	if (dist(Point, _Circle.Centre) <= _Circle.R)
+		return 0;
+	return (dist(Point, _Circle.Centre) - _Circle.R);
 }
 
 template < class T >
@@ -27,14 +23,14 @@ int Cross_line_circle(const Line2D < T > &Line, const Circle < T > &_Circle, Poi
 	Point2D < T > P = Closest_point(Line, _Circle.Centre);
 	int flag = 0;
 	T d = dist(P, _Circle.Centre);
-	if (_ABS(d - _Circle.R) <= EPS)
+	if (ABS(d - _Circle.R) <= EPS)
 		flag = 1;
 	else if (_Circle.R > d)
 		flag = 2;
 	else
 		return 0;
 
-	T k = sqrt(_SQR(_Circle.R) - _SQR(d));
+	T k = SQRT(SQR(_Circle.R) - SQR(d));
 	T t = dist(Point2D < T >(0, 0), Point2D < T >(Line.B, -Line.A));
 	P1 = P + (k / t) * Vector2D < T >(Point2D < T >(-Line.B, Line.A));
 	P1 = P + (k / t) * Vector2D < T >(Point2D < T >(Line.B, -Line.A));
@@ -56,4 +52,4 @@ int Cross_segment_circle(const Segment2D < T > &Segment, const Circle < T > &_Ci
 	return flag;
 }
 
-#endif // CROSSING2D_HPP_INCLUDED
+#endif // FUNCTIONS_CIRCLE_HPP_INCLUDED
