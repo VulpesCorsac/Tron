@@ -1,5 +1,6 @@
 #include "..\headers\Client.h"
 #include "..\headers\Server.h"
+#include "..\headers\gengine.h"
 #include "stdafx.h"
 
 
@@ -12,9 +13,15 @@ void init_network()
 }
 
 
-
-CClient :: CClient()
+CClient::CClient()
 {
+	connected = 0;
+}
+
+CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
+{
+	 game = _game;
+	 ggame = _ggame;
      connected = 0;
 }
 
@@ -22,6 +29,13 @@ CClient :: CClient()
 int CClient::get_num()
 {
 	return my_num;
+}
+
+bool CClient :: check_for_actions(Actions *act)
+{
+	return false; // You didn't managed to return actions from Sanek
+
+	return true; // You took actions from Sanek
 }
 
 
@@ -56,11 +70,15 @@ bool CClient :: connect(const char *ip)
     msg.length = 0;
     int len = sizeof(sockaddr_in);
     int msg_size;
+	int lol_size = 0;
 
     sendto(my_sock,(char *) &msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-    while((msg_size = recvfrom(my_sock, (char*) &msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len)) == -1)
+    while(((msg_size = recvfrom(my_sock, (char*) &msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len)) == -1) && (lol_size < 100000))
     {
+		lol_size++;
     }
+	if (lol_size = 10000)
+		perror("TIMED OUT");
     if(msg_size > 0){
         if(msg.type == ACCEPT_CONNECTION)
         {
@@ -76,6 +94,53 @@ bool CClient :: connect(const char *ip)
   //  recvfrom(my_sock,
 }
 
+
+
+bool CClient::think()
+{
+	if (game_started)
+	{
+		cadr++;
+	}
+
+	int len = sizeof(sockaddr_in);
+	int msg_size;
+
+	while ((msg_size = recvfrom(my_sock, (char*)&msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len) != -1))
+	{
+
+		if (msg.type == CHANGE_IN_NUM)
+		{ 
+			sscanf(msg.buff, "%d", &my_num);
+		}
+
+		if (msg.type == DISCONNECT)
+		{
+			//kill player
+		}
+
+		if (msg.type == UPD_GAME_STATE)
+		{
+
+			//update state by geo
+		}
+
+		if (msg.type == VOVAN)
+		{
+			//do it by your own
+		}
+
+	}
+
+	Actions curact;
+
+	check_for_actions(&curact);
+
+	curact.cadr = cadr;
+
+
+	return true;
+}
 
 CClient:: ~CClient()
 {

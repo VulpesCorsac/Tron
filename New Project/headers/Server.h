@@ -6,12 +6,17 @@
 #define REGISTER_PLAYER 1
 #define ACCEPT_CONNECTION 2
 #define TEXT_MESSAGE 3
-#define UPD_GAME_STATE 4
-#define PLAYER_ACTION 5
-#define VOVAN 6
+#define UPD_GAME_STATE_NACC 4
+#define UPD_GAME_STATE_ACC 6
+#define PLAYER_ACTION 6
+#define CHANGE_IN_NUM 7
+#define START_GAME 8
 
 
 //typedef int type = {};
+
+class CGEngine;
+class Game_Engine;
 
 struct my_message
 {
@@ -34,10 +39,11 @@ struct Actions
 struct client_info
 {
     sockaddr_in addr;
+	Actions my_actions[100];
+	int count;
     int packets_sended;
     int number;
     bool occupied;
-	Actions a;
 };
 
 
@@ -55,10 +61,17 @@ private:
 	long long cadr;
 	long long stepped;
 
+	CGEngine *game;
+	Game_Engine *ggame;
+
+
+	bool Line_up();
+
 
 public:
 
     CServer();
+	CServer(CGEngine * _game, Game_Engine *_ggame);
 	bool startgame();
     bool think();
     bool broadcast(my_message);
