@@ -10,6 +10,7 @@ void CMesh::setTexture(CGLTexture * tex)
 
 bool CMesh::loadFrom(const char* src)
 {
+	printf("Loading mesh file : %s ..", src);
 	objLoader ld;
 	if (ld.load(src))
 	{
@@ -83,35 +84,22 @@ bool CMesh::loadFrom(const char* src)
 			}
 		}
 
-		glGenBuffers(1, &vBuff);
-		glGenBuffers(1, &uvBuff);
-		glGenBuffers(1, &nBuff);
-		glGenBuffers(1, &iBuff);
-		glBindBuffer(GL_ARRAY_BUFFER, vBuff);
-		glBufferData(GL_ARRAY_BUFFER, v_v.size() * sizeof(glm::vec3), &v_v[0], GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ARRAY_BUFFER, uvBuff);
-		glBufferData(GL_ARRAY_BUFFER, v_uv.size() * sizeof(glm::vec2), &v_uv[0], GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ARRAY_BUFFER, nBuff);
-		glBufferData(GL_ARRAY_BUFFER, v_n.size() * sizeof(glm::vec3), &v_n[0], GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuff);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, inds.size() * sizeof(unsigned short), &inds[0], GL_STATIC_DRAW);
+		bf.allocBuff(GLDB_VERTEX, v_v.size() * sizeof(glm::vec3), &v_v[0]);
+		bf.allocBuff(GLDB_UV, v_uv.size() * sizeof(glm::vec2), &v_uv[0]);
+		bf.allocBuff(GLDB_NORMALS, v_n.size() * sizeof(glm::vec3), &v_n[0]);
+		bf.allocBuff(GLDB_INDEX, inds.size() * sizeof(unsigned short), &inds[0]);
 	}
 	else {
 		return false;
 	}
 
+	printf("done\n");
 	return true;
 }
 
 CMesh::CMesh()
 {
-	vBuff = 0;
-	uvBuff = 0;
-	iBuff = 0;
-	nBuff = 0;
+
 }
 
 CMesh::~CMesh()

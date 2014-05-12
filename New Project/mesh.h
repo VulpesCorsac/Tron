@@ -6,7 +6,7 @@
 class CMesh
 {
 private:
-	GLuint vBuff, uvBuff, iBuff, nBuff;
+	CDrawBuffers bf;
 	CGLTexture* bTex;
 public:
 

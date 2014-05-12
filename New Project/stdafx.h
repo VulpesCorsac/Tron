@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <iomanip>
 #include <math.h>
@@ -27,6 +28,7 @@
 
 #include <glew.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp> 
 
 #include <windows.h>
 #include <gl\gl.h>
