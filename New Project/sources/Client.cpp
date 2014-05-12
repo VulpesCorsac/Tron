@@ -131,7 +131,7 @@ bool CClient::think()
 		{
 			state temp_state;
 			//here comes the sg.buf parsing to temp_state
-			ggame->Update_Changes_NACC(temp_state);
+			ggame->Update_Changes_NACC(&temp_state);
 		}
 
 	}
@@ -141,7 +141,7 @@ bool CClient::think()
 	check_for_actions(&curact);
 
 	curact.cadr = cadr;
-	if ()
+//	if ()
 
 
 	return true;

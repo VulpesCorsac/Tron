@@ -1,6 +1,6 @@
+#include "stdafx.h"
 #include "../headers/Client.h"
 #include "../headers/Server.h"
-#include "stdafx.h"
 
 
 CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
@@ -105,6 +105,7 @@ bool CServer::Line_up()
 			break;
 		}
 	}
+	return true; //?true?
 }
 
 
