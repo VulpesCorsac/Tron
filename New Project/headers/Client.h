@@ -10,7 +10,13 @@
 class CGEngine;
 class Game_Engine;
 
+struct state;
+struct changes;
+
 void init_network();
+
+
+
 
 class CClient
 {

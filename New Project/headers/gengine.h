@@ -49,6 +49,9 @@ public:
 	void selTexture(GLuint tx);
 	void selColor(const glm::vec4 &clr);
 
+
+
+
 	void cycle();
 	void draw();
 	void start();

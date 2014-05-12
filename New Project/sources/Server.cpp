@@ -184,7 +184,6 @@ bool CServer::Line_up()
 			}
 
 
-			if (cadr)
         return true;
     }
 

@@ -1,7 +1,8 @@
+
+#include "stdafx.h"
 #include "..\headers\Client.h"
 #include "..\headers\Server.h"
 #include "..\headers\gengine.h"
-#include "stdafx.h"
 
 
 void init_network()
@@ -119,15 +120,18 @@ bool CClient::think()
 			//kill player
 		}
 
-		if (msg.type == UPD_GAME_STATE)
+		if (msg.type == UPD_GAME_STATE_ACC)
 		{
-
-			//update state by geo
+			changes temp_changes;
+		//	here comes the msg.buf parsing to temp_changes
+			ggame->Update_Changes_ACC(&temp_changes);
 		}
 
-		if (msg.type == VOVAN)
+		if (msg.type == UPD_GAME_STATE_NACC)
 		{
-			//do it by your own
+			state temp_state;
+			//here comes the sg.buf parsing to temp_state
+			ggame->Update_Changes_NACC(temp_state);
 		}
 
 	}
@@ -137,6 +141,7 @@ bool CClient::think()
 	check_for_actions(&curact);
 
 	curact.cadr = cadr;
+	if ()
 
 
 	return true;

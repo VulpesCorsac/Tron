@@ -18,6 +18,9 @@
 class CGEngine;
 class Game_Engine;
 
+struct changes;
+struct state;
+
 struct my_message
 {
     int type;
@@ -58,8 +61,8 @@ private:
     int number_of_clients;
 	bool game_started;
     bool perm_to_connect;
-	long long cadr;
-	long long stepped;
+	int cadr;
+	int stepped;
 
 	CGEngine *game;
 	Game_Engine *ggame;
