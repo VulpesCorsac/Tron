@@ -61,6 +61,9 @@ public:
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
 
+	bool Get_Changes();  //TO DO getting changes for the last frame
+	bool Update_Changes(); //TO DO setting changes for the last frame
+
 	void UPD(); // TO DO:
 
 };
