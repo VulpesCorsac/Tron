@@ -78,8 +78,6 @@ public:
 	void Get_Changes_NACC(state *);   //TO DO getting players state(coordinates and directions)
 	void Update_Changes_NACC(state *) {}; //TO DO setting players state(coordinates and directions)
 	
-
-
 	void UPD(); // TO DO:
 
 };
