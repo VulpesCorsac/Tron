@@ -3,6 +3,12 @@
 
 #include "Game.h"
 
+//TO DO - do this structers
+
+struct state {};   // nonaccumulating struct for state of players
+struct changes {}; // accumulating struct for changes within walls, bombs, etc
+
+
 class Game_Engine {
 private:
 	// Helpful
@@ -18,9 +24,14 @@ private:
 	bool Intersect(const LightCycle &Cycle, const Bomb &_Bomb);
 	bool Intersect(const LightCycle &Cycle, const Rocket &_Rocket);
 	bool Intersect(const LightCycle &Cycle1, const LightCycle &Cycle2);
+	bool Intersect(const Player &_Player, const Bomb &_Bomb);          // TO DO
+	bool Intersect(const Player &_Player, const Rocket &_Rocket);      // TO DO
+	bool Intersect(const Player &_Player1, const Player &_Player2);    // TO DO
 	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
-	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt); // TO DO:
+	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
+
+	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
 
 public:
 	// Data	
@@ -33,14 +44,14 @@ public:
 	bool Bomb_Delete(const int &n);
 	bool Bomb_Delete(const Bomb &_Bomb);
 	bool Bomb_Delete(const vector < Bomb > &Bombs);
-	bool Bomb_Explosion(); // TO DO:
+	bool Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
 
 	void Rocket_Add(const Rocket &_Rocket);
 	void Rocket_Add(const vector < Rocket > &Rockets);
 	bool Rocket_Delete(const int &n);
 	bool Rocket_Delete(const Rocket &_Rocket);
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
-	bool Rocket_Explosion(); // TO DO:
+	bool Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
 
 	void Wall_Add(const Wall &_Wall);
 	void Wall_Add(const vector < Wall > &Walls);
@@ -54,13 +65,22 @@ public:
 	bool Bonus_Delete(const Bonus &_Bonus);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
 
-	bool Player_Turn(const int &Player_number); // TO DO:
+	bool Player_Turn(const int &Player_number, const bool &left_turn); // TO DO:
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
 	void Player_Add(Player &_Player);
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
 
+	void Turn_Player(int side, int player_num); // TO DO turn player to side (see define in client.h )
+	void Do_Step();                             // TO DO advance game on dt( 1/60 sec)
+
+	// Plus, we need structers to store data in 4 functions below
+	void Get_Changes_ACC(changes *);    //TO DO getting changes for the last frame
+	void Update_Changes_ACC(changes *); //TO DO setting changes for the last frame
+	void Get_Changes_NACC(state *);     //TO DO getting players state(coordinates and directions)
+	void Update_Changes_NACC(state *);  //TO DO setting players state(coordinates and directions)
+	
 	void UPD(); // TO DO:
 
 };

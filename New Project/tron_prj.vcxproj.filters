@@ -58,6 +58,9 @@
     <Filter Include="Header Files\Render">
       <UniqueIdentifier>{e75868f5-c6f4-4c1c-919d-7657c928aab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Render\Shaders">
+      <UniqueIdentifier>{1d19dac3-72d0-4052-b900-a151d49d311d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -272,10 +275,28 @@
     <ClCompile Include="sources\Bonus.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="gui_element.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="WorkDir\config.cfg">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\vertex.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment_3D.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\vertex_3D.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment_font.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -43,6 +43,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)\include;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)WorkDir\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -134,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="graph2D.cpp" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="gui_element.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="ObjLoader\listobj.cpp" />
     <ClCompile Include="ObjLoader\objLoader.cpp" />
@@ -158,6 +160,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="WorkDir\config.cfg" />
+    <None Include="WorkDir\shaders\fragment.sh" />
+    <None Include="WorkDir\shaders\fragment_3D.sh" />
+    <None Include="WorkDir\shaders\fragment_font.sh" />
+    <None Include="WorkDir\shaders\vertex.sh" />
+    <None Include="WorkDir\shaders\vertex_3D.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

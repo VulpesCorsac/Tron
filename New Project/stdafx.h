@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <iomanip>
 #include <math.h>
@@ -27,6 +28,7 @@
 
 #include <glew.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp> 
 
 #include <windows.h>
 #include <gl\gl.h>
@@ -48,6 +50,8 @@ using namespace std;
 #include "headers\Player.h"
 #include "headers\Game.h"
 #include "headers\Game_Engine.h"
+#include "headers\Server.h"
+#include "headers\Client.h"
 
 #define fori(i, n) for (int i = 0; i < n; i++)
 #define forvec(vType, vName, i) for (vector<vType>::iterator i = vName.begin(); i != vName.end(); i++)
