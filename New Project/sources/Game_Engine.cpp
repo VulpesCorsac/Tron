@@ -52,6 +52,18 @@ bool Game_Engine::Intersect(const LightCycle &Cycle, const Rocket &_Rocket) {
 	return (Cross_polygon_circle(Poly, Circ) || Polygon_in_circle(Poly, Circ));
 }
 
+bool Game_Engine::Intersect(const Player &_Player, const Bomb &_Bomb) {
+	return Intersect(_Player.MyCycle, _Bomb);
+}
+
+bool Game_Engine::Intersect(const Player &_Player, const Rocket &_Rocket) {
+	return Intersect(_Player.MyCycle, _Rocket);
+}
+
+bool Game_Engine::Intersect(const Player &_Player1, const Player &_Player2) {
+	return Intersect(_Player1.MyCycle, _Player2.MyCycle);
+}
+
 bool Game_Engine::Intersect(const Wall &_Wall, const Bomb &_Bomb) {
 	Point2D < double > P1, P2;
 	Circle < double > Circ(_Bomb.Current_Point, _Bomb.Radius);
@@ -123,10 +135,7 @@ void Game_Engine::Bomb_Add(const vector < Bomb > &Bombs) {
 }
 
 bool Game_Engine::Bomb_Delete(const int &n) {
-	if (n >= (int)this->Current_Game.Bombs.size()) {
-		cerr << "Trying to delete bomb that does not exist" << endl;
-		throw - 1;
-	}
+	assert(n >= 0 && n < (int)this->Current_Game.Bombs.size() && "Trying to delete bomb that does not exist");
 	this->Current_Game.Bombs.erase(this->Current_Game.Bombs.begin() + n);
 	return true;
 }
@@ -149,6 +158,12 @@ bool Game_Engine::Bomb_Delete(const vector < Bomb > &Bombs) {
 	return f;
 }
 
+bool Game_Engine::Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
+	assert(Bomb_Number >= 0 && Bomb_Number < (int)this->Current_Game.Bombs.size() && "Trying to explode bomb that does not exist");
+	Circle < double > C(this->Current_Game.Bombs[Bomb_Number].Current_Point, this->Current_Game.Bombs[Bomb_Number].Radius);
+	return Make_some_magic(C, Killed_Players, New_Tails, Deleted_Walls, New_walls);
+}
+
 void Game_Engine::Rocket_Add(const Rocket &_Rocket) {
 	this->Current_Game.Rockets.push_back(_Rocket);
 	return;
@@ -161,10 +176,7 @@ void Game_Engine::Rocket_Add(const vector < Rocket > &Rockets) {
 }
 
 bool Game_Engine::Rocket_Delete(const int &n) {
-	if (n >= (int)this->Current_Game.Rockets.size()) {
-		cerr << "Trying to delete rocket that does not exist" << endl;
-		throw - 1;
-	}
+	assert(n >= 0 && n < (int)this->Current_Game.Rockets.size() && "Trying to delete rocket that does not exist");
 	this->Current_Game.Rockets.erase(this->Current_Game.Rockets.begin() + n);
 	return true;
 }
@@ -187,6 +199,12 @@ bool Game_Engine::Rocket_Delete(const vector < Rocket > &Rockets) {
 	return f;
 }
 
+bool Game_Engine::Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
+	assert(Rocket_Number >= 0 && Rocket_Number < (int)this->Current_Game.Rockets.size() && "Trying to explode rocket that does not exist");
+	Circle < double > C(this->Current_Game.Rockets[Rocket_Number].Current_Point, this->Current_Game.Rockets[Rocket_Number].Radius);
+	return Make_some_magic(C, Killed_Players, New_Tails, Deleted_Walls, New_walls);
+}
+
 void Game_Engine::Wall_Add(const Wall &_Wall) {
 	this->Current_Game.Walls.push_back(_Wall);
 	return;
@@ -199,10 +217,7 @@ void Game_Engine::Wall_Add(const vector < Wall > &Walls) {
 }
 
 bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
-	if (n >= (int)this->Current_Game.Walls.size()) {
-		cerr << "Trying to modify wall that does not exist" << endl;
-		throw - 1;
-	}
+	assert(n >= 0 && n <= (int)this->Current_Game.Walls.size() && "Trying to modify wall that does not exist");
 	this->Current_Game.Walls[n] = New_Wall;
 	return true;
 }
@@ -241,10 +256,7 @@ void Game_Engine::Bonus_Add(const vector < Bonus > &Bonuses) {
 }
 
 bool Game_Engine::Bonus_Delete(const int &n) {
-	if (n >= (int)this->Current_Game.Bonuses.size()) {
-		cerr << "Trying to delete bonus that does not exist" << endl;
-		throw - 1;
-	}
+	assert(n >= 0 && n <= (int)this->Current_Game.Bonuses.size() && "Trying to delete bonus that does not exist");
 	this->Current_Game.Bonuses.erase(this->Current_Game.Bonuses.begin() + n);
 	return true;
 }
