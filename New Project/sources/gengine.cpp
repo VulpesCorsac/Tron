@@ -119,7 +119,7 @@ GLuint linkProgram(GLuint shd1, GLuint shd2 = 0, GLuint shd3 = 0)
 	glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	std::vector<char> errMsg(max(InfoLogLength, int(1)));
 	glGetProgramInfoLog(prog, InfoLogLength, NULL, &errMsg[0]);
-	printf("%s\n", &errMsg[0]);
+	printf("%s", &errMsg[0]);
 
 	return prog;
 }
@@ -139,18 +139,30 @@ void CGEngine::initRender()
 	printf( "Initializating render\n");
 
 	printf("Loading shaders\n");
-	GLuint vShader, fShader, fShaderF;
+	GLuint vShader, fShader, fShaderF, vShader3D, fShader3D, vShader3DL, fShader3DL;
 	vShader = compileShader("shaders\\vertex.sh", GL_VERTEX_SHADER);
 	fShader = compileShader("shaders\\fragment.sh", GL_FRAGMENT_SHADER);
 	fShaderF = compileShader("shaders\\fragment_font.sh", GL_FRAGMENT_SHADER);
 
-	printf("Linking generic drawing program\n");
+
+	vShader3D = compileShader("shaders\\vertex_3D.sh", GL_VERTEX_SHADER);
+	fShader3D = compileShader("shaders\\fragment_3D.sh", GL_FRAGMENT_SHADER);
+	vShader3DL = compileShader("shaders\\vertex_3DL.sh", GL_VERTEX_SHADER);
+	fShader3DL = compileShader("shaders\\fragment_3DL.sh", GL_FRAGMENT_SHADER);
+
+	printf("Linking drawing programs\n");
 	drawProg1 = linkProgram(vShader, fShader);
 	drawProgFnt = linkProgram(vShader, fShaderF);
+	drawProg3D = linkProgram(vShader3D, fShader3D);
+	drawProg3DL = linkProgram(vShader3DL, fShader3DL);
 
 	glDeleteShader(vShader);
 	glDeleteShader(fShader);
 	glDeleteShader(fShaderF);
+	glDeleteShader(vShader3D);
+	glDeleteShader(fShader3D);
+	glDeleteShader(vShader3DL);
+	glDeleteShader(fShader3DL);
 
 	// getting uniform variables handles
 
@@ -159,6 +171,13 @@ void CGEngine::initRender()
 	unv_2Dclr = glGetUniformLocation(drawProg1, "clcl");
 
 	unv_2DF_clr = glGetUniformLocation(drawProgFnt, "rclr");
+
+	unv_3Dtex = glGetUniformLocation(drawProg3D, "cTex");
+	unv_3Dclr = glGetUniformLocation(drawProg3D, "cClr");
+	unv_3DTRM = glGetUniformLocation(drawProg3D, "MVP");
+	
+	unv_3DLtex = glGetUniformLocation(drawProg3DL, "cTex");
+	unv_3DLclr = glGetUniformLocation(drawProg3DL, "cClr");
 }
 
 const int buf_szs[5] = { 3, 2, 1, 3, 4 };
@@ -299,6 +318,7 @@ void CGEngine::cycle()
 
 		
 		printf("Server was killed\n");
+		lPlayer = -1;
 		delete cClient;
 		cClient = NULL;
 	}
@@ -307,6 +327,7 @@ void CGEngine::cycle()
 	{
 		if (!cClient->think())
 		{
+			lPlayer = -1;
 			delete cClient;
 			cClient = NULL;
 		}
@@ -327,6 +348,11 @@ void CGEngine::go2D()
 	glUniformMatrix4fv(unv_2DTRM, 1, GL_FALSE, &TRM_2d[0][0]);
 	glUniform1i(unv_2Dtex, 0);
 	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
+}
+
+void CGEngine::go3D()
+{
+	glUseProgram(drawProg3D);
 }
 
 void CGEngine::draw()
@@ -469,6 +495,9 @@ bool CGEngine::goJoining(const char* ip)
 		cClient = NULL;
 		return false;
 	}
+	else {
+		lPlayer = cClient->getPID();
+	}
 	return true;
 }
 
@@ -481,5 +510,6 @@ CGEngine::CGEngine(Init_Constants* aic)
 	ic = aic;
 	resX = ic->resX;
 	resY = ic->resY;
+	lPlayer = -1;
 	g_render = this;
 }

@@ -26,6 +26,10 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
      connected = 0;
 }
 
+int CClient::getPID()
+{
+	return 0;	//TODO
+}
 
 int CClient::get_num()
 {

@@ -133,6 +133,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gengine_scene.cpp" />
     <ClCompile Include="graph2D.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="gui_element.cpp" />
@@ -162,9 +163,11 @@
     <None Include="WorkDir\config.cfg" />
     <None Include="WorkDir\shaders\fragment.sh" />
     <None Include="WorkDir\shaders\fragment_3D.sh" />
+    <None Include="WorkDir\shaders\fragment_3DL.sh" />
     <None Include="WorkDir\shaders\fragment_font.sh" />
     <None Include="WorkDir\shaders\vertex.sh" />
     <None Include="WorkDir\shaders\vertex_3D.sh" />
+    <None Include="WorkDir\shaders\vertex_3DL.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

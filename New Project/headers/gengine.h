@@ -9,6 +9,7 @@
 #include "Server.h"
 #include "Client.h"
 
+#include "Game.h"
 
 /*
 	class handling window creation, menu and game rendering, and providing functions to handle keyboard input
@@ -28,27 +29,35 @@ private:
 
 	CDrawBuffers sBufs;	//buffers for sprite rendering
 
-	GLuint drawProg1, drawProgFnt, drawProg3D;
+	GLuint drawProg1, drawProgFnt, drawProg3D, drawProg3DL;
 
 	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM;	// transformation matrix for 2D/3D shaders
 	GLuint unv_2Dclr, unv_2DF_clr;
+	GLuint unv_3Dtex, unv_3Dclr, unv_3DLtex, unv_3DLclr;
+
 
 	CGLTexture* menuTex;
 	CSprite* testSpr;
 
-	glm::mat4 TRM_2d;
+	int lPlayer;
+
+	glm::mat4 projMat, viewMat, camMat;
+	glm::mat4 TRM_2d, TRM_3d;
 	glm::vec4 cColorMod;
 
 
 	HANDLE hTh_Server;	//server's thread handle and threadiid
 	DWORD hThId_Server;
 
+	glm::vec3 cam_Pos, cam_Trg, cam_Up;
+	glm::vec3 cam_Pos_t, cam_Trg_t;	//target state
 
 	int mState;
 
 	int shdMode_2D;	//current 2D shading mode
 
 	void go2D();
+	void go3D();
 	void initRender();
 	void load();
 public:
@@ -79,6 +88,8 @@ public:
 	bool isKeyPressed(int vkey);
 	bool isKeyJustPressed(int vkey);
 
+	void drawScene(Game* gm);
+	void prepForScene(Game* gm);
 
 	void svth_Entry();	//entry point for server thread
 

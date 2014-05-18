@@ -36,10 +36,13 @@ private:
 
 public:
 
+	//also, put here a func to get Game for rendering
+
 	CClient();
 	CClient(CGEngine * _game, Game_Engine *ggame);
 	bool think();
 	int get_num();
+	int getPID();	//get player id	----------- TO DO, vovan
     bool connect(const char *ip);
     ~CClient();
 
