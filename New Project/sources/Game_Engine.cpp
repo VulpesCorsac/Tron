@@ -163,7 +163,8 @@ bool Game_Engine::Bomb_Delete(const vector < Bomb > &Bombs) {
 void Game_Engine::Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
 	assert(Bomb_Number >= 0 && Bomb_Number < (int)this->Current_Game.Bombs.size() && "Trying to explode bomb that does not exist");
 	Circle < double > C(this->Current_Game.Bombs[Bomb_Number].Current_Point, this->Current_Game.Bombs[Bomb_Number].Radius);
-	return Make_some_magic(C, Killed_Players, New_Tails, Deleted_Walls, New_walls);
+	Make_some_magic(C, Killed_Players, New_Tails, Deleted_Walls, New_walls);
+	return;
 }
 
 // ROCKETS
@@ -205,7 +206,8 @@ bool Game_Engine::Rocket_Delete(const vector < Rocket > &Rockets) {
 void Game_Engine::Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
 	assert(Rocket_Number >= 0 && Rocket_Number < (int)this->Current_Game.Rockets.size() && "Trying to explode rocket that does not exist");
 	Circle < double > C(this->Current_Game.Rockets[Rocket_Number].Current_Point, this->Current_Game.Rockets[Rocket_Number].Radius);
-	return Make_some_magic(C, Killed_Players, New_Tails, Deleted_Walls, New_walls);
+	Make_some_magic(C, Killed_Players, New_Tails, Deleted_Walls, New_walls);
+	return;
 }
 
 // WALLS

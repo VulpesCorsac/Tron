@@ -29,7 +29,7 @@ private:
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
 
-	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
+	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {}; // TO DO:
 
 public:
 	// Data	
@@ -85,9 +85,9 @@ public:
 
 	// Plus, we need structers to store data in 4 functions below
 	void Get_Changes_ACC(changes *);    //TO DO getting changes for the last frame
-	void Update_Changes_ACC(changes *); //TO DO setting changes for the last frame
+	void Update_Changes_ACC(changes *) {}; //TO DO setting changes for the last frame
 	void Get_Changes_NACC(state *);     //TO DO getting players state(coordinates and directions)
-	void Update_Changes_NACC(state *);  //TO DO setting players state(coordinates and directions)
+	void Update_Changes_NACC(state *) {};  //TO DO setting players state(coordinates and directions)
 	
 };
 
