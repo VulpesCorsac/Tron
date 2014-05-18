@@ -13,7 +13,7 @@ private:
 	int round(const double &x) const;
 
 	// Converts from game classes to polygon
-	Polygon2D < double > Polygon_from(const Point2D < double > &C_p, const Vector2D < double > &V, const double w);
+	Polygon2D < double > Polygon_from(const Point2D < double > &C_p, const Vector2D < double > &V, const double &w);
 	Polygon2D < double > Polygon_from_cycle(const LightCycle &Cycle);
 	Polygon2D < double > Polygon_from_wall(const Wall &_Wall);
 
@@ -29,7 +29,7 @@ private:
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
 
-	bool Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
+	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
 
 public:
 	// Data	
@@ -42,20 +42,27 @@ public:
 	bool Bomb_Delete(const int &n);
 	bool Bomb_Delete(const Bomb &_Bomb);
 	bool Bomb_Delete(const vector < Bomb > &Bombs);
-	bool Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
+	void Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 
 	void Rocket_Add(const Rocket &_Rocket);
 	void Rocket_Add(const vector < Rocket > &Rockets);
 	bool Rocket_Delete(const int &n);
 	bool Rocket_Delete(const Rocket &_Rocket);
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
-	bool Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
+	void Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 
 	void Wall_Add(const Wall &_Wall);
 	void Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
 	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls);
+	bool Wall_Delete(const int &n);
+	bool Wall_Delete(const Wall &_Wall);
+	bool Wall_Delete(const vector < Wall > &Walls);
+	bool Wall_Delete_flag(const int &n); // Just set player_num to -1;
+	bool Wall_Delete_flag(const Wall &_Wall);
+	bool Wall_Delete_flag(const vector < Wall > &Walls);
+
 
 	void Bonus_Add(const Bonus &_Bonus);
 	void Bonus_Add(const vector < Bonus > &Bonuses);
@@ -63,9 +70,9 @@ public:
 	bool Bonus_Delete(const Bonus &_Bonus);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
 
-	bool Player_Turn(const int &Player_number, const bool &left_turn); // TO DO:
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
+	void Player_Turn(const int &Player_number, const bool &left_turn); // TO DO:
 	void Player_Add(Player &_Player);
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
