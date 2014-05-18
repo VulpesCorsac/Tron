@@ -10,7 +10,8 @@ int main(int argc, char** argv) {
 
  //   Game* game = new Game();
 //    game->Run();
-	
+
+	init_network();
 	CGEngine* ge = new CGEngine(new Init_Constants());
 	ge->start();
 	return 0;

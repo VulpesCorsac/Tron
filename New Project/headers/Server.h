@@ -75,6 +75,7 @@ public:
 
     CServer();
 	CServer(CGEngine * _game, Game_Engine *_ggame);
+	int getPlCount();
 	bool startgame();
     bool think();
     bool broadcast(my_message);

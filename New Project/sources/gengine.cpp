@@ -10,6 +10,11 @@ PFNGLDELETEBUFFERSPROC glDeleteBuffers;*/
 
 CGEngine* g_render;
 
+void r_mouseMove(int x, int y)
+{
+	g_render->mPos = Point((type)x, (type)y);
+}
+
 void r_display(void) {
 	g_render->draw();
 }
@@ -17,6 +22,11 @@ void r_display(void) {
 void r_cycle()
 {
 	g_render->cycle();
+}
+
+void r_keyb(unsigned char key, int x, int y)
+{
+	g_render->onKey(key);
 }
 
 // ------------------------------------- various ----------------------------------------------
@@ -146,6 +156,7 @@ void CGEngine::initRender()
 
 	unv_2DTRM = glGetUniformLocation(drawProg1, "TRM");
 	unv_2Dtex = glGetUniformLocation(drawProg1, "texSampler");
+	unv_2Dclr = glGetUniformLocation(drawProg1, "clcl");
 
 	unv_2DF_clr = glGetUniformLocation(drawProgFnt, "rclr");
 }
@@ -177,6 +188,10 @@ void CGEngine::drawQuad(Point f, Point t, Point ft, Point tt)
 
 }
 
+void CGEngine::doExit()
+{
+	isExit = true;
+}
 
 void CGEngine::setRasterTrg(Point p)
 {
@@ -191,12 +206,19 @@ void CGEngine::selTexture(GLuint tx)
 	{
 		shdMode_2D = shdm_tex;
 		glUseProgram(drawProg1);
+		setColorMod(cColorMod);
 	}
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tx);
 }
 
-void CGEngine::selColor(const glm::vec4 &clr)
+void CGEngine::setColorMod(const glm::vec4 &clr)
+{
+	cColorMod = clr;
+	glUniform4f(unv_2Dclr, clr[0], clr[1], clr[2], clr[3]);
+}
+
+void CGEngine::selFontColor(const glm::vec4 &clr)
 {
 	if (shdMode_2D != shdm_fnt)
 	{
@@ -252,7 +274,45 @@ CSprite* CGEngine::makeSprite(CGLTexture* tex, Point lt, Point rb)
 
 void CGEngine::cycle()
 {
+	//POINT pp;
+	//GetCursorPos(&pp);
+	//ScreenToClient()
+	//mPos = Point(type(pp.x), type(pp.y));
+	mState = GetKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
 
+	if (gui)
+		gui->think(mPos, mState);
+
+	if (isExit)
+	{
+		glutLeaveMainLoop();
+		return;
+	}
+
+	if (serverKill)	//signal from thread that terminates
+	{
+		delete cServer;
+		cServer = NULL;
+		CloseHandle(hTh_Server);
+		hTh_Server = NULL;
+		serverKill = false;
+
+		
+		printf("Server was killed\n");
+		delete cClient;
+		cClient = NULL;
+	}
+
+	if (cClient)
+	{
+		if (!cClient->think())
+		{
+			delete cClient;
+			cClient = NULL;
+		}
+	}
+
+	glutPostRedisplay();
 }
 
 void CGEngine::go2D()
@@ -266,6 +326,7 @@ void CGEngine::go2D()
 	
 	glUniformMatrix4fv(unv_2DTRM, 1, GL_FALSE, &TRM_2d[0][0]);
 	glUniform1i(unv_2Dtex, 0);
+	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
 }
 
 void CGEngine::draw()
@@ -284,20 +345,36 @@ void CGEngine::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	go2D();
-	gui->render();
+	if (gui)
+		gui->render();
 	//testSpr->render(this, Point(20, 20), false);
 
 	glutSwapBuffers();
 }
 
+bool CGEngine::isKeyPressed(int vkey)
+{
+	return (GetKeyState(vkey) & 0x8000) != 0;
+}
+
+bool CGEngine::isKeyJustPressed(int vkey)
+{
+	//TODO for me.
+	return false;
+}
+
 void CGEngine::start()
 {
+	isExit = false;
+	mPos.x = 0; mPos.y = 0;
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(resX, resY);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Tron");
 	glutDisplayFunc(r_display);
 	glutIdleFunc(r_cycle);
+	glutPassiveMotionFunc(r_mouseMove);
+	glutKeyboardFunc(r_keyb);
 	g_render = this;
 
 	GLenum err = glewInit();
@@ -321,15 +398,86 @@ void CGEngine::start()
 	initRender();
 	load();
 
-	gui = new CGUI(this);
+	gui = new CGUI(this, resX, resY);
 	gui->init();
 	gui->enterScreen(GSCR_MENU);
 
 	glutMainLoop();
 }
 
+
+DWORD WINAPI hostThreadFunc(LPVOID lpParam)
+{
+	CGEngine* eng = (CGEngine*)lpParam;
+	eng->svth_Entry();
+	return 0;
+}
+
+void CGEngine::svth_Entry()
+{
+	while (!isServerExit)
+	{
+		if (!cServer->think())
+		{
+			break;
+		}
+		Sleep(0);
+	}
+	serverKill = true;
+}
+
+void CGEngine::onKey(unsigned char key)
+{
+	if (gui)
+		gui->keyPress(key);
+}
+
+void CGEngine::shutdownServer()
+{
+	isServerExit = true;
+}
+
+bool CGEngine::goHosting()
+{
+	assert(!cServer && !hTh_Server && !cClient);
+
+	cServer = new CServer();
+	isServerExit = false;
+	serverKill = false;
+	hTh_Server = CreateThread(NULL, 0, hostThreadFunc, this, 0, &hThId_Server);
+	assert(hTh_Server);
+
+	Sleep(5);
+	if (!goJoining("127.0.0.1"))
+	{
+		printf("Cannot connect to myself!\n");
+
+		isServerExit = true;
+		return false;
+	}
+
+	return true;
+}
+
+bool CGEngine::goJoining(const char* ip)
+{
+	assert(!cClient);
+	cClient = new CClient();
+	if (!cClient->connect(ip))
+	{
+		delete cClient;
+		cClient = NULL;
+		return false;
+	}
+	return true;
+}
+
 CGEngine::CGEngine(Init_Constants* aic)
 {
+	hTh_Server = 0;
+	cServer = NULL;
+	cClient = NULL;
+	isServerExit = serverKill = false;
 	ic = aic;
 	resX = ic->resX;
 	resY = ic->resY;

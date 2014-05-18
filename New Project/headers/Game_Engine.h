@@ -29,7 +29,7 @@ private:
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
 
-	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
+	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {}; // TO DO:
 
 public:
 	// Data	

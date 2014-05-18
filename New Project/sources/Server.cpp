@@ -202,6 +202,11 @@ bool CServer::Line_up()
 		return true;
     }
 
+	int CServer::getPlCount()
+	{
+		return number_of_clients;
+	}
+
 	bool CServer::startgame()
 	{
 
