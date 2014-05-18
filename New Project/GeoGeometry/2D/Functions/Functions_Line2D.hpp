@@ -8,7 +8,7 @@ T Point_to_line(const Point2D < T > &Point, const Line2D < T > &Line) {
 
 template < class T >
 Point2D < T > Closest_point(const Line2D < T > &Line, const Point2D < T > &Point) {
-	T k = (Point_in_line(Point, Line)) / (SQR(Line.A) + SQR(Line.B));
+	T k = (Point_to_line(Point, Line)) / (SQR(Line.A) + SQR(Line.B));
 	return Point2D < T >(Point.x - Line.A*k, Point.y - Line.B*k);
 }
 

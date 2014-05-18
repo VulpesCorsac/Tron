@@ -29,7 +29,7 @@ private:
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
 
-	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {}; // TO DO:
+	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls); // TO DO:
 
 public:
 	// Data	
@@ -59,10 +59,9 @@ public:
 	bool Wall_Delete(const int &n);
 	bool Wall_Delete(const Wall &_Wall);
 	bool Wall_Delete(const vector < Wall > &Walls);
-	bool Wall_Delete_flag(const int &n); // Just set player_num to -1;
+	bool Wall_Delete_flag(const int &n); // Just set player_num to -1, not deleting them from vector
 	bool Wall_Delete_flag(const Wall &_Wall);
 	bool Wall_Delete_flag(const vector < Wall > &Walls);
-
 
 	void Bonus_Add(const Bonus &_Bonus);
 	void Bonus_Add(const vector < Bonus > &Bonuses);
