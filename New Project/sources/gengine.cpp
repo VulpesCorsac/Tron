@@ -44,13 +44,15 @@ void CDrawBuffers::updBuff(int id, int sz, const void* data)
 
 void CDrawBuffers::allocBuff(int id, int sz,const void* data, GLuint memType)
 {
-
+	//glBindVertexArray(0);
 	assert(id >= 0 && id < GLDB_COUNT);
 	glGenBuffers(1, bufs + id);
 	GLenum trg = id == GLDB_INDEX ? GL_ELEMENT_ARRAY_BUFFER : GL_ARRAY_BUFFER;
 	glBindBuffer(trg, bufs[id]);
 	if (sz)
+	{
 		glBufferData(trg, sz * buf_szm[id], data, memType);
+	}
 }
 
 CDrawBuffers::CDrawBuffers()
@@ -192,22 +194,23 @@ void CGEngine::initRender()
 	unv_3DLclr = glGetUniformLocation(drawProg3DL, "cClr");
 	unv_3DLTRM = glGetUniformLocation(drawProg3DL, "MVP");
 
+	//printf("%d\n", gl)
 	///
-	glGenVertexArrays(1, &VertexArrayID);
+//	glGenVertexArrays(1, &VertexArrayID);
 }
 
 const int buf_szs[5] = { 3, 2, 1, 3, 4 };
 
 void CGEngine::setBuffs(CDrawBuffers& bf)
 {
-	glBindVertexArray(VertexArrayID);
+	//glBindVertexArray(VertexArrayID);
 	fori(i, GLDB_COUNT)
 	{
 		if (!bf.bufs[i]) continue;
 	//	
-		glEnableVertexAttribArray(i);
 		if (i != GLDB_INDEX)
 		{
+			glEnableVertexAttribArray(i);
 			glBindBuffer(GL_ARRAY_BUFFER, bf.bufs[i]);
 			glVertexAttribPointer(i, buf_szs[i], GL_FLOAT, GL_FALSE, 0, (void*)0);
 		}
@@ -215,6 +218,8 @@ void CGEngine::setBuffs(CDrawBuffers& bf)
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bf.bufs[i]);
 		}
 	}
+	//glBindVertexArray(0);
+	//glBindVertexArray(VertexArrayID);
 }
 
 //not necessary
@@ -381,14 +386,14 @@ void CGEngine::go3D()
 
 void CGEngine::draw()
 {
-	glShadeModel(GL_SMOOTH);
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+//	glShadeModel(GL_SMOOTH);
+//	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 	glEnable(GL_DEPTH_TEST);	
-	glDisable(GL_LIGHTING);//not sure if this is still needed
-	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_MULTISAMPLE);
+//	glDisable(GL_LIGHTING);//not sure if this is still needed
+//	glDisable(GL_TEXTURE_2D);
+//	glDisable(GL_CULL_FACE);
+//	glDisable(GL_MULTISAMPLE);
 	// glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	//glEnable(GL_COLOR_MATERIAL);
 	glDepthFunc(GL_LEQUAL);
@@ -422,16 +427,24 @@ void CGEngine::start()
 {
 	isExit = false;
 	mPos.x = 0; mPos.y = 0;
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitContextVersion(3, 3);
+	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
+	glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
+
 	glutInitWindowSize(resX, resY);
 	glutInitWindowPosition(50, 50);
+
+
 	glutCreateWindow("Tron");
-	glutDisplayFunc(r_display);
 	glutIdleFunc(r_cycle);
 	glutPassiveMotionFunc(r_mouseMove);
 	glutKeyboardFunc(r_keyb);
+	glutDisplayFunc(r_display);
 	g_render = this;
 
+
+	glewExperimental = true;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{

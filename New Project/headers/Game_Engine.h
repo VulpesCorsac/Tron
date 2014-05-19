@@ -86,7 +86,7 @@ public:
 	void UPD(const double &dt); // TO DO:
 
 	// TO BE USED BY VOVA:
-	void Turn_Player(int side, int player_num); // TO DO turn player to side (see define in client.h )
+	void Turn_Player(int side, int player_num) {}; // TO DO turn player to side (see define in client.h )
 	void Do_Step();                             // TO DO advance game on dt( 1/60 sec)
 
 	// Plus, we need structers to store data in 4 functions below
@@ -94,7 +94,7 @@ public:
 	void Update_Changes_ACC(changes *) {}; //TO DO setting changes for the last frame
 	void Get_Changes_NACC(state *);     //TO DO getting players state(coordinates and directions)
 	void Update_Changes_NACC(state *) {};  //TO DO setting players state(coordinates and directions)
-	void Start_Game(int , state *); //TO DO setting starting positions for players(number of players is the first int), returning them in state *
+	void Start_Game(int, state *) {}; //TO DO setting starting positions for players(number of players is the first int), returning them in state *
 };
 
 #endif // GAME_ENGINE_H_INCLUDED
