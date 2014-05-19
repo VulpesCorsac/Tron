@@ -157,6 +157,13 @@ void CGUI::think(Point mPos, int mState)
 			if (gEng->cServer->startgame())
 			{
 				enterScreen(GSCR_GAME);
+				gEng->rGame = new Game();
+
+				Player pl;
+				pl.MyCycle.Current_Point = Point2D<double>(0, 0);
+				pl.MyCycle.Direction = Point2D<double>(1, 0);
+
+				gEng->rGame->Players.push_back(pl);
 			}
 		}
 	}

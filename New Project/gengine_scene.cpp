@@ -9,9 +9,86 @@ struct CDrawEl
 	mat4 wMat;
 };
 
+vec3 pointToVec3(Point p)
+{
+	return vec3((float ) p.x, 0.0f, (float) p.y);
+}
+vec3 point2DToVec3(Point2D<double> p)
+{
+	return vec3((float)p.x, 0.0f, (float)p.y);
+}
+vec3 vector2DToVec3(Vector2D<double> p)
+{
+	return vec3((float)p.x, 0.0f, (float)p.y);
+}
+
+CMesh* CGEngine::generateGridMesh(int nx, int ny, float sp, float w)
+{
+	renQuad q;
+	q.defaultUV();
+	q.setNormal(vec3(0, 1, 0));
+	fori(i, 4) q.v[i].y = 0;
+
+	CMesh* nm = new CMesh();
+
+	fori(i, nx)
+	{
+		q.v[0].x = i * sp - w;
+		q.v[0].z = 0;
+		q.v[1].x = i * sp - w;
+		q.v[1].z = sp * ny;
+		q.v[2].x = i * sp + w;
+		q.v[2].z = sp * ny;
+		q.v[3].x = i * sp + w;
+		q.v[3].z = 0;
+		nm->appendQuad(q);
+	}
+	fori(i, ny)
+	{
+		q.v[0].x = 0;
+		q.v[0].z = i * sp - w;
+		q.v[1].x = sp * nx;
+		q.v[1].z = i * sp - w;
+		q.v[2].x = sp * nx;
+		q.v[2].z = i * sp + w;
+		q.v[3].x = 0;
+		q.v[3].z = i * sp + w;
+		nm->appendQuad(q);
+	}
+	nm->setTexture(gridTex);
+	nm->toBuffer();
+	return nm;
+}
+
+void CGEngine::updMatrices()
+{
+	pcMat = projMat * camMat;
+	pcwMat = pcMat * wrldMat;
+
+	glUniformMatrix4fv(unv_3DTRM, 1, GL_FALSE, &pcwMat[0][0]);
+	glUniformMatrix4fv(unv_3DLTRM, 1, GL_FALSE, &pcwMat[0][0]);
+}
+
+void CGEngine::updCamera()
+{
+	camMat = glm::lookAt(cam_Pos, cam_Trg, cam_Up);
+}
+
 void CGEngine::drawScene(Game* gm)
 {
+	cam_Trg_t = point2DToVec3(gm->Players[lPlayer].MyCycle.Current_Point);
+	vec3 dps = normalize(vector2DToVec3(gm->Players[lPlayer].MyCycle.Direction));
+	cam_Pos_t = cam_Trg_t - dps * 4.0f + vec3(0, 4, 0);
 
+	wrldMat = translate(vec3(0, 0, 0));
+	updCamera();
+	updMatrices();
+
+	gridMesh->draw(this);
+
+	float alp = 0.9f;
+	cam_Pos = cam_Pos * alp + cam_Pos_t * (1 - alp);
+	cam_Trg = cam_Trg * alp + cam_Trg_t * (1 - alp);
 }
 
 void CGEngine::prepForScene(Game* gm)

@@ -31,17 +31,16 @@ private:
 
 	GLuint drawProg1, drawProgFnt, drawProg3D, drawProg3DL;
 
-	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM;	// transformation matrix for 2D/3D shaders
+	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM, unv_3DLTRM;	// transformation matrix for 2D/3D shaders
 	GLuint unv_2Dclr, unv_2DF_clr;
 	GLuint unv_3Dtex, unv_3Dclr, unv_3DLtex, unv_3DLclr;
 
+	GLuint VertexArrayID;
 
-	CGLTexture* menuTex;
 	CSprite* testSpr;
 
 	int lPlayer;
 
-	glm::mat4 projMat, viewMat, camMat;
 	glm::mat4 TRM_2d, TRM_3d;
 	glm::vec4 cColorMod;
 
@@ -49,8 +48,6 @@ private:
 	HANDLE hTh_Server;	//server's thread handle and threadiid
 	DWORD hThId_Server;
 
-	glm::vec3 cam_Pos, cam_Trg, cam_Up;
-	glm::vec3 cam_Pos_t, cam_Trg_t;	//target state
 
 	int mState;
 
@@ -60,7 +57,24 @@ private:
 	void go3D();
 	void initRender();
 	void load();
+
+	//scene rendering stuff
+
+	glm::mat4 projMat, camMat, pcMat, wrldMat, pcwMat;
+
+	glm::vec3 cam_Pos, cam_Trg, cam_Up;
+	glm::vec3 cam_Pos_t, cam_Trg_t;	//target state
+
+	CGLTexture* menuTex, *gridTex;
+	CMesh* gridMesh;
+
+	//size (x,z) ; spacing and line width
+	void updCamera();
+	void updMatrices();
+	CMesh* generateGridMesh(int nx, int ny, float sp, float w);
 public:
+	Game* rGame;
+
 	Point mPos;
 	CGUI* gui;
 	Init_Constants* ic;

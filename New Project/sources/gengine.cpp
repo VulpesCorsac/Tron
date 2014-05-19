@@ -58,6 +58,12 @@ CDrawBuffers::CDrawBuffers()
 	fori(i, GLDB_COUNT) bufs[i] = 0;
 }
 
+void CDrawBuffers::relBuffers()
+{
+	glDeleteBuffers(GLDB_COUNT, bufs);
+	fori(i, GLDB_COUNT) bufs[i] = 0;
+}
+
 CDrawBuffers::~CDrawBuffers()
 {
 	glDeleteBuffers(GLDB_COUNT, bufs);
@@ -131,7 +137,13 @@ void CGEngine::load()
 	menuTex = new CGLTexture();
 	menuTex->load("menuTex.png");
 
+	gridTex = new CGLTexture();
+	gridTex->load("gridTex.png");
+
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
+
+	gridMesh = generateGridMesh(100, 100, 1.0f, 0.05f);
+
 }
 
 void CGEngine::initRender()
@@ -178,15 +190,21 @@ void CGEngine::initRender()
 	
 	unv_3DLtex = glGetUniformLocation(drawProg3DL, "cTex");
 	unv_3DLclr = glGetUniformLocation(drawProg3DL, "cClr");
+	unv_3DLTRM = glGetUniformLocation(drawProg3DL, "MVP");
+
+	///
+	glGenVertexArrays(1, &VertexArrayID);
 }
 
 const int buf_szs[5] = { 3, 2, 1, 3, 4 };
 
 void CGEngine::setBuffs(CDrawBuffers& bf)
 {
+	glBindVertexArray(VertexArrayID);
 	fori(i, GLDB_COUNT)
 	{
 		if (!bf.bufs[i]) continue;
+	//	
 		glEnableVertexAttribArray(i);
 		if (i != GLDB_INDEX)
 		{
@@ -253,6 +271,7 @@ void CGEngine::renderTrans2D(int ne, Point lt, Point rb)
 	glUniformMatrix4fv(unv_2DTRM, 1, GL_FALSE, &ntrm[0][0]);
 
 	glDrawElements(GL_TRIANGLES, ne * 3, GL_UNSIGNED_SHORT, (void*)0);
+	///glDrawArrays(GL_TRIANGLES, 0, ne* 3);
 }
 
 CSprite* CGEngine::makeSprite(CGLTexture* tex, Point lt, Point rb)
@@ -353,6 +372,11 @@ void CGEngine::go2D()
 void CGEngine::go3D()
 {
 	glUseProgram(drawProg3D);
+
+	projMat = glm::perspective(45.0f, resX / float(resY), 0.1f, 100.0f);
+	wrldMat = glm::translate(glm::vec3(0, 0, 0));
+	camMat = glm::translate(glm::vec3(0, 0, 0));
+	updMatrices();
 }
 
 void CGEngine::draw()
@@ -369,11 +393,16 @@ void CGEngine::draw()
 	//glEnable(GL_COLOR_MATERIAL);
 	glDepthFunc(GL_LEQUAL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
+
 	go2D();
 	if (gui)
 		gui->render();
 	//testSpr->render(this, Point(20, 20), false);
+
+	go3D();
+	if (rGame)
+		drawScene(rGame);
 
 	glutSwapBuffers();
 }
@@ -393,7 +422,7 @@ void CGEngine::start()
 {
 	isExit = false;
 	mPos.x = 0; mPos.y = 0;
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(resX, resY);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Tron");
@@ -408,6 +437,15 @@ void CGEngine::start()
 	{
 		printf("Error: %s\n", glewGetErrorString(err));
 	}
+
+	if (glewIsSupported("GL_VERSION_3_3"))
+		printf("Ready for OpenGL 3.3\n");
+	else {
+		printf("OpenGL 3.3 not supported. Update ur drivers oify\n");
+		getchar();
+		return;
+	}
+
 
 	/*
 	glBindBuffer = (PFNGLBINDBUFFERPROC)wglGetProcAddress("glBindBuffer");
@@ -512,4 +550,5 @@ CGEngine::CGEngine(Init_Constants* aic)
 	resY = ic->resY;
 	lPlayer = -1;
 	g_render = this;
+	rGame = NULL;
 }
