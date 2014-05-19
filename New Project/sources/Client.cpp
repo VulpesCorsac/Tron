@@ -162,6 +162,15 @@ bool CClient::think()
 			//kill player
 		}
 
+		if (msg.type == START_GAME)
+		{	
+			state beg_state;
+			read_state(&msg, &beg_state);
+			ggame->Update_Changes_NACC(&beg_state);
+			cadr = 0;
+			game_started = true;
+		}
+
 		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
 		{
 			Actions rec_act;
@@ -172,13 +181,14 @@ bool CClient::think()
 				
 
 			if (rec_act.turn != NO_TURN)
-				ggame->Turn_Player(rec_act.turn, msg.cl_num);
+				ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
 		}
 
 
 		if (msg.type == UPD_GAME_STATE_ACC)
 		{
 			changes temp_changes;
+			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
 			ggame->Update_Changes_ACC(&temp_changes);
 		}
@@ -186,6 +196,7 @@ bool CClient::think()
 		if (msg.type == UPD_GAME_STATE_NACC)
 		{
 			state temp_state;
+			read_state(&msg, &temp_state);
 			//here comes the sg.buf parsing to temp_state
 			ggame->Update_Changes_NACC(&temp_state);
 		}
@@ -201,13 +212,15 @@ bool CClient::think()
 		sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
 		sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 		frames_wtanws = 0;
+
+		if (curact.turn != NO_TURN)
+			ggame->Turn_Player(curact.turn, getPID() - 1);
 	}
 	else frames_wtanws++;
 
 
-
-
-
+	const double dt = 1.0f / 60.0f;
+	ggame->UPD(dt);
 //	if ()
 	return true;
 }

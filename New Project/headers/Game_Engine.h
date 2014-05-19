@@ -2,15 +2,24 @@
 #define GAME_ENGINE_H_INCLUDED
 
 #include "Game.h"
+#include "Server.h"
 
 //TO DO - do this structers
 struct state
 {
 	int n; // number of players
-	float *x, *y; // coord of player x,y
+	float x[MAX_CLIENTS];
+	float y[MAX_CLIENTS];// coord of player x,y
 };   // nonaccumulating struct for state of players
+
+
 struct changes 
 {
+	bool is_dead[MAX_CLIENTS]; //Alive or not clients?
+	int new_walls; //count of new walls
+	double *xn, *yn; // coordinates of new walls
+
+
 
 }; // accumulating struct for changes within walls, bombs, etc
 
@@ -83,7 +92,7 @@ public:
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
 
-	void UPD(const double &dt); // TO DO:
+	void UPD(const double dt) {}; // TO DO:
 
 	// TO BE USED BY VOVA:
 	void Turn_Player(int side, int player_num) {}; // TO DO turn player to side (see define in client.h )

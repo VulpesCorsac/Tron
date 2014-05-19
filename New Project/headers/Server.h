@@ -27,7 +27,7 @@ struct my_message
     int cl_num;
     int pack_num;
     int length;
-    char buff[1024];
+    char buff[2048];
 
 };
 
@@ -63,6 +63,8 @@ private:
     bool perm_to_connect;
 	int cadr;
 	int stepped;
+	
+
 
 	CGEngine *game;
 	Game_Engine *ggame;

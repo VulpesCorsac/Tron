@@ -181,11 +181,8 @@ bool CServer::Line_up()
 					sscanf(msg.buff, "%d", clients[msg.cl_num].my_actions[clients[msg.cl_num].count % 100].start_bomb);
 					broadcast(msg);
 				}
-
-
-			
-
 			}
+
 
 
         return true;
