@@ -25,8 +25,8 @@ vec3 vector2DToVec3(Vector2D<double> p)
 CMesh* CGEngine::generateGridMesh(int nx, int ny, float sp, float w)
 {
 	renQuad q;
-	q.defaultUV();
-	q.setNormal(vec3(0, 1, 0));
+	q.defaultUV(1.0f, 128.0f/128.0f);
+	q.setNormal(vec3(0.0f, 1.0f, 0.0f));
 	fori(i, 4) q.v[i].y = 0;
 
 	CMesh* nm = new CMesh();
@@ -74,16 +74,26 @@ void CGEngine::updCamera()
 	camMat = glm::lookAt(cam_Pos, cam_Trg, cam_Up);
 }
 
+static float tm = 0.0f;
+
 void CGEngine::drawScene(Game* gm)
 {
+	cam_Up = vec3(0.0f, 1.0f, 0.0f);
 	cam_Trg_t = point2DToVec3(gm->Players[lPlayer].MyCycle.Current_Point);
 	vec3 dps = normalize(vector2DToVec3(gm->Players[lPlayer].MyCycle.Direction));
-	cam_Pos_t = cam_Trg_t - dps * 4.0f + vec3(0, 4, 0);
 
-	wrldMat = translate(vec3(0, 0, 0));
+	cam_Trg_t.x = tm;
+	cam_Trg_t.z = tm;
+
+	cam_Pos_t = cam_Trg_t - dps * 4.0f + vec3(0.0f, 4.0f, 0.0f);
+	tm += 0.001f;
+
 	updCamera();
+
+	wrldMat = translate(vec3(floorf(cam_Pos.x) - 50.0f, 0.0f, floorf(cam_Pos.z) - 50.0f));
 	updMatrices();
 
+	glDisable(GL_DEPTH_TEST);
 	gridMesh->draw(this);
 
 	float alp = 0.9f;
@@ -97,6 +107,6 @@ void CGEngine::prepForScene(Game* gm)
 	Player* lp = &gm->Players[lPlayer];
 
 	cam_Trg = cam_Trg_t = vec3(lp->MyCycle.Current_Point.x, 0.0f, lp->MyCycle.Current_Point.y);
-	cam_Pos = vec3(0,0,0);
-	cam_Up = vec3(0,1,0);
+	cam_Pos = vec3(0.0f,0.0f,0.0f);
+	cam_Up = vec3(0.0f,1.0f,0.0f);
 }

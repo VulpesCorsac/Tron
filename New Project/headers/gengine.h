@@ -52,6 +52,7 @@ private:
 	int mState;
 
 	int shdMode_2D;	//current 2D shading mode
+	bool is3D;
 
 	void go2D();
 	void go3D();

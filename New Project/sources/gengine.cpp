@@ -246,20 +246,30 @@ void CGEngine::setRasterTrg(Point p)
 
 void CGEngine::selTexture(GLuint tx)
 {
-	if (shdMode_2D != shdm_tex)
+	if (!is3D)
 	{
-		shdMode_2D = shdm_tex;
-		glUseProgram(drawProg1);
-		setColorMod(cColorMod);
+		if (shdMode_2D != shdm_tex)
+		{
+			shdMode_2D = shdm_tex;
+			glUseProgram(drawProg1);
+			setColorMod(cColorMod);
+		}
 	}
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tx);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//const float vv[4] = { 1, 1, 1, 1 };
+	//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, vv);
+	
 }
 
 void CGEngine::setColorMod(const glm::vec4 &clr)
 {
+	
 	cColorMod = clr;
-	glUniform4f(unv_2Dclr, clr[0], clr[1], clr[2], clr[3]);
+	glUniform4f(is3D ? unv_3Dclr : unv_2Dclr, clr[0], clr[1], clr[2], clr[3]);
 }
 
 void CGEngine::selFontColor(const glm::vec4 &clr)
@@ -269,7 +279,7 @@ void CGEngine::selFontColor(const glm::vec4 &clr)
 		shdMode_2D = shdm_fnt;
 		glUseProgram(drawProgFnt);
 	}	
-	glm::mat4 ntrm = glm::translate(glm::vec3(0, 0, 0));
+	glm::mat4 ntrm = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(unv_2DFTRM, 1, GL_FALSE, &ntrm[0][0]);
 	glUniform4f(unv_2DF_clr, clr[0], clr[1], clr[2], clr[3]);
 }
@@ -367,6 +377,7 @@ void CGEngine::cycle()
 void CGEngine::go2D()
 {
 	glUseProgram(drawProg1);
+	is3D = false;
 
 	shdMode_2D = shdm_tex;
 
@@ -381,10 +392,12 @@ void CGEngine::go2D()
 void CGEngine::go3D()
 {
 	glUseProgram(drawProg3D);
+	is3D = true;
 
 	projMat = glm::perspective(45.0f, resX / float(resY), 0.1f, 100.0f);
-	wrldMat = glm::translate(glm::vec3(0, 0, 0));
-	camMat = glm::translate(glm::vec3(0, 0, 0));
+	wrldMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
+	camMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
+	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
 	updMatrices();
 }
 
@@ -396,14 +409,15 @@ void CGEngine::draw()
 	glEnable(GL_DEPTH_TEST);	
 //	glDisable(GL_LIGHTING);//not sure if this is still needed
 //	glDisable(GL_TEXTURE_2D);
-//	glDisable(GL_CULL_FACE);
-//	glDisable(GL_MULTISAMPLE);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_MULTISAMPLE);
 	// glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	//glEnable(GL_COLOR_MATERIAL);
 	glDepthFunc(GL_LEQUAL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_BLEND);
 
-
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	go2D();
 	if (gui)
 		gui->render();

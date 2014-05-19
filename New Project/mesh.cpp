@@ -7,10 +7,10 @@
 
 void renQuad::defaultUV(float tx, float ty)
 {
-	n[0].x = 0; n[0].y = 0;
-	n[1].x = tx; n[1].y = 0;
-	n[2].x = tx; n[2].y = ty;
-	n[3].x = 0; n[3].y = ty;
+	uv[0].x = 0; uv[0].y = 0;
+	uv[1].x = tx; uv[1].y = 0;
+	uv[2].x = tx; uv[2].y = ty;
+	uv[3].x = 0; uv[3].y = ty;
 }
 
 void renQuad::setNormal(glm::vec3 a)
@@ -23,13 +23,13 @@ void renQuad::setNormal(glm::vec3 a)
 
 void CMesh::appendQuad(renQuad& q)
 {
-	int j = int(q_v.size());
-	q_i.push_back(j);
-	q_i.push_back(j + 1);
-	q_i.push_back(j + 2);
-	q_i.push_back(j);
-	q_i.push_back(j + 2);
-	q_i.push_back(j + 3);
+	int j = qSize;
+	q_i.push_back(4*j);
+	q_i.push_back(4 * j + 1);
+	q_i.push_back(4 * j + 2);
+	q_i.push_back(4 * j);
+	q_i.push_back(4 * j + 2);
+	q_i.push_back(4 * j + 3);
 	fori(i, 4)
 	{
 		q_v.push_back(q.v[i]);
@@ -75,6 +75,8 @@ void CMesh::toBuffer(bool isDyn, bool clrTemp)
 void CMesh::draw(CGEngine* gEng)
 {
 	if (!bf.bufs[0]) return;
+
+	gEng->selTexture(bTex->texInd);
 
 	gEng->setBuffs(bf);
 

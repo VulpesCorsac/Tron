@@ -21,7 +21,7 @@ private:
 	int bufQ_size, qSize, bufI_size;
 	vector<glm::vec3> q_v, q_n;
 	vector<glm::vec2> q_uv;
-	vector<int> q_i;
+	vector<unsigned short> q_i;
 public:
 	void appendQuad(renQuad& q);
 	void toBuffer(bool isDyn = false, bool clrTemp = true);

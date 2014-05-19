@@ -25,8 +25,8 @@ class CGEngine;
 class CGLTexture
 {
 private:
-	GLuint texInd;
 public:
+	GLuint texInd;
 	Point sz;
 	bool load(const char* path);
 	void select(CGEngine* ge);
