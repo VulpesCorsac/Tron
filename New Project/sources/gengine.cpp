@@ -184,6 +184,7 @@ void CGEngine::initRender()
 	unv_2Dtex = glGetUniformLocation(drawProg1, "texSampler");
 	unv_2Dclr = glGetUniformLocation(drawProg1, "clcl");
 
+	unv_2DFTRM = glGetUniformLocation(drawProgFnt, "TRM");
 	unv_2DF_clr = glGetUniformLocation(drawProgFnt, "rclr");
 
 	unv_3Dtex = glGetUniformLocation(drawProg3D, "cTex");
@@ -240,6 +241,7 @@ void CGEngine::setRasterTrg(Point p)
 	float x = (p.x - resX / 2) * (2.0f / resX);
 	float y = -(p.y - resY / 2) * (2.0f / resY);
 	glRasterPos2f(x, y);
+	//glRasterPos2i((int)p.x, (int)p.y);
 }
 
 void CGEngine::selTexture(GLuint tx)
@@ -266,7 +268,9 @@ void CGEngine::selFontColor(const glm::vec4 &clr)
 	{
 		shdMode_2D = shdm_fnt;
 		glUseProgram(drawProgFnt);
-	}
+	}	
+	glm::mat4 ntrm = glm::translate(glm::vec3(0, 0, 0));
+	glUniformMatrix4fv(unv_2DFTRM, 1, GL_FALSE, &ntrm[0][0]);
 	glUniform4f(unv_2DF_clr, clr[0], clr[1], clr[2], clr[3]);
 }
 

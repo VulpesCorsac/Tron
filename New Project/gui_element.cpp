@@ -57,9 +57,12 @@ void CGUIElement::render(CGEngine * eng)
 {
 	if (ctxt)
 	{
-		gui->gEng->setRasterTrg(pp - fsz * 0.5f);
 		gui->gEng->selFontColor(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f));
+		gui->gEng->setRasterTrg(pp - fsz * 0.5f);
 		glutBitmapString(GLUT_BITMAP_9_BY_15, (const unsigned char*)ctxt);
+		///gui->gEng->setRasterTrg(pp + Point(0, 130));
+		//gui->gEng->selFontColor(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f));
+		//glutBitmapString(GLUT_BITMAP_9_BY_15, (const unsigned char*)ctxt);
 	}
 	if (rSpr)
 	{

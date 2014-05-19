@@ -31,7 +31,7 @@ private:
 
 	GLuint drawProg1, drawProgFnt, drawProg3D, drawProg3DL;
 
-	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM, unv_3DLTRM;	// transformation matrix for 2D/3D shaders
+	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM, unv_3DLTRM, unv_2DFTRM ;	// transformation matrix for 2D/3D shaders
 	GLuint unv_2Dclr, unv_2DF_clr;
 	GLuint unv_3Dtex, unv_3Dclr, unv_3DLtex, unv_3DLclr;
 
