@@ -31,6 +31,8 @@ private:
 	long long stepped;
 	CGEngine *game;
 	Game_Engine *ggame;
+	int frames_wtanws;
+
 
 	bool check_for_actions(Actions *);
 
@@ -42,7 +44,7 @@ public:
 	CClient(CGEngine * _game, Game_Engine *ggame);
 	bool think();
 	int get_num();
-	int getPID();	//get player id	----------- TO DO, vovan
+	int getPID();	//get player id
     bool connect(const char *ip);
     ~CClient();
 

@@ -4,8 +4,15 @@
 #include "Game.h"
 
 //TO DO - do this structers
-struct state {};   // nonaccumulating struct for state of players
-struct changes {}; // accumulating struct for changes within walls, bombs, etc
+struct state
+{
+	int n; // number of players
+	float *x, *y; // coord of player x,y
+};   // nonaccumulating struct for state of players
+struct changes 
+{
+
+}; // accumulating struct for changes within walls, bombs, etc
 
 class Game_Engine {
 private:
@@ -87,7 +94,7 @@ public:
 	void Update_Changes_ACC(changes *) {}; //TO DO setting changes for the last frame
 	void Get_Changes_NACC(state *);     //TO DO getting players state(coordinates and directions)
 	void Update_Changes_NACC(state *) {};  //TO DO setting players state(coordinates and directions)
-	
+	void Start_Game(int , state *); //TO DO setting starting positions for players(number of players is the first int), returning them in state *
 };
 
 #endif // GAME_ENGINE_H_INCLUDED

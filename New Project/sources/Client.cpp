@@ -28,7 +28,7 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 
 int CClient::getPID()
 {
-	return 0;	//TODO
+	return get_num() - 1;
 }
 
 int CClient::get_num()
@@ -36,11 +36,49 @@ int CClient::get_num()
 	return my_num;
 }
 
+
+void write_state(my_message * msg, state * some_state);
+
+void read_state(my_message * msg, state * some_state);
+
+void write_changes(my_message * msg, changes * some_changes);
+
+void read_changes(my_message * msg, changes * some_changes);
+
+
+
+
+
+
 bool CClient :: check_for_actions(Actions *act)
 {
-	return false; // You didn't managed to return actions from Sanek
+	bool a = false;
+	if (game->isKeyPressed(VK_LEFT))
+	{
+		act->turn = TURN_LEFT;
+		a = true;
+	}
+	if (game->isKeyPressed(VK_RIGHT))
+	{
+		act->turn = TURN_RIGHT;
+		a = true;
+	}
 
-	return true; // You took actions from Sanek
+	if (!(game->isKeyPressed(VK_RIGHT) || game->isKeyPressed(VK_LEFT)))
+	{
+		act->turn = NO_TURN;
+	}
+	if (game->isKeyPressed(VK_SPACE))
+	{
+		act->start_bomb = true;
+		a = true;
+	}
+	if (game->isKeyPressed(VK_CONTROL))
+	{
+		act->start_rocket = true;
+		a = true;
+	}
+	return a;
 }
 
 
@@ -124,6 +162,20 @@ bool CClient::think()
 			//kill player
 		}
 
+		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
+		{
+			Actions rec_act;
+			sscanf(msg.buff, "%d %d %d %d", &rec_act.cadr, &rec_act.start_bomb, &rec_act.start_rocket, &rec_act.turn);
+//			if (rec_act.start_bomb == true)
+
+//			if (rec_act.start_rocket == true)
+				
+
+			if (rec_act.turn != NO_TURN)
+				ggame->Turn_Player(rec_act.turn, msg.cl_num);
+		}
+
+
 		if (msg.type == UPD_GAME_STATE_ACC)
 		{
 			changes temp_changes;
@@ -141,13 +193,22 @@ bool CClient::think()
 	}
 
 	Actions curact;
-
-	check_for_actions(&curact);
-
 	curact.cadr = cadr;
+	if (check_for_actions(&curact) || (frames_wtanws >=5))
+	{
+		msg_anw.type = PLAYER_ACTION;
+		msg.cl_num = getPID();
+		sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
+		sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+		frames_wtanws = 0;
+	}
+	else frames_wtanws++;
+
+
+
+
+
 //	if ()
-
-
 	return true;
 }
 
