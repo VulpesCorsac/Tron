@@ -432,9 +432,9 @@ void CGEngine::start()
 	isExit = false;
 	mPos.x = 0; mPos.y = 0;
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitContextVersion(3, 3);
-	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
-	glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
+//	glutInitContextVersion(3, 3);
+//	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
+//	glutInitContextProfile(GLUT_CORE_PROFILE);
 
 	glutInitWindowSize(resX, resY);
 	glutInitWindowPosition(50, 50);
@@ -448,7 +448,7 @@ void CGEngine::start()
 	g_render = this;
 
 
-	glewExperimental = true;
+//	glewExperimental = true;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
@@ -464,6 +464,7 @@ void CGEngine::start()
 	}
 
 
+	//printf("%s\n", (char const*)glGetString(GL_EXTENSIONS));
 	/*
 	glBindBuffer = (PFNGLBINDBUFFERPROC)wglGetProcAddress("glBindBuffer");
 	glGenBuffers = (PFNGLGENBUFFERSPROC)wglGetProcAddress("glGenBuffers");
