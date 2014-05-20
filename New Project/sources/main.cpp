@@ -10,12 +10,14 @@ int main(int argc, char** argv) {
 
  //   Game* game = new Game();
 //    game->Run();
-	/*
+
+	init_network();
 	CGEngine* ge = new CGEngine(new Init_Constants());
 	ge->start();
 	return 0;
-	*/
 	
+	
+	/*
     init_network();
     int a;
     scanf("%d", &a);
@@ -33,7 +35,7 @@ int main(int argc, char** argv) {
             printf("wwww");
 
     }
-    scanf("%d",&a);
+    scanf("%d",&a);*/
 	
 //CClient vov;
  //   vov.connect("127.0.0.1");

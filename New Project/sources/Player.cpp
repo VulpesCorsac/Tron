@@ -3,6 +3,7 @@
 
 void Player::Kill(void) {
 	this->Alive = false;
+	this->MyCycle = LightCycle();
 	return;
 }
 

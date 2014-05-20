@@ -15,6 +15,7 @@ struct CDrawBuffers
 	GLuint bufs[5];
 	void updBuff(int id, int sz, const void* data);
 	void allocBuff(int id, int sz, const void* data, GLuint memType = GL_STATIC_DRAW);
+	void relBuffers();
 	CDrawBuffers();
 	~CDrawBuffers();
 };
@@ -24,8 +25,8 @@ class CGEngine;
 class CGLTexture
 {
 private:
-	GLuint texInd;
 public:
+	GLuint texInd;
 	Point sz;
 	bool load(const char* path);
 	void select(CGEngine* ge);

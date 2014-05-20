@@ -6,6 +6,11 @@
 #include "mesh.h"
 #include "gui.h"
 
+#include "Server.h"
+#include "Client.h"
+
+#include "Game.h"
+
 /*
 	class handling window creation, menu and game rendering, and providing functions to handle keyboard input
 	(will handle mouse too, probably)
@@ -18,28 +23,67 @@ private:
 	const int shdm_tex = 0,  shdm_fnt = 1;
 
 	int resX, resY;
+	bool isExit;
+	volatile bool isServerExit;	//signal variable , main >> server
+	volatile bool serverKill;	//signal variable , server >> main
 
 	CDrawBuffers sBufs;	//buffers for sprite rendering
 
-	GLuint drawProg1, drawProgFnt, drawProg3D;
+	GLuint drawProg1, drawProgFnt, drawProg3D, drawProg3DL;
 
-	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM;	// transformation matrix for 2D/3D shaders
-	GLuint unv_2DF_clr;
+	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM, unv_3DLTRM, unv_2DFTRM ;	// transformation matrix for 2D/3D shaders
+	GLuint unv_2Dclr, unv_2DF_clr;
+	GLuint unv_3Dtex, unv_3Dclr, unv_3DLtex, unv_3DLclr;
 
-	CGLTexture* menuTex;
+	GLuint VertexArrayID;
+
 	CSprite* testSpr;
 
-	glm::mat4 TRM_2d;
+	int lPlayer;
+
+	glm::mat4 TRM_2d, TRM_3d;
+	glm::vec4 cColorMod;
+
+
+	HANDLE hTh_Server;	//server's thread handle and threadiid
+	DWORD hThId_Server;
+
+
+	int mState;
 
 	int shdMode_2D;	//current 2D shading mode
+	bool is3D;
 
 	void go2D();
+	void go3D();
 	void initRender();
 	void load();
+
+	//scene rendering stuff
+
+	glm::mat4 projMat, camMat, pcMat, wrldMat, pcwMat;
+
+	glm::vec3 cam_Pos, cam_Trg, cam_Up;
+	glm::vec3 cam_Pos_t, cam_Trg_t;	//target state
+
+	CGLTexture* menuTex, *gridTex, *whiteTex;
+	CMesh* gridMesh, *motoMesh;
+
+	//size (x,z) ; spacing and line width
+	void updCamera();
+	void updMatrices();
+	CMesh* generateGridMesh(int nx, int ny, float sp, float w);
 public:
+	Game* rGame;
+
+	Point mPos;
 	CGUI* gui;
 	Init_Constants* ic;
 
+	CServer* cServer;
+	CClient* cClient;
+
+	void doExit();
 	void setRasterTrg(Point p);
 	void renderTrans2D(int ne, Point lt, Point rb);
 	CSprite* makeSprite(CGLTexture* tex, Point lt, Point rb);
@@ -47,10 +91,22 @@ public:
 	void drawQuad(Point f, Point t, Point ft, Point tt);
 
 	void selTexture(GLuint tx);
-	void selColor(const glm::vec4 &clr);
+	void selFontColor(const glm::vec4 &clr);
+	void setColorMod(const glm::vec4 &clr);
 
+	bool goHosting();
+	bool goJoining(const char* ip);
+	void shutdownServer();
 
+	void onKey(unsigned char key);
 
+	bool isKeyPressed(int vkey);
+	bool isKeyJustPressed(int vkey);
+
+	void drawScene(Game* gm);
+	void prepForScene(Game* gm);
+
+	void svth_Entry();	//entry point for server thread
 
 	void cycle();
 	void draw();

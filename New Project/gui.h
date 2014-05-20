@@ -21,10 +21,12 @@ private:
 	const char* ctxt;
 	CSprite* rSpr;
 	CGUI* gui;
+	bool isClicked;
+	bool isHl;
 public:
 
 	void render(CGEngine * eng);
-
+	bool getClick();
 	void setText(const char* txt);
 	void click(Point p);
 	void think(CGEngine * eng);
@@ -37,19 +39,24 @@ private:
 	int cScr;
 	vector<CGUIElement*> els;
 
-	CGUIElement* b_Host, *b_Client, *b_Exit, *b_Layout;
+	CGUIElement* b_Host, *b_Client, *b_Exit, *b_Layout, *b_IP, *b_Connect, *b_Info, *b_Players;
+
+	char cIp[64], cBuff[128];
 
 	CGLTexture* menuTex;
 	void clearScreen();
 public:
 	CGEngine* gEng;
+	int rX, rY;
+	Point cMousePos;
 	void addElement(CGUIElement* e);
 
 	void enterScreen(int id);
 	void init();
 
-	void think();
+	void keyPress(unsigned char key);
+	void think(Point mPos, int mState);
 	void render();
 
-	CGUI(CGEngine* ge);
+	CGUI(CGEngine* ge, int resX, int resY);
 };

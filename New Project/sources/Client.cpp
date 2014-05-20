@@ -26,17 +26,59 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
      connected = 0;
 }
 
+int CClient::getPID()
+{
+	return get_num() - 1;
+}
 
 int CClient::get_num()
 {
 	return my_num;
 }
 
+
+void write_state(my_message * msg, state * some_state);
+
+void read_state(my_message * msg, state * some_state);
+
+void write_changes(my_message * msg, changes * some_changes);
+
+void read_changes(my_message * msg, changes * some_changes);
+
+
+
+
+
+
 bool CClient :: check_for_actions(Actions *act)
 {
-	return false; // You didn't managed to return actions from Sanek
+	bool a = false;
+	if (game->isKeyPressed(VK_LEFT))
+	{
+		act->turn = TURN_LEFT;
+		a = true;
+	}
+	if (game->isKeyPressed(VK_RIGHT))
+	{
+		act->turn = TURN_RIGHT;
+		a = true;
+	}
 
-	return true; // You took actions from Sanek
+	if (!(game->isKeyPressed(VK_RIGHT) || game->isKeyPressed(VK_LEFT)))
+	{
+		act->turn = NO_TURN;
+	}
+	if (game->isKeyPressed(VK_SPACE))
+	{
+		act->start_bomb = true;
+		a = true;
+	}
+	if (game->isKeyPressed(VK_CONTROL))
+	{
+		act->start_rocket = true;
+		a = true;
+	}
+	return a;
 }
 
 
@@ -58,13 +100,13 @@ bool CClient :: connect(const char *ip)
     anyaddr.sin_port = htons(9400);
     anyaddr.sin_family = AF_INET;
     anyaddr.sin_addr.s_addr = INADDR_ANY;
-
+	/*
     if( bind(my_sock,(sockaddr *) &anyaddr, sizeof(serv_addr)) == -1)
     {
         perror("bind");
         exit(1);
     }
-
+	*/
     msg.cl_num = 0;
     msg.type = REGISTER_PLAYER;
     msg.pack_num = 0;
@@ -120,9 +162,33 @@ bool CClient::think()
 			//kill player
 		}
 
+		if (msg.type == START_GAME)
+		{	
+			state beg_state;
+			read_state(&msg, &beg_state);
+			ggame->Update_Changes_NACC(&beg_state);
+			cadr = 0;
+			game_started = true;
+		}
+
+		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
+		{
+			Actions rec_act;
+			sscanf(msg.buff, "%d %d %d %d", &rec_act.cadr, &rec_act.start_bomb, &rec_act.start_rocket, &rec_act.turn);
+//			if (rec_act.start_bomb == true)
+
+//			if (rec_act.start_rocket == true)
+				
+
+			if (rec_act.turn != NO_TURN)
+				ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+		}
+
+
 		if (msg.type == UPD_GAME_STATE_ACC)
 		{
 			changes temp_changes;
+			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
 			ggame->Update_Changes_ACC(&temp_changes);
 		}
@@ -130,6 +196,7 @@ bool CClient::think()
 		if (msg.type == UPD_GAME_STATE_NACC)
 		{
 			state temp_state;
+			read_state(&msg, &temp_state);
 			//here comes the sg.buf parsing to temp_state
 			ggame->Update_Changes_NACC(&temp_state);
 		}
@@ -137,13 +204,24 @@ bool CClient::think()
 	}
 
 	Actions curact;
-
-	check_for_actions(&curact);
-
 	curact.cadr = cadr;
+	if (check_for_actions(&curact) || (frames_wtanws >=5))
+	{
+		msg_anw.type = PLAYER_ACTION;
+		msg.cl_num = getPID();
+		sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
+		sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+		frames_wtanws = 0;
+
+		if (curact.turn != NO_TURN)
+			ggame->Turn_Player(curact.turn, getPID() - 1);
+	}
+	else frames_wtanws++;
+
+
+	const double dt = 1.0f / 60.0f;
+	ggame->UPD(dt);
 //	if ()
-
-
 	return true;
 }
 

@@ -278,6 +278,9 @@
     <ClCompile Include="gui_element.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="gengine_scene.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="WorkDir\config.cfg">
@@ -296,6 +299,12 @@
       <Filter>Source Files\Render\Shaders</Filter>
     </None>
     <None Include="WorkDir\shaders\fragment_font.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment_3DL.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\vertex_3DL.sh">
       <Filter>Source Files\Render\Shaders</Filter>
     </None>
   </ItemGroup>

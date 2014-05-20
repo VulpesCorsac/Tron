@@ -10,6 +10,11 @@ PFNGLDELETEBUFFERSPROC glDeleteBuffers;*/
 
 CGEngine* g_render;
 
+void r_mouseMove(int x, int y)
+{
+	g_render->mPos = Point((type)x, (type)y);
+}
+
 void r_display(void) {
 	g_render->draw();
 }
@@ -17,6 +22,11 @@ void r_display(void) {
 void r_cycle()
 {
 	g_render->cycle();
+}
+
+void r_keyb(unsigned char key, int x, int y)
+{
+	g_render->onKey(key);
 }
 
 // ------------------------------------- various ----------------------------------------------
@@ -34,17 +44,25 @@ void CDrawBuffers::updBuff(int id, int sz, const void* data)
 
 void CDrawBuffers::allocBuff(int id, int sz,const void* data, GLuint memType)
 {
-
+	//glBindVertexArray(0);
 	assert(id >= 0 && id < GLDB_COUNT);
 	glGenBuffers(1, bufs + id);
 	GLenum trg = id == GLDB_INDEX ? GL_ELEMENT_ARRAY_BUFFER : GL_ARRAY_BUFFER;
 	glBindBuffer(trg, bufs[id]);
 	if (sz)
+	{
 		glBufferData(trg, sz * buf_szm[id], data, memType);
+	}
 }
 
 CDrawBuffers::CDrawBuffers()
 {
+	fori(i, GLDB_COUNT) bufs[i] = 0;
+}
+
+void CDrawBuffers::relBuffers()
+{
+	glDeleteBuffers(GLDB_COUNT, bufs);
 	fori(i, GLDB_COUNT) bufs[i] = 0;
 }
 
@@ -109,7 +127,7 @@ GLuint linkProgram(GLuint shd1, GLuint shd2 = 0, GLuint shd3 = 0)
 	glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	std::vector<char> errMsg(max(InfoLogLength, int(1)));
 	glGetProgramInfoLog(prog, InfoLogLength, NULL, &errMsg[0]);
-	printf("%s\n", &errMsg[0]);
+	printf("%s", &errMsg[0]);
 
 	return prog;
 }
@@ -121,7 +139,18 @@ void CGEngine::load()
 	menuTex = new CGLTexture();
 	menuTex->load("menuTex.png");
 
+	gridTex = new CGLTexture();
+	gridTex->load("gridTex.png");
+
+	whiteTex = new CGLTexture();
+	whiteTex->load("whiteTex.png");
+
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
+
+	gridMesh = generateGridMesh(100, 100, 1.0f, 0.05f);
+	motoMesh = new CMesh();
+	motoMesh->loadFrom("models\\cycle.objm");
+	motoMesh->setTexture(whiteTex);
 }
 
 void CGEngine::initRender()
@@ -129,37 +158,65 @@ void CGEngine::initRender()
 	printf( "Initializating render\n");
 
 	printf("Loading shaders\n");
-	GLuint vShader, fShader, fShaderF;
+	GLuint vShader, fShader, fShaderF, vShader3D, fShader3D, vShader3DL, fShader3DL;
 	vShader = compileShader("shaders\\vertex.sh", GL_VERTEX_SHADER);
 	fShader = compileShader("shaders\\fragment.sh", GL_FRAGMENT_SHADER);
 	fShaderF = compileShader("shaders\\fragment_font.sh", GL_FRAGMENT_SHADER);
 
-	printf("Linking generic drawing program\n");
+
+	vShader3D = compileShader("shaders\\vertex_3D.sh", GL_VERTEX_SHADER);
+	fShader3D = compileShader("shaders\\fragment_3D.sh", GL_FRAGMENT_SHADER);
+	vShader3DL = compileShader("shaders\\vertex_3DL.sh", GL_VERTEX_SHADER);
+	fShader3DL = compileShader("shaders\\fragment_3DL.sh", GL_FRAGMENT_SHADER);
+
+	printf("Linking drawing programs\n");
 	drawProg1 = linkProgram(vShader, fShader);
 	drawProgFnt = linkProgram(vShader, fShaderF);
+	drawProg3D = linkProgram(vShader3D, fShader3D);
+	drawProg3DL = linkProgram(vShader3DL, fShader3DL);
 
 	glDeleteShader(vShader);
 	glDeleteShader(fShader);
 	glDeleteShader(fShaderF);
+	glDeleteShader(vShader3D);
+	glDeleteShader(fShader3D);
+	glDeleteShader(vShader3DL);
+	glDeleteShader(fShader3DL);
 
 	// getting uniform variables handles
 
 	unv_2DTRM = glGetUniformLocation(drawProg1, "TRM");
 	unv_2Dtex = glGetUniformLocation(drawProg1, "texSampler");
+	unv_2Dclr = glGetUniformLocation(drawProg1, "clcl");
 
+	unv_2DFTRM = glGetUniformLocation(drawProgFnt, "TRM");
 	unv_2DF_clr = glGetUniformLocation(drawProgFnt, "rclr");
+
+	unv_3Dtex = glGetUniformLocation(drawProg3D, "cTex");
+	unv_3Dclr = glGetUniformLocation(drawProg3D, "cClr");
+	unv_3DTRM = glGetUniformLocation(drawProg3D, "MVP");
+	
+	unv_3DLtex = glGetUniformLocation(drawProg3DL, "cTex");
+	unv_3DLclr = glGetUniformLocation(drawProg3DL, "cClr");
+	unv_3DLTRM = glGetUniformLocation(drawProg3DL, "MVP");
+
+	//printf("%d\n", gl)
+	///
+//	glGenVertexArrays(1, &VertexArrayID);
 }
 
 const int buf_szs[5] = { 3, 2, 1, 3, 4 };
 
 void CGEngine::setBuffs(CDrawBuffers& bf)
 {
+	//glBindVertexArray(VertexArrayID);
 	fori(i, GLDB_COUNT)
 	{
 		if (!bf.bufs[i]) continue;
-		glEnableVertexAttribArray(i);
+	//	
 		if (i != GLDB_INDEX)
 		{
+			glEnableVertexAttribArray(i);
 			glBindBuffer(GL_ARRAY_BUFFER, bf.bufs[i]);
 			glVertexAttribPointer(i, buf_szs[i], GL_FLOAT, GL_FALSE, 0, (void*)0);
 		}
@@ -167,6 +224,8 @@ void CGEngine::setBuffs(CDrawBuffers& bf)
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bf.bufs[i]);
 		}
 	}
+	//glBindVertexArray(0);
+	//glBindVertexArray(VertexArrayID);
 }
 
 //not necessary
@@ -177,32 +236,56 @@ void CGEngine::drawQuad(Point f, Point t, Point ft, Point tt)
 
 }
 
+void CGEngine::doExit()
+{
+	isExit = true;
+}
 
 void CGEngine::setRasterTrg(Point p)
 {
 	float x = (p.x - resX / 2) * (2.0f / resX);
 	float y = -(p.y - resY / 2) * (2.0f / resY);
 	glRasterPos2f(x, y);
+	//glRasterPos2i((int)p.x, (int)p.y);
 }
 
 void CGEngine::selTexture(GLuint tx)
 {
-	if (shdMode_2D != shdm_tex)
+	if (!is3D)
 	{
-		shdMode_2D = shdm_tex;
-		glUseProgram(drawProg1);
+		if (shdMode_2D != shdm_tex)
+		{
+			shdMode_2D = shdm_tex;
+			glUseProgram(drawProg1);
+			setColorMod(cColorMod);
+		}
 	}
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tx);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//const float vv[4] = { 1, 1, 1, 1 };
+	//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, vv);
+	
 }
 
-void CGEngine::selColor(const glm::vec4 &clr)
+void CGEngine::setColorMod(const glm::vec4 &clr)
+{
+	
+	cColorMod = clr;
+	glUniform4f(is3D ? unv_3Dclr : unv_2Dclr, clr[0], clr[1], clr[2], clr[3]);
+}
+
+void CGEngine::selFontColor(const glm::vec4 &clr)
 {
 	if (shdMode_2D != shdm_fnt)
 	{
 		shdMode_2D = shdm_fnt;
 		glUseProgram(drawProgFnt);
-	}
+	}	
+	glm::mat4 ntrm = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(unv_2DFTRM, 1, GL_FALSE, &ntrm[0][0]);
 	glUniform4f(unv_2DF_clr, clr[0], clr[1], clr[2], clr[3]);
 }
 
@@ -212,6 +295,7 @@ void CGEngine::renderTrans2D(int ne, Point lt, Point rb)
 	glUniformMatrix4fv(unv_2DTRM, 1, GL_FALSE, &ntrm[0][0]);
 
 	glDrawElements(GL_TRIANGLES, ne * 3, GL_UNSIGNED_SHORT, (void*)0);
+	///glDrawArrays(GL_TRIANGLES, 0, ne* 3);
 }
 
 CSprite* CGEngine::makeSprite(CGLTexture* tex, Point lt, Point rb)
@@ -252,12 +336,53 @@ CSprite* CGEngine::makeSprite(CGLTexture* tex, Point lt, Point rb)
 
 void CGEngine::cycle()
 {
+	//POINT pp;
+	//GetCursorPos(&pp);
+	//ScreenToClient()
+	//mPos = Point(type(pp.x), type(pp.y));
+	mState = GetKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
 
+	if (gui)
+		gui->think(mPos, mState);
+
+	if (isExit)
+	{
+		glutLeaveMainLoop();
+		return;
+	}
+
+	if (serverKill)	//signal from thread that terminates
+	{
+		delete cServer;
+		cServer = NULL;
+		CloseHandle(hTh_Server);
+		hTh_Server = NULL;
+		serverKill = false;
+
+		
+		printf("Server was killed\n");
+		lPlayer = -1;
+		delete cClient;
+		cClient = NULL;
+	}
+
+	if (cClient)
+	{
+		if (!cClient->think())
+		{
+			lPlayer = -1;
+			delete cClient;
+			cClient = NULL;
+		}
+	}
+
+	glutPostRedisplay();
 }
 
 void CGEngine::go2D()
 {
 	glUseProgram(drawProg1);
+	is3D = false;
 
 	shdMode_2D = shdm_tex;
 
@@ -266,46 +391,99 @@ void CGEngine::go2D()
 	
 	glUniformMatrix4fv(unv_2DTRM, 1, GL_FALSE, &TRM_2d[0][0]);
 	glUniform1i(unv_2Dtex, 0);
+	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
+}
+
+void CGEngine::go3D()
+{
+	glUseProgram(drawProg3D);
+	is3D = true;
+
+	projMat = glm::perspective(45.0f, resX / float(resY), 0.1f, 100.0f);
+	wrldMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
+	camMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
+	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
+	updMatrices();
 }
 
 void CGEngine::draw()
 {
-	glShadeModel(GL_SMOOTH);
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+//	glShadeModel(GL_SMOOTH);
+//	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 	glEnable(GL_DEPTH_TEST);	
-	glDisable(GL_LIGHTING);//not sure if this is still needed
-	glDisable(GL_TEXTURE_2D);
+//	glDisable(GL_LIGHTING);//not sure if this is still needed
+//	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
-	glDisable(GL_MULTISAMPLE);
+	glEnable(GL_MULTISAMPLE);
 	// glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	//glEnable(GL_COLOR_MATERIAL);
 	glDepthFunc(GL_LEQUAL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+	glEnable(GL_BLEND);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	go2D();
-	gui->render();
+	if (gui)
+		gui->render();
 	//testSpr->render(this, Point(20, 20), false);
+
+	go3D();
+	if (rGame)
+		drawScene(rGame);
 
 	glutSwapBuffers();
 }
 
+bool CGEngine::isKeyPressed(int vkey)
+{
+	return (GetKeyState(vkey) & 0x8000) != 0;
+}
+
+bool CGEngine::isKeyJustPressed(int vkey)
+{
+	//TODO for me.
+	return false;
+}
+
 void CGEngine::start()
 {
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+	isExit = false;
+	mPos.x = 0; mPos.y = 0;
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+//	glutInitContextVersion(3, 3);
+//	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
+//	glutInitContextProfile(GLUT_CORE_PROFILE);
+
 	glutInitWindowSize(resX, resY);
 	glutInitWindowPosition(50, 50);
+
+
 	glutCreateWindow("Tron");
-	glutDisplayFunc(r_display);
 	glutIdleFunc(r_cycle);
+	glutPassiveMotionFunc(r_mouseMove);
+	glutKeyboardFunc(r_keyb);
+	glutDisplayFunc(r_display);
 	g_render = this;
 
+
+//	glewExperimental = true;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
 		printf("Error: %s\n", glewGetErrorString(err));
 	}
 
+	if (glewIsSupported("GL_VERSION_3_3"))
+		printf("Ready for OpenGL 3.3\n");
+	else {
+		printf("OpenGL 3.3 not supported. Update ur drivers oify\n");
+		getchar();
+		return;
+	}
+
+
+	//printf("%s\n", (char const*)glGetString(GL_EXTENSIONS));
 	/*
 	glBindBuffer = (PFNGLBINDBUFFERPROC)wglGetProcAddress("glBindBuffer");
 	glGenBuffers = (PFNGLGENBUFFERSPROC)wglGetProcAddress("glGenBuffers");
@@ -321,17 +499,93 @@ void CGEngine::start()
 	initRender();
 	load();
 
-	gui = new CGUI(this);
+	gui = new CGUI(this, resX, resY);
 	gui->init();
 	gui->enterScreen(GSCR_MENU);
 
 	glutMainLoop();
 }
 
+
+DWORD WINAPI hostThreadFunc(LPVOID lpParam)
+{
+	CGEngine* eng = (CGEngine*)lpParam;
+	eng->svth_Entry();
+	return 0;
+}
+
+void CGEngine::svth_Entry()
+{
+	while (!isServerExit)
+	{
+		if (!cServer->think())
+		{
+			break;
+		}
+		Sleep(0);
+	}
+	serverKill = true;
+}
+
+void CGEngine::onKey(unsigned char key)
+{
+	if (gui)
+		gui->keyPress(key);
+}
+
+void CGEngine::shutdownServer()
+{
+	isServerExit = true;
+}
+
+bool CGEngine::goHosting()
+{
+	assert(!cServer && !hTh_Server && !cClient);
+
+	cServer = new CServer();
+	isServerExit = false;
+	serverKill = false;
+	hTh_Server = CreateThread(NULL, 0, hostThreadFunc, this, 0, &hThId_Server);
+	assert(hTh_Server);
+
+	Sleep(5);
+	if (!goJoining("127.0.0.1"))
+	{
+		printf("Cannot connect to myself!\n");
+
+		isServerExit = true;
+		return false;
+	}
+
+	return true;
+}
+
+bool CGEngine::goJoining(const char* ip)
+{
+	assert(!cClient);
+	cClient = new CClient();
+	if (!cClient->connect(ip))
+	{
+		delete cClient;
+		cClient = NULL;
+		return false;
+	}
+	else {
+		lPlayer = cClient->getPID();
+	}
+	return true;
+}
+
 CGEngine::CGEngine(Init_Constants* aic)
 {
+	hTh_Server = 0;
+	cServer = NULL;
+	cClient = NULL;
+	isServerExit = serverKill = false;
 	ic = aic;
 	resX = ic->resX;
 	resY = ic->resY;
+	lPlayer = -1;
 	g_render = this;
+	rGame = NULL;
 }

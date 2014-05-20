@@ -47,6 +47,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)\include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,6 +78,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>wsock32.lib;soil.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -133,6 +136,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gengine_scene.cpp" />
     <ClCompile Include="graph2D.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="gui_element.cpp" />
@@ -162,9 +166,11 @@
     <None Include="WorkDir\config.cfg" />
     <None Include="WorkDir\shaders\fragment.sh" />
     <None Include="WorkDir\shaders\fragment_3D.sh" />
+    <None Include="WorkDir\shaders\fragment_3DL.sh" />
     <None Include="WorkDir\shaders\fragment_font.sh" />
     <None Include="WorkDir\shaders\vertex.sh" />
     <None Include="WorkDir\shaders\vertex_3D.sh" />
+    <None Include="WorkDir\shaders\vertex_3DL.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

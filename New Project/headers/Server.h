@@ -27,12 +27,13 @@ struct my_message
     int cl_num;
     int pack_num;
     int length;
-    char buff[1024];
+    char buff[2048];
 
 };
 
 struct Actions
 {
+	bool received;
 	int cadr;
 	int turn;
 	bool start_rocket;
@@ -42,7 +43,6 @@ struct Actions
 struct client_info
 {
     sockaddr_in addr;
-	Actions my_actions[100];
 	int count;
     int packets_sended;
     int number;
@@ -63,6 +63,8 @@ private:
     bool perm_to_connect;
 	int cadr;
 	int stepped;
+	Actions act[MAX_CLIENTS][100000];
+	int last_frame_action[MAX_CLIENTS];
 
 	CGEngine *game;
 	Game_Engine *ggame;
@@ -75,8 +77,10 @@ public:
 
     CServer();
 	CServer(CGEngine * _game, Game_Engine *_ggame);
+	int getPlCount();
 	bool startgame();
     bool think();
+	bool check_frame();
     bool broadcast(my_message);
     ~CServer();
 };

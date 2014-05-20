@@ -24,6 +24,8 @@ bool CGLTexture::load(const char* path)
 		return false;
 	};
 	printf("done\n");
+
+
 	return true;
 }
 

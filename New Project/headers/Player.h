@@ -1,8 +1,6 @@
 #ifndef PLAYER_H_INCLUDED
 #define PLAYER_H_INCLUDED
 
-#include "stdafx.h"
-
 class Player {
 public:
 	// Player Data

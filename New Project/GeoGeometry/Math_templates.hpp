@@ -3,6 +3,11 @@
 
 // Helpful Functions
 
+#define M_SQR(x) ((x) * (x))
+#define M_ABS(a) ((a) > 0 ? (a) : -(a))
+#define M_MIN(a, b) ((a) < (b) ? (a) : (b))
+#define M_MAX(a, b) ((a) > (b) ? (a) : (b))
+
 template < class T >
 T ABS(const T &x) {
     if (x < 0)
