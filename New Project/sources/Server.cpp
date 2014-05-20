@@ -57,37 +57,34 @@ CServer :: CServer()
 {
 
 
-		cadr = 0;
-		game_started = false;
-		perm_to_connect = true;
-        number_of_clients = 0;
-		clients[0].occupied = true;
-        for(int i = 1; i < MAX_CLIENTS; i++)
-        {
-            clients[i].number = i;
-            clients[i].occupied = false;
-            clients[i].packets_sended = 0;
+	cadr = 0;
+	game_started = false;
+	perm_to_connect = true;
+	number_of_clients = 0;
+	for (int i = 1; i < MAX_CLIENTS; i++)
+	{
+		clients[i].number = i;
+		clients[i].occupied = false;
+		clients[i].packets_sended = 0;
+	}
+	my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-        }
-        my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	u_long iMode = 1;
+	ioctlsocket(my_sock, FIONBIO, &iMode);
 
-        u_long iMode=1;
-        ioctlsocket(my_sock, FIONBIO, &iMode);
+	if (my_sock == INVALID_SOCKET)
+	{
+		perror("socket");
+	}
 
-        if (my_sock == INVALID_SOCKET)
-          {
-             perror("socket");
-          }
-
-        memset((char *) &myaddr, 0, sizeof(myaddr));
-        myaddr.sin_family = AF_INET;
-        myaddr.sin_port = htons(8400);
-        myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-        if (bind(my_sock ,(const sockaddr *) &myaddr, sizeof(myaddr)) == -1)
-        {
-            perror("bind");
-        }
-
+	memset((char *)&myaddr, 0, sizeof(myaddr));
+	myaddr.sin_family = AF_INET;
+	myaddr.sin_port = htons(8400);
+	myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	if (bind(my_sock, (const sockaddr *)&myaddr, sizeof(myaddr)) == -1)
+	{
+		perror("bind");
+	}
     }
 
 
@@ -224,7 +221,7 @@ bool CServer :: check_frame()
 			}
 
 
-			//check_frame();
+			check_frame();
 
         return true;
     }
