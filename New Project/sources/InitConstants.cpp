@@ -34,7 +34,10 @@ bool Init_Constants::Check() {
 		std::cerr << "Rocket_Length isn't positive!" << std::endl;
 		return false;
 	}
-	if (this->Rocket_Default_Ammount < 0) {
+	if (this->Rocket_Radius <= 0) {
+		std::cerr << "Rocket_Radius isn't positive!" << std::endl;
+		return false;
+	}	if (this->Rocket_Default_Ammount < 0) {
 		std::cerr << "Rocket_Default_Ammount is negative!" << std::endl;
 		return false;
 	}
@@ -88,6 +91,8 @@ void Init_Constants::Init_from_config_file() {
 			std::cin >> this->Rocket_Length;
 		else if (s == "Rocket_Default_Ammount")
 			std::cin >> this->Rocket_Default_Ammount;
+		else if (s == "Rocket_Radius")
+			std::cin >> this->Rocket_Radius;
 		else if (s == "Bomb_Time")
 			std::cin >> this->Bomb_Time;
 		else if (s == "Bomb_Radius")
@@ -109,6 +114,7 @@ void Init_Constants::Init_from_config_file() {
 		std::cerr << "Constant check failed!" << std::endl;
 		throw - 1;
 	}
+	return;
 }
 
 Init_Constants::Init_Constants() {

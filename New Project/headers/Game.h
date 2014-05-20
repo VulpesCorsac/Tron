@@ -5,20 +5,14 @@
 
 class Game {
 public:
-	// Players Ammount
-	int Players_Ammount;
+	// Game Data
+	int Players_Ammount; // Players Ammount
+	vector < Player > Players; // All Players
+	vector < Wall > Walls; // All Walls
+	vector < Bomb > Bombs; //All Bombs
+	vector < Rocket > Rockets; //All Rockets
+	vector < Bonus > Bonuses; // All Bonuses
 
-	// All Players
-	vector < Player > Players;
-
-	// All Walls
-	vector < Wall > Walls;
-
-	//All Bombs
-	vector < Bomb > Bombs;
-
-	//All Rockets
-	vector < Rocket > Rockets;
 };
 
 #endif // GAME_H_INCLUDED

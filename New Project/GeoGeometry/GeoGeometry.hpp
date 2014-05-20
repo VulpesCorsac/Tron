@@ -10,6 +10,6 @@
 
 #include "Math_templates.hpp"
 #include "2D\Geometry2D.hpp"
-#include "3D\Geometry3D.hpp"
+//#include "3D\Geometry3D.hpp"
 
 #endif // GEOGEOMETRY_HPP_INCLUDED

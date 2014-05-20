@@ -1,7 +1,87 @@
 #include "stdafx.h"
 #include "mesh.h"
+#include "headers\gEngine.h"
 
 #include "ObjLoader\objLoader.h"
+
+
+void renQuad::defaultUV(float tx, float ty)
+{
+	uv[0].x = 0; uv[0].y = 0;
+	uv[1].x = tx; uv[1].y = 0;
+	uv[2].x = tx; uv[2].y = ty;
+	uv[3].x = 0; uv[3].y = ty;
+}
+
+void renQuad::setNormal(glm::vec3 a)
+{
+	fori(i, 4) n[i] = a;
+}
+
+//--------------------------------------
+
+
+void CMesh::appendQuad(renQuad& q)
+{
+	int j = qSize;
+	q_i.push_back(4*j);
+	q_i.push_back(4 * j + 1);
+	q_i.push_back(4 * j + 2);
+	q_i.push_back(4 * j);
+	q_i.push_back(4 * j + 2);
+	q_i.push_back(4 * j + 3);
+	fori(i, 4)
+	{
+		q_v.push_back(q.v[i]);
+		q_n.push_back(q.n[i]);
+		q_uv.push_back(q.uv[i]);
+	}
+	qSize++;
+}
+
+void CMesh::toBuffer(bool isDyn, bool clrTemp)
+{
+	if (!isDyn || !bf.bufs[0] || bufQ_size != qSize)
+	{
+		bf.relBuffers();
+
+		bufQ_size = qSize;
+		bufI_size = qSize * 6;
+
+		GLuint memType = isDyn ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+		if (!isDyn)
+		{
+			bf.allocBuff(GLDB_VERTEX, bufQ_size * 4, &q_v[0], memType);
+			bf.allocBuff(GLDB_UV, bufQ_size * 4, &q_uv[0], memType);
+			bf.allocBuff(GLDB_NORMALS, bufQ_size * 4, &q_n[0], memType);
+			bf.allocBuff(GLDB_INDEX, bufQ_size * 6, &q_i[0], memType);
+		}
+	} else {
+
+		bf.updBuff(GLDB_VERTEX, bufQ_size * 4, &q_v[0]);
+		bf.updBuff(GLDB_UV, bufQ_size * 4, &q_uv[0]);
+		bf.updBuff(GLDB_NORMALS, bufQ_size * 4, &q_n[0]);
+	//	bf.allocBuff(GLDB_INDEX, bufQ_size * 6, &q_i[0]); not necessary, i guess
+	}
+	if (clrTemp)
+	{
+		q_v.clear();
+		q_n.clear();
+		q_i.clear();
+		q_uv.clear();
+	}
+}
+
+void CMesh::draw(CGEngine* gEng)
+{
+	if (!bf.bufs[0]) return;
+
+	gEng->selTexture(bTex->texInd);
+
+	gEng->setBuffs(bf);
+
+	glDrawElements(GL_TRIANGLES, bufI_size, GL_UNSIGNED_SHORT, (void*)0);
+}
 
 void CMesh::setTexture(CGLTexture * tex)
 {
@@ -10,12 +90,12 @@ void CMesh::setTexture(CGLTexture * tex)
 
 bool CMesh::loadFrom(const char* src)
 {
+	printf("Loading mesh file : %s ..", src);
 	objLoader ld;
 	if (ld.load(src))
 	{
 
-	}
-	else {
+	} else {
 		assert(false);
 		return false;
 	}
@@ -83,35 +163,25 @@ bool CMesh::loadFrom(const char* src)
 			}
 		}
 
-		glGenBuffers(1, &vBuff);
-		glGenBuffers(1, &uvBuff);
-		glGenBuffers(1, &nBuff);
-		glGenBuffers(1, &iBuff);
-		glBindBuffer(GL_ARRAY_BUFFER, vBuff);
-		glBufferData(GL_ARRAY_BUFFER, v_v.size() * sizeof(glm::vec3), &v_v[0], GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ARRAY_BUFFER, uvBuff);
-		glBufferData(GL_ARRAY_BUFFER, v_uv.size() * sizeof(glm::vec2), &v_uv[0], GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ARRAY_BUFFER, nBuff);
-		glBufferData(GL_ARRAY_BUFFER, v_n.size() * sizeof(glm::vec3), &v_n[0], GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuff);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, inds.size() * sizeof(unsigned short), &inds[0], GL_STATIC_DRAW);
+		bf.allocBuff(GLDB_VERTEX, v_v.size(), &v_v[0]);
+		bf.allocBuff(GLDB_UV, v_uv.size(), &v_uv[0]);
+		bf.allocBuff(GLDB_NORMALS, v_n.size(), &v_n[0]);
+		bf.allocBuff(GLDB_INDEX, inds.size(), &inds[0]);
+		bufI_size = (int)inds.size();
 	}
 	else {
 		return false;
 	}
 
+	printf("done\n");
 	return true;
 }
 
 CMesh::CMesh()
 {
-	vBuff = 0;
-	uvBuff = 0;
-	iBuff = 0;
-	nBuff = 0;
+	qSize = 0;
+	bufQ_size = 0;
+	bufI_size = 0;
 }
 
 CMesh::~CMesh()

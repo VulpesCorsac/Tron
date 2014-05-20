@@ -37,7 +37,7 @@ public:
     }
 
     friend bool operator == (const Sphere &Sphere1, const Sphere &Sphere2) {
-        return (_ABS(Sphere1.R - Sphere2.R) < EPS && Sphere1.Centre == Sphere2.Centre);
+        return (ABS(Sphere1.R - Sphere2.R) < EPS && Sphere1.Centre == Sphere2.Centre);
     }
 
     friend bool operator != (const Sphere &Sphere1, const Sphere &Sphere2) {

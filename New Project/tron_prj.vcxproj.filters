@@ -58,6 +58,9 @@
     <Filter Include="Header Files\Render">
       <UniqueIdentifier>{e75868f5-c6f4-4c1c-919d-7657c928aab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Render\Shaders">
+      <UniqueIdentifier>{1d19dac3-72d0-4052-b900-a151d49d311d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -147,31 +150,16 @@
     <ClInclude Include="GeoGeometry\2D\Classes\Vector2D.hpp">
       <Filter>Header Files\Geom\2D\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\A_in_B2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\A_to_B2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\Distanses2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Line2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Point2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.h">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Segment2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Vector2D.hpp">
-      <Filter>Header Files\Geom\2D\Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions2D.hpp">
       <Filter>Header Files\Geom\2D\Functions</Filter>
     </ClInclude>
     <ClInclude Include="GeoGeometry\3D\Geometry3D.hpp">
@@ -216,6 +204,15 @@
     <ClInclude Include="GeoGeometry\GeoGeometry.hpp">
       <Filter>Header Files\Geom</Filter>
     </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Circle.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.hpp">
+      <Filter>Header Files\Geom\2D\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Bonus.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -245,12 +242,6 @@
     <ClCompile Include="sources\Game.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="sources\Game_Engine.cpp">
-      <Filter>Source Files\Shared</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\Our_Math.cpp">
-      <Filter>Source Files\Shared</Filter>
-    </ClCompile>
     <ClCompile Include="sources\Player.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
@@ -278,10 +269,43 @@
     <ClCompile Include="ObjLoader\listobj.cpp">
       <Filter>Source Files\GraphOBJ</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Game_Engine.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Bonus.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="gui_element.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="gengine_scene.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="WorkDir\config.cfg">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\vertex.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment_3D.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\vertex_3D.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment_font.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\fragment_3DL.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
+    </None>
+    <None Include="WorkDir\shaders\vertex_3DL.sh">
+      <Filter>Source Files\Render\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -43,9 +43,12 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)\include;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)WorkDir\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)\include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -75,6 +78,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>wsock32.lib;soil.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -88,13 +92,10 @@
     <ClInclude Include="GeoGeometry\2D\Classes\Polygon2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Classes\Segment2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Classes\Vector2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\A_in_B2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\A_to_B2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\Distanses2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions2D.hpp" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Circle.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Line2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Point2D.hpp" />
-    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.h" />
+    <ClInclude Include="GeoGeometry\2D\Functions\Functions_Polygon2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Segment2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Functions\Functions_Vector2D.hpp" />
     <ClInclude Include="GeoGeometry\2D\Geometry2D.hpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="graph2D.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="headers\Bomb.h" />
+    <ClInclude Include="headers\Bonus.h" />
     <ClInclude Include="headers\Client.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\Game_Engine.h" />
@@ -134,20 +136,22 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gengine_scene.cpp" />
     <ClCompile Include="graph2D.cpp" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="gui_element.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="ObjLoader\listobj.cpp" />
     <ClCompile Include="ObjLoader\objLoader.cpp" />
     <ClCompile Include="ObjLoader\obj_parser.cpp" />
     <ClCompile Include="sources\Bomb.cpp" />
+    <ClCompile Include="sources\Bonus.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Game.cpp" />
     <ClCompile Include="sources\Game_Engine.cpp" />
     <ClCompile Include="sources\InitConstants.cpp" />
     <ClCompile Include="sources\LightCycle.cpp" />
     <ClCompile Include="sources\main.cpp" />
-    <ClCompile Include="sources\Our_Math.cpp" />
     <ClCompile Include="sources\gengine.cpp" />
     <ClCompile Include="sources\Player.cpp" />
     <ClCompile Include="sources\Rocket.cpp" />
@@ -160,6 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="WorkDir\config.cfg" />
+    <None Include="WorkDir\shaders\fragment.sh" />
+    <None Include="WorkDir\shaders\fragment_3D.sh" />
+    <None Include="WorkDir\shaders\fragment_3DL.sh" />
+    <None Include="WorkDir\shaders\fragment_font.sh" />
+    <None Include="WorkDir\shaders\vertex.sh" />
+    <None Include="WorkDir\shaders\vertex_3D.sh" />
+    <None Include="WorkDir\shaders\vertex_3DL.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

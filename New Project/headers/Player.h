@@ -11,8 +11,6 @@ public:
 	int Player_Number; // PLayer number
 	int Team_Number; // Team number
 	bool Alive; // Alive?
-	void Kill(void); // Kill player
-
 
 	// Bombs
 	int Bomb_Ammount; // Bomb ammount
@@ -24,7 +22,15 @@ public:
 	void Gotta_Rocket(void); // Increase rocket ammount
 	Rocket Shoot_Rocket(void); // Shoot Rocket;
 	
+	// Game
+	void UPD(const double &dt);
+	void Turn(const double &aplha);
+	void Turn(const bool &is_left_turn);
+	void SpeedUp(const double &New_Speed);
+	void Kill(void); // Kill player
+
 	Player(const Point2D < double > &St_Point, const Vector2D < double > &St_Direction, Init_Constants* _Constants);
+	Player();
 	~Player();
 };
 

@@ -36,7 +36,7 @@ public:
     }
 
     friend bool operator == (const Circle &Circle1, const Circle &Circle2) {
-        return (_ABS(Circle1.R - Circle2.R) < EPS && Circle1.Centre == Circle2.Centre);
+        return (ABS(Circle1.R - Circle2.R) < EPS && Circle1.Centre == Circle2.Centre);
     }
 
     friend bool operator != (const Circle &Circle1, const Circle &Circle2) {
