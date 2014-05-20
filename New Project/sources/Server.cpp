@@ -16,7 +16,7 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 		act[j][i].turn = NO_TURN;
 		act[j][i].received = false;
 	}
-
+	stepped = 0;
 
 
 	game = _game;
@@ -224,7 +224,7 @@ bool CServer :: check_frame()
 			}
 
 
-			check_frame();
+			//check_frame();
 
         return true;
     }
