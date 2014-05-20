@@ -230,9 +230,11 @@ bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
 
 bool Game_Engine::Wall_Modify(const Wall &_Wall, const Wall &New_Wall) {
 	bool f = false;
+	if (this->Current_Game.Walls[_Wall.Wall_Number].Wall_Number == _Wall.Wall_Number)
+		return Wall_Modify((int)_Wall.Wall_Number, New_Wall);
 	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-	if (_Wall == this->Current_Game.Walls[i]) {
-		f = Wall_Modify((int)i, New_Wall);
+		if (Equal(_Wall, this->Current_Game.Walls[i])) {
+			f = Wall_Modify((int)i, New_Wall);
 		break;
 	}
 	return f;
@@ -259,9 +261,9 @@ bool Game_Engine::Wall_Delete(const int &n) {
 bool Game_Engine::Wall_Delete(const Wall &_Wall) {
 	bool f = false;
 	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-	if (_Wall == this->Current_Game.Walls[i]) {
-		f = Wall_Delete((int)i);
-		break;
+		if (_Wall == this->Current_Game.Walls[i]) {
+			f = Wall_Delete((int)i);
+			break;
 	}
 	return f;
 }
@@ -276,9 +278,7 @@ bool Game_Engine::Wall_Delete(const vector < Wall > &Walls) {
 
 bool Game_Engine::Wall_Delete_flag(const int &n) {
 	assert(n >= 0 && n < (int)this->Current_Game.Walls.size() && "Trying to delete wall that does not exist");
-	return Wall_Modify(n, Wall(Segment2D < double >(Point2D < double >(-1, -1), Point2D < double >(-1, -1)), -1));
-	this->Current_Game.Walls.erase(this->Current_Game.Walls.begin() + n);
-	return true;
+	return Wall_Modify(n, Wall(Segment2D < double >(Point2D < double >(-1, -1), Point2D < double >(-1, -1)), -1, this->Current_Game.Walls[n].Wall_Number));
 }
 
 bool Game_Engine::Wall_Delete_flag(const Wall &_Wall) {
@@ -396,7 +396,7 @@ void Game_Engine::PLayer_Kill(const int &Player_number) {
 	}
 
 	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-		if (this->Current_Game.Walls[i].PlayerNumber == Player_number)
+		if (this->Current_Game.Walls[i].Player_Number == Player_number)
 			Wall_Delete_flag((int)i);
 	return;
 }
