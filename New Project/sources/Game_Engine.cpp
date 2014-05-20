@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "headers\Game_Engine.h"
 
+
 int Game_Engine::round(const double &x) const {
 	return (int)floor(x + 0.5);
 }
@@ -124,6 +125,67 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 	return false;
 }
 
+/*
+void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
+	Point2D < double > P1, P2, Player_Point;
+	vector < Player > Players; // All Players
+	vector < Wall > Walls; // All Walls
+	
+	//удалять стены и делать новые?
+	//номера игроков новых стен?
+	for (int i = 0; i < Players.size(); i++) {
+		if (Cross_polygon_circle( Polygon_from_cycle(Players[i].MyCycle), C))
+			Killed_Players.push_back(Players[i].Player_Number);
+		else {
+			Player_Point = Players[i].MyCycle.Current_Point;
+			if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
+				if (dist(P1, Player_Point) <= dist(P2, Player_Point)) {
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
+					if (Player_Point == Walls[i].Segment.B)
+						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
+					else
+						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
+				}
+				else {
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
+					if (Player_Point == Walls[i].Segment.B)
+						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
+					else
+						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
+				}
+			}
+			if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
+				if (dist(P1, Player_Point) <= dist(P2, Player_Point))
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
+				else
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
+			}
+		}
+	}
+	
+	for (int i = Players.size(); i < Walls.size(); i++) {
+		if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
+			if (dist(P1, Walls[i].Segment.A) <= dist(P2, Walls[i].Segment.A)) {
+				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
+				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
+			}
+			else {
+				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
+				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
+			}
+		}
+		if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
+			if (Point_in_circle(Walls[i].Segment.A, C))
+				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
+			else
+				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
+		}
+		if (Point_in_circle(Walls[i].Segment.A, C))
+			Deleted_Walls.push_back(i);
+	}
+	return;
+}
+*/
 // BOMBS
 void Game_Engine::Bomb_Add(const Bomb &_Bomb) {
 	this->Current_Game.Bombs.push_back(_Bomb);
