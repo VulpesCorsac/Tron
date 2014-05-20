@@ -30,8 +30,6 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 		clients[i].number = i;
 		clients[i].occupied = false;
 		clients[i].packets_sended = 0;
-		for (int j = 0; j < 100; j++)
-			clients[i].my_actions[j].cadr = 0;
 	}
 	my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
@@ -69,8 +67,7 @@ CServer :: CServer()
             clients[i].number = i;
             clients[i].occupied = false;
             clients[i].packets_sended = 0;
-			for (int j = 0; j < 100; j++)
-			clients[i].my_actions[j].cadr = 0;
+
         }
         my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
@@ -145,7 +142,7 @@ bool CServer :: check_frame()
 
 
 
-
+	return true;
 }
 
 
