@@ -80,6 +80,7 @@ public:
 	int getPlCount();
 	bool startgame();
     bool think();
+	void gotoframe(int);
 	bool check_frame();
     bool broadcast(my_message);
     ~CServer();

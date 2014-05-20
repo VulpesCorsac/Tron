@@ -55,6 +55,17 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 
 CServer :: CServer()
 {
+	for (int j = 0; j < MAX_CLIENTS; j++)
+	for (int i = 0; i < 100000; i++)
+	{
+		last_frame_action[j] = 0;
+		act[j][i].cadr = i;
+		act[j][i].start_bomb = false;
+		act[j][i].start_rocket = false;
+		act[j][i].turn = NO_TURN;
+		act[j][i].received = false;
+	}
+	stepped = 0;
 
 
 	cadr = 0;
@@ -85,9 +96,23 @@ CServer :: CServer()
 	{
 		perror("bind");
 	}
+
+
     }
 
 
+
+void CServer::gotoframe(int mframe)
+{
+	int tostep;
+	tostep = mframe - stepped;
+	for (int i = 0; i < tostep; i++)
+	{
+		for (int j = 0; j < number_of_clients; i++)
+			//here comes j-i player check for actions
+		stepped++;
+	}
+}
 
 bool CServer::Line_up()
 {
@@ -137,6 +162,9 @@ bool CServer :: check_frame()
 	for (int i = 0; i < number_of_clients; i++)
 	if (mframe > max_frame[i]) mframe = max_frame[i];
 
+
+	if (mframe > stepped)
+		gotoframe(mframe);
 
 
 	return true;
