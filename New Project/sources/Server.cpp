@@ -123,16 +123,26 @@ bool CServer::Line_up()
 bool CServer :: check_frame()
 {
 
-	int max_frame[MAX_CLIENTS];
+	int max_frame[MAX_CLIENTS], received[MAX_CLIENTS];
 	for (int i = 0; i < MAX_CLIENTS; i++)
+	{
 		max_frame[i] = stepped;
-
+		received[i] = 0;
+	}
+	int mframe = 100000;
 
 	for (int i = 0; i < number_of_clients; i++)
-	for (int j = stepped; j < stepped + 20; j++)
+	for (int j = stepped + 1; j < stepped + 20; j++)
 	{
-		if ((act[i][j].received == true) && ())
+		if (act[i][j].received == true)
+			received[i] = 1;
+		if ((act[i][j].received == true) && (max_frame[i] < j))
+			max_frame[i] = j;
 	}
+
+	for (int i = 0; i < number_of_clients; i++)
+	if (mframe > max_frame[i]) mframe = max_frame[i];
+
 
 
 
