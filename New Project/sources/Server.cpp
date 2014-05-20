@@ -6,6 +6,17 @@
 CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 {
 
+	for (int j = 0; j < MAX_CLIENTS; j++)
+	for (int i = 0; i < 100000; i++)
+	{
+		last_frame_action[j] = 0;
+		act[j][i].cadr = i;
+		act[j][i].start_bomb = false;
+		act[j][i].start_rocket = false;
+		act[j][i].turn = NO_TURN;
+		act[j][i].received = false;
+	}
+
 
 
 	game = _game;
@@ -109,6 +120,26 @@ bool CServer::Line_up()
 	return true;
 }
 
+bool CServer :: check_frame()
+{
+
+	int max_frame[MAX_CLIENTS];
+	for (int i = 0; i < MAX_CLIENTS; i++)
+		max_frame[i] = stepped;
+
+
+	for (int i = 0; i < number_of_clients; i++)
+	for (int j = stepped; j < stepped + 20; j++)
+	{
+		if ((act[i][j].received == true) && ())
+	}
+
+
+
+}
+
+
+
 
     bool CServer :: think()
     {
@@ -173,17 +204,20 @@ bool CServer::Line_up()
 
 				if (msg.type == PLAYER_ACTION)
 				{
-					
+					int curfr;
 					clients[msg.cl_num].count++;
-					sscanf(msg.buff, "%d",  clients[msg.cl_num].my_actions[clients[msg.cl_num].count % 100].cadr);
-					sscanf(msg.buff, "%d", clients[msg.cl_num].my_actions[clients[msg.cl_num].count % 100].turn);
-					sscanf(msg.buff, "%d", clients[msg.cl_num].my_actions[clients[msg.cl_num].count % 100].start_rocket);
-					sscanf(msg.buff, "%d", clients[msg.cl_num].my_actions[clients[msg.cl_num].count % 100].start_bomb);
+					
+					sscanf(msg.buff, "%d",  &curfr);
+					act[msg.cl_num][curfr].received = true;
+					sscanf(msg.buff, "%d", &act[msg.cl_num][curfr].start_bomb);
+					sscanf(msg.buff, "%d", &act[msg.cl_num][curfr].start_rocket);
+					sscanf(msg.buff, "%d", &act[msg.cl_num][curfr].turn);
 					broadcast(msg);
 				}
 			}
 
 
+			check_frame();
 
         return true;
     }
