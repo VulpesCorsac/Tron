@@ -95,6 +95,12 @@ void CGEngine::drawScene(Game* gm)
 
 	glDisable(GL_DEPTH_TEST);
 	gridMesh->draw(this);
+	glEnable(GL_DEPTH_TEST);
+	
+	wrldMat = translate(vec3((cam_Trg.x), 0.0f, (cam_Trg.z))) * scale(vec3(0.002f, 0.002f, 0.002f));
+	updMatrices();
+	motoMesh->draw(this);
+
 
 	float alp = 0.9f;
 	cam_Pos = cam_Pos * alp + cam_Pos_t * (1 - alp);

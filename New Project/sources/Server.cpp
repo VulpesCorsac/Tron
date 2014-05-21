@@ -16,7 +16,7 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 		act[j][i].turn = NO_TURN;
 		act[j][i].received = false;
 	}
-
+	stepped = 0;
 
 
 	game = _game;
@@ -30,8 +30,6 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 		clients[i].number = i;
 		clients[i].occupied = false;
 		clients[i].packets_sended = 0;
-		for (int j = 0; j < 100; j++)
-			clients[i].my_actions[j].cadr = 0;
 	}
 	my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
@@ -57,43 +55,64 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 
 CServer :: CServer()
 {
+	for (int j = 0; j < MAX_CLIENTS; j++)
+	for (int i = 0; i < 100000; i++)
+	{
+		last_frame_action[j] = 0;
+		act[j][i].cadr = i;
+		act[j][i].start_bomb = false;
+		act[j][i].start_rocket = false;
+		act[j][i].turn = NO_TURN;
+		act[j][i].received = false;
+	}
+	stepped = 0;
 
 
-		cadr = 0;
-		game_started = false;
-		perm_to_connect = true;
-        number_of_clients = 0;
-		clients[0].occupied = true;
-        for(int i = 1; i < MAX_CLIENTS; i++)
-        {
-            clients[i].number = i;
-            clients[i].occupied = false;
-            clients[i].packets_sended = 0;
-			for (int j = 0; j < 100; j++)
-			clients[i].my_actions[j].cadr = 0;
-        }
-        my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	cadr = 0;
+	game_started = false;
+	perm_to_connect = true;
+	number_of_clients = 0;
+	for (int i = 1; i < MAX_CLIENTS; i++)
+	{
+		clients[i].number = i;
+		clients[i].occupied = false;
+		clients[i].packets_sended = 0;
+	}
+	my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-        u_long iMode=1;
-        ioctlsocket(my_sock, FIONBIO, &iMode);
+	u_long iMode = 1;
+	ioctlsocket(my_sock, FIONBIO, &iMode);
 
-        if (my_sock == INVALID_SOCKET)
-          {
-             perror("socket");
-          }
+	if (my_sock == INVALID_SOCKET)
+	{
+		perror("socket");
+	}
 
-        memset((char *) &myaddr, 0, sizeof(myaddr));
-        myaddr.sin_family = AF_INET;
-        myaddr.sin_port = htons(8400);
-        myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-        if (bind(my_sock ,(const sockaddr *) &myaddr, sizeof(myaddr)) == -1)
-        {
-            perror("bind");
-        }
+	memset((char *)&myaddr, 0, sizeof(myaddr));
+	myaddr.sin_family = AF_INET;
+	myaddr.sin_port = htons(8400);
+	myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	if (bind(my_sock, (const sockaddr *)&myaddr, sizeof(myaddr)) == -1)
+	{
+		perror("bind");
+	}
+
 
     }
 
 
+
+void CServer::gotoframe(int mframe)
+{
+	int tostep;
+	tostep = mframe - stepped;
+	for (int i = 0; i < tostep; i++)
+	{
+		for (int j = 0; j < number_of_clients; i++)
+			//here comes j-i player check for actions
+		stepped++;
+	}
+}
 
 bool CServer::Line_up()
 {
@@ -123,19 +142,32 @@ bool CServer::Line_up()
 bool CServer :: check_frame()
 {
 
-	int max_frame[MAX_CLIENTS];
+	int max_frame[MAX_CLIENTS], received[MAX_CLIENTS];
 	for (int i = 0; i < MAX_CLIENTS; i++)
+	{
 		max_frame[i] = stepped;
-
+		received[i] = 0;
+	}
+	int mframe = 100000;
 
 	for (int i = 0; i < number_of_clients; i++)
-	for (int j = stepped; j < stepped + 20; j++)
+	for (int j = stepped + 1; j < stepped + 20; j++)
 	{
-		if ((act[i][j].received == true) && ())
+		if (act[i][j].received == true)
+			received[i] = 1;
+		if ((act[i][j].received == true) && (max_frame[i] < j))
+			max_frame[i] = j;
 	}
 
+	for (int i = 0; i < number_of_clients; i++)
+	if (mframe > max_frame[i]) mframe = max_frame[i];
 
 
+	if (mframe > stepped)
+		gotoframe(mframe);
+
+
+	return true;
 }
 
 

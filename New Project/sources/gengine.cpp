@@ -142,10 +142,15 @@ void CGEngine::load()
 	gridTex = new CGLTexture();
 	gridTex->load("gridTex.png");
 
+	whiteTex = new CGLTexture();
+	whiteTex->load("whiteTex.png");
+
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
 
 	gridMesh = generateGridMesh(100, 100, 1.0f, 0.05f);
-
+	motoMesh = new CMesh();
+	motoMesh->loadFrom("models\\cycle.objm");
+	motoMesh->setTexture(whiteTex);
 }
 
 void CGEngine::initRender()

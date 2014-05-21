@@ -100,13 +100,13 @@ bool CClient :: connect(const char *ip)
     anyaddr.sin_port = htons(9400);
     anyaddr.sin_family = AF_INET;
     anyaddr.sin_addr.s_addr = INADDR_ANY;
-
+	/*
     if( bind(my_sock,(sockaddr *) &anyaddr, sizeof(serv_addr)) == -1)
     {
         perror("bind");
         exit(1);
     }
-
+	*/
     msg.cl_num = 0;
     msg.type = REGISTER_PLAYER;
     msg.pack_num = 0;
