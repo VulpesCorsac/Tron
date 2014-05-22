@@ -104,14 +104,28 @@ CServer :: CServer()
 
 void CServer::gotoframe(int mframe)
 {
+	double dt = 1.0f / 60.0f;
 	int tostep;
+	int startframe = stepped;
 	tostep = mframe - stepped;
-	for (int i = 0; i < tostep; i++)
+	for (int i = startframe; i < tostep; i++)
 	{
-		for (int j = 0; j < number_of_clients; i++)
-			//here comes j-i player check for actions
-		stepped++;
+		for (int j = 0; j < number_of_clients ; i++)
+			if (act[j][i].received == true)
+			{
+				//			if (act[i][j].start_bomb == true)
+
+				//			if (act[i][j].start_rocket == true)
+
+
+				if (act[i][j].turn != NO_TURN)
+					ggame->Turn_Player(act[i][j].turn, j - 1);
+			}
+			ggame->UPD(dt);
+			stepped++;
 	}
+
+
 }
 
 bool CServer::Line_up()
@@ -164,10 +178,32 @@ bool CServer :: check_frame()
 
 
 	if (mframe > stepped)
+	{
 		gotoframe(mframe);
 
+		changes acc;
+		state nacc;
 
-	return true;
+		ggame->Get_Changes_ACC(&acc);
+		ggame->Get_Changes_NACC(&nacc);
+
+		my_message msg;
+
+		msg.cl_num = 0;
+		msg.length = 0;
+		msg.type = UPD_GAME_STATE_NACC;
+		write_state(&msg, &nacc);
+		broadcast(msg);
+
+
+		msg.cl_num = 0;
+		msg.length = 0;
+		msg.type = UPD_GAME_STATE_ACC;
+		write_changes(&msg, &acc);
+		broadcast(msg);
+		return true;
+	}
+	return false;
 }
 
 
@@ -249,7 +285,7 @@ bool CServer :: check_frame()
 			}
 
 
-			check_frame();
+		check_frame();
 
         return true;
     }
