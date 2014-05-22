@@ -3,6 +3,34 @@
 #include "../headers/Server.h"
 
 
+void write_state(my_message * msg, state * some_state)
+{
+
+}
+
+void read_state(my_message * msg, state * some_state)
+{
+
+}
+
+void write_changes(my_message * msg, changes * some_changes)
+{
+
+}
+
+void read_changes(my_message * msg, changes * some_changes)
+{
+
+}
+
+
+
+
+
+
+
+
+
 CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 {
 
@@ -310,25 +338,6 @@ bool CServer :: check_frame()
 	}
 
 
-	void write_state(my_message * msg, state * some_state)
-	{
-
-	}
-
-	void read_state(my_message * msg, state * some_state)
-	{
-
-	}
-
-	void write_changes(my_message * msg, changes * some_changes)
-	{
-
-	}
-
-	void read_changes(my_message * msg, changes * some_changes)
-	{
-
-	}
 
 	bool CServer::startgame()
 	{

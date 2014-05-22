@@ -99,9 +99,9 @@ public:
 	void Do_Step();                             // TO DO advance game on dt( 1/60 sec)
 
 	// Plus, we need structers to store data in 4 functions below
-	void Get_Changes_ACC(changes *);    //TO DO getting changes for the last frame
+	void Get_Changes_ACC(changes *) {};    //TO DO getting changes for the last frame
 	void Update_Changes_ACC(changes *) {}; //TO DO setting changes for the last frame
-	void Get_Changes_NACC(state *);     //TO DO getting players state(coordinates and directions)
+	void Get_Changes_NACC(state *) {};     //TO DO getting players state(coordinates and directions)
 	void Update_Changes_NACC(state *) {};  //TO DO setting players state(coordinates and directions)
 	void Start_Game(int, state *) {}; //TO DO setting starting positions for players(number of players is the first int), returning them in state *
 };
