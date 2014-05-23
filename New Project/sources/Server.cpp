@@ -3,22 +3,22 @@
 #include "../headers/Server.h"
 
 
-void write_state(my_message * msg, state * some_state)
+void write_state(my_message * msg, State * some_state)
 {
 
 }
 
-void read_state(my_message * msg, state * some_state)
+void read_state(my_message * msg, State * some_state)
 {
 
 }
 
-void write_changes(my_message * msg, changes * some_changes)
+void write_changes(my_message * msg, Changes * some_changes)
 {
 
 }
 
-void read_changes(my_message * msg, changes * some_changes)
+void read_changes(my_message * msg, Changes * some_changes)
 {
 
 }
@@ -209,8 +209,8 @@ bool CServer :: check_frame()
 	{
 		gotoframe(mframe);
 
-		changes acc;
-		state nacc;
+		Changes acc;
+		State nacc;
 
 		ggame->Get_Changes_ACC(&acc);
 		ggame->Get_Changes_NACC(&nacc);
@@ -348,7 +348,7 @@ bool CServer :: check_frame()
 		game_started = true;
 		perm_to_connect = false;
 
-		state beg_state;
+		State beg_state;
 		ggame->Start_Game(number_of_clients, &beg_state);
 		cadr = 0;
 

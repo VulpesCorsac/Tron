@@ -5,14 +5,17 @@
 #include "Server.h"
 
 struct State {
-	int Players_Ammount;
-	double *x; // Player x coordinate
-	double *y; // Player y coordinate
-	double *dx; // Player direction x coordinate
-	double *dy; // Player direction y coordinate
+	vector < Player > Players;
 };
 
 struct Changes {
-	char *Is_dead;
-	int New_Walls;
+	vector < int >    Killed_Players;
+	vector < Wall >   New_Walls;
+	vector < Wall >   Modifyed_Walls;
+	vector < Bomb >   Placed_Bomb;
+	vector < int >    Exploded_Bombs;
+	vector < Rocket > Placed_Rocket;
+	vector < int >    Exploded_Rockets;
 };
+
+#endif // STATE_AND_CHANGES_H_INCLUDED

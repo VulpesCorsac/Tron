@@ -12,7 +12,13 @@ bool WallComparator(Wall &Wall1, Wall &Wall2) {
 }
 
 void Game_Engine::WallSort(const int &n1, const int &n2) {
-	sort(this->Current_Game.Walls.begin() + n1, this->Current_Game.Walls.begin() + n2);
+	sort(this->Current_Game.Walls.begin() + n1, this->Current_Game.Walls.begin() + n2 + 1);
+	for (size_t i = this->Veryfied_Walls; i < this->Current_Game.Walls.size(); i++) {
+		if (this->Current_Game.Walls[i].Wall_Number == -1) {
+			this->Veryfied_Walls = i - 1;
+			return;
+		}
+	}
 	return;
 }
 
@@ -327,9 +333,12 @@ bool Game_Engine::Wall_Add(const Wall &_Wall) {
 }
 
 bool Game_Engine::Wall_Add(const vector < Wall > &Walls) {
-	for (size_t i = 0; i < Walls.size(); i++)
-		Wall_Add(Walls[i]);
-	return;
+	bool f = false;
+	for (size_t i = 0; i < Walls.size(); i++) {
+		if (Wall_Add(Walls[i]))
+			f = true;
+	}
+	return f;
 }
 
 bool Game_Engine::Wall_Delete(const int &n) {
@@ -465,9 +474,10 @@ void Game_Engine::PLayer_Kill(const int &Player_number) {
 		}
 	}
 	assert(killed == 1 && "Trying to kill a Player, that is not in Players range or trying to kill a Player, that is already dead");
-	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-	if (this->Current_Game.Walls[i].Player_Number == Player_number)
-		Wall_Delete_flag((int)i);
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
+		if (this->Current_Game.Walls[i].Player_Number == Player_number)
+			Wall_Delete_flag((int)i);
+	}
 	return;
 }
 

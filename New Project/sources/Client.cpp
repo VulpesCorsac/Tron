@@ -37,13 +37,13 @@ int CClient::get_num()
 }
 
 
-void write_state(my_message * msg, state * some_state);
+void write_state(my_message * msg, State * some_state);
 
-void read_state(my_message * msg, state * some_state);
+void read_state(my_message * msg, State * some_state);
 
-void write_changes(my_message * msg, changes * some_changes);
+void write_changes(my_message * msg, Changes * some_changes);
 
-void read_changes(my_message * msg, changes * some_changes);
+void read_changes(my_message * msg, Changes * some_changes);
 
 
 
@@ -164,7 +164,7 @@ bool CClient::think()
 
 		if (msg.type == START_GAME)
 		{	
-			state beg_state;
+			State beg_state;
 			read_state(&msg, &beg_state);
 			ggame->Update_Changes_NACC(&beg_state);
 			cadr = 0;
@@ -187,7 +187,7 @@ bool CClient::think()
 
 		if (msg.type == UPD_GAME_STATE_ACC)
 		{
-			changes temp_changes;
+			Changes temp_changes;
 			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
 			ggame->Update_Changes_ACC(&temp_changes);
@@ -195,7 +195,7 @@ bool CClient::think()
 
 		if (msg.type == UPD_GAME_STATE_NACC)
 		{
-			state temp_state;
+			State temp_state;
 			read_state(&msg, &temp_state);
 			//here comes the sg.buf parsing to temp_state
 			ggame->Update_Changes_NACC(&temp_state);

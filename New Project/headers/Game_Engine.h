@@ -35,6 +35,7 @@ public:
 	// Data	
 	Init_Constants* Constants; // All constants
 	Game Current_Game; // Game itself
+	int Veryfied_Walls;
 
 	// Changes
 	void Bomb_Add(const Bomb &_Bomb);
@@ -71,23 +72,25 @@ public:
 
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
-	void Player_Turn(const int &Player_number, const bool &left_turn); // TODO:
 	void Player_Add(Player &_Player);
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
 
-	void UPD(const double dt); // TODO:
+	void Player_Turn(const int &Player_number, const bool &left_turn); // TODO:
+	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn); // TODO:
 
-	// TO BE USED BY VOVA:
+	void UPD(const double dt); // TODO:
+	void UPD_Client(const double dt, vector < int > &Rocket_Explode, vector < int > &Boms_Explode); // TODO:
+
 	void Turn_Player(int side, int player_num); // TODO: turn player to side (see define in client.h )
 	void Do_Step();                             // TODO: advance game on dt( 1/60 sec)
 
 	// Plus, we need structers to store data in 4 functions below
-	void Get_Changes_ACC(changes *);    //TODO: getting changes for the last frame
-	void Update_Changes_ACC(changes *); //TODO: setting changes for the last frame
-	void Get_Changes_NACC(state *);     //TODO: getting players state(coordinates and directions)
-	void Update_Changes_NACC(state *);  //TODO: setting players state(coordinates and directions)
-	void Start_Game(int, state *);      //TODO: setting starting positions for players(number of players is the first int), returning them in state *
+	void Get_Changes_ACC(Changes *);    //TODO: getting changes for the last frame
+	void Update_Changes_ACC(Changes *); //TODO: setting changes for the last frame
+	void Get_Changes_NACC(State *);     //TODO: getting players state(coordinates and directions)
+	void Update_Changes_NACC(State *);  //TODO: setting players state(coordinates and directions)
+	void Start_Game(int, State *);      //TODO: setting starting positions for players(number of players is the first int), returning them in state *
 };
 
 #endif // GAME_ENGINE_H_INCLUDED 
