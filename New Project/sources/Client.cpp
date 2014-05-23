@@ -5,6 +5,8 @@
 #include "..\headers\gengine.h"
 
 
+const double dt = 1.0f / 60.0f;
+
 void init_network()
 {
     WORD ver = MAKEWORD(2,2);
@@ -80,7 +82,6 @@ bool CClient :: check_for_actions(Actions *act)
 	}
 	return a;
 }
-
 
 bool CClient :: connect(const char *ip)
 {
@@ -181,7 +182,15 @@ bool CClient::think()
 				
 
 			if (rec_act.turn != NO_TURN)
-				ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+			{
+				if (cadr > rec_act.cadr)
+				{
+					ggame->Current_Game.Players[msg.cl_num - 1].UPD(-dt *(cadr - rec_act.cadr));
+					ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
+				}
+				else ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+			}
 		}
 
 
@@ -219,7 +228,6 @@ bool CClient::think()
 	else frames_wtanws++;
 
 
-	const double dt = 1.0f / 60.0f;
 	ggame->UPD(dt);
 //	if ()
 	return true;

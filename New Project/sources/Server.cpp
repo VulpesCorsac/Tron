@@ -349,8 +349,10 @@ bool CServer :: check_frame()
 		perm_to_connect = false;
 
 		State beg_state;
-		ggame->Start_Game(number_of_clients, &beg_state);
+		ggame->Start_Game(number_of_clients);
 		cadr = 0;
+
+		ggame->Get_Changes_NACC( &beg_state);
 
 		my_message msg;
 		msg.cl_num = 0;
