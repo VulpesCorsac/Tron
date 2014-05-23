@@ -12,8 +12,7 @@ struct state
 	float y[MAX_CLIENTS];// coord of player x,y
 };   // nonaccumulating struct for state of players
 
-
-struct changes 
+struct changes
 {
 	bool is_dead[MAX_CLIENTS]; //Alive or not clients?
 	int new_walls; //count of new walls
@@ -23,10 +22,14 @@ struct changes
 
 }; // accumulating struct for changes within walls, bombs, etc
 
+bool WallComparator(Wall &Wall1, Wall &Wall2);
+
 class Game_Engine {
 private:
 	// Helpful
 	int round(const double &x) const;
+	void WallSort(const int &n1);
+	void WallSort(const int &n1, const int &n2);
 
 	// Converts from game classes to polygon
 	Polygon2D < double > Polygon_from(const Point2D < double > &C_p, const Vector2D < double > &V, const double &w);
@@ -51,7 +54,7 @@ public:
 	// Data	
 	Init_Constants* Constants; // All constants
 	Game Current_Game; // Game itself
-	
+
 	// Changes
 	void Bomb_Add(const Bomb &_Bomb);
 	void Bomb_Add(const vector < Bomb > &Bombs);
@@ -67,11 +70,11 @@ public:
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
 	void Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 
-	void Wall_Add(const Wall &_Wall);
-	void Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
 	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls);
+	bool Wall_Add(const Wall &_Wall);
+	bool Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Delete(const int &n);
 	bool Wall_Delete(const Wall &_Wall);
 	bool Wall_Delete(const vector < Wall > &Walls);
@@ -99,9 +102,9 @@ public:
 	void Do_Step();                             // TO DO advance game on dt( 1/60 sec)
 
 	// Plus, we need structers to store data in 4 functions below
-	void Get_Changes_ACC(changes *) {};    //TO DO getting changes for the last frame
+	void Get_Changes_ACC(changes *);    //TO DO getting changes for the last frame
 	void Update_Changes_ACC(changes *) {}; //TO DO setting changes for the last frame
-	void Get_Changes_NACC(state *) {};     //TO DO getting players state(coordinates and directions)
+	void Get_Changes_NACC(state *);     //TO DO getting players state(coordinates and directions)
 	void Update_Changes_NACC(state *) {};  //TO DO setting players state(coordinates and directions)
 	void Start_Game(int, state *) {}; //TO DO setting starting positions for players(number of players is the first int), returning them in state *
 };
