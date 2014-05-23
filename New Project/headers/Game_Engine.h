@@ -33,8 +33,8 @@ private:
 
 public:
 	// Data	
-	Init_Constants* Constants; // All constants
-	Game Current_Game; // Game itself
+	Init_Constants* Constants;
+	Game Current_Game;
 	int Veryfied_Walls;
 
 	// Changes
@@ -44,6 +44,7 @@ public:
 	bool Bomb_Delete(const Bomb &_Bomb);
 	bool Bomb_Delete(const vector < Bomb > &Bombs);
 	void Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
+	void Bomb_Place(const Bomb &_Bomb, Changes &Ch); //TODO:
 
 	void Rocket_Add(const Rocket &_Rocket);
 	void Rocket_Add(const vector < Rocket > &Rockets);
@@ -51,6 +52,7 @@ public:
 	bool Rocket_Delete(const Rocket &_Rocket);
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
 	void Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
+	void Rocket_Place(const Rocket &_Rocket, Changes &Ch); //TODO:
 
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
@@ -69,6 +71,7 @@ public:
 	bool Bonus_Delete(const int &n);
 	bool Bonus_Delete(const Bonus &_Bonus);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
+	void Bonus_Place(const Bonus &_Bonus, Changes &Ch); //TODO: 
 
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
@@ -76,11 +79,11 @@ public:
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
 
-	void Player_Turn(const int &Player_number, const bool &left_turn); // TODO:
-	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn); // TODO:
+	void Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch);
+	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);
 
-	void UPD(const double dt); // TODO:
-	void UPD_Client(const double dt, vector < int > &Rocket_Explode, vector < int > &Boms_Explode); // TODO:
+	void UPD(const double dt, State &St, Changes &Ch); // TODO:
+	void UPD_Client(const double dt, vector < int > &Rocket_Explode, vector < int > &Bombs_Explode); // TODO:
 
 	void Turn_Player(int side, int player_num); // TODO: turn player to side (see define in client.h )
 	void Do_Step();                             // TODO: advance game on dt( 1/60 sec)

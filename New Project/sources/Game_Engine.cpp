@@ -152,67 +152,64 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 	return false;
 }
 
-/*
-void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
-Point2D < double > P1, P2, Player_Point;
-vector < Player > Players; // All Players
-vector < Wall > Walls; // All Walls
+void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
+	Point2D < double > P1, P2, Player_Point;
+	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
+		if (Cross_polygon_circle(Polygon_from_cycle(this->Current_Game.Players[i].MyCycle), C))
+			Killed_Players.push_back(this->Current_Game.Players[i].Player_Number);
+		else {
+			Player_Point = this->Current_Game.Players[i].MyCycle.Current_Point;
+			if (Cross_segment_circle(this->Current_Game.Walls[i].Segment, C, P1, P2) == 2) {
+				Deleted_Walls.push_back(i);
+				if (dist(P1, Player_Point) <= dist(P2, Player_Point)) {
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
+					if (Player_Point == this->Current_Game.Walls[i].Segment.B)
+						New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P2), i));
+					else
+						New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P2), i));
+				}
+				else {
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
+					if (Player_Point == this->Current_Game.Walls[i].Segment.B)
+						New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P1), i));
+					else
+						New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P1), i));
+				}
+			}
+			if (Cross_segment_circle(this->Current_Game.Walls[i].Segment, C, P1, P2) == 1) {
+				Deleted_Walls.push_back(i);
+				if (dist(P1, Player_Point) <= dist(P2, Player_Point))
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
+				else
+					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
+			}
+		}
+	}
 
-//удалять стены и делать новые?
-//номера игроков новых стен?
-for (int i = 0; i < Players.size(); i++) {
-if (Cross_polygon_circle( Polygon_from_cycle(Players[i].MyCycle), C))
-Killed_Players.push_back(Players[i].Player_Number);
-else {
-Player_Point = Players[i].MyCycle.Current_Point;
-if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
-if (dist(P1, Player_Point) <= dist(P2, Player_Point)) {
-New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
-if (Player_Point == Walls[i].Segment.B)
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
-else
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
-}
-else {
-New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
-if (Player_Point == Walls[i].Segment.B)
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
-else
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
-}
-}
-if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
-if (dist(P1, Player_Point) <= dist(P2, Player_Point))
-New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
-else
-New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
-}
-}
-}
-
-for (int i = Players.size(); i < Walls.size(); i++) {
-if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
-if (dist(P1, Walls[i].Segment.A) <= dist(P2, Walls[i].Segment.A)) {
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
-}
-else {
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
-}
-}
-if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
-if (Point_in_circle(Walls[i].Segment.A, C))
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
-else
-New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
-}
-if (Point_in_circle(Walls[i].Segment.A, C))
-Deleted_Walls.push_back(i);
-}
-return;
-}
-*/
+	for (size_t i = this->Current_Game.Players.size(); i < this->Current_Game.Walls.size(); i++) {
+		if (Cross_segment_circle(this->Current_Game.Walls[i].Segment, C, P1, P2) == 2) {
+			Deleted_Walls.push_back(i);
+			if (dist(P1, this->Current_Game.Walls[i].Segment.A) <= dist(P2, this->Current_Game.Walls[i].Segment.A)) {
+				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P1), i));
+				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P2), i));
+			}
+			else {
+				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P1), i));
+				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P2), i));
+			}
+		}
+		if (Cross_segment_circle(this->Current_Game.Walls[i].Segment, C, P1, P2) == 1) {
+			Deleted_Walls.push_back(i);
+			if (Point_in_circle(this->Current_Game.Walls[i].Segment.A, C))
+				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P1), i));
+			else
+				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P1), i));
+		}
+		if (Point_in_circle(this->Current_Game.Walls[i].Segment.A, C))
+			Deleted_Walls.push_back(i);
+	}
+	return;
+} 
 
 // BOMBS
 void Game_Engine::Bomb_Add(const Bomb &_Bomb) {
@@ -434,11 +431,11 @@ Player Game_Engine::Player_Generate(void) {
 
 	int dir = rand() % 4;
 	switch (dir) {
-	case 0: x = 1; y = 0; break;
-	case 1: x = 0; y = 1; break;
-	case 2: x = -1; y = 0; break;
-	case 3: x = 0; y = -1; break;
-	default: x = 0; y = 0; break;
+		case 0: x = 1; y = 0; break;
+		case 1: x = 0; y = 1; break;
+		case 2: x = -1; y = 0; break;
+		case 3: x = 0; y = -1; break;
+		default: x = 0; y = 0; break;
 	}
 	Vector2D < double > Direction(x, y);
 
@@ -494,4 +491,50 @@ void Game_Engine::Player_Add(vector < Player > &Players) {
 	for (size_t i = 0; i < Players.size(); i++)
 		Player_Add(Players[i]);
 	return;
+}
+
+void Game_Engine::Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch) {
+	Point2D < double >  C_P = this->Current_Game.Players[Player_number].MyCycle.Current_Point;
+	Wall N_W(this->Current_Game.Walls[Player_number].Segment, Player_number, this->Current_Game.Walls.size());
+	Wall M_W(Segment2D <double>(C_P, C_P), Player_number, Player_number);
+
+	Ch.Modifyed_Walls.push_back(std::make_pair(this->Current_Game.Walls[Player_number], M_W));
+	Ch.New_Walls.push_back(N_W);
+
+	this->Current_Game.Players[Player_number].Turn(left_turn);
+	this->Current_Game.Walls.push_back(N_W);
+	this->Current_Game.Walls[Player_number] = M_W;
+
+	St.Players = this->Current_Game.Players;
+}
+
+void Game_Engine::PLayer_Turn_Client(const int &Player_number, const bool &left_turn) {
+	Point2D < double >  C_P = this->Current_Game.Players[Player_number].MyCycle.Current_Point;
+	this->Current_Game.Players[Player_number].Turn(left_turn);
+	this->Current_Game.Walls.push_back(Wall(this->Current_Game.Walls[Player_number].Segment, Player_number, this->Current_Game.Walls.size()));
+	this->Current_Game.Walls[Player_number] = Wall(Segment2D <double>(C_P, C_P), Player_number, Player_number);
+}
+/*
+void Game_Engine::UPD(const double dt, State &St, Changes &Ch) {
+
+}
+*/
+void Game_Engine::UPD_Client(const double dt, vector < int > &Rocket_Explode, vector < int > &Bombs_Explode) {
+	Rocket_Explode.clear();
+	Bombs_Explode.clear();
+	for (size_t i = 0; i < this->Current_Game.Players.size(); i++)
+		this->Current_Game.Players[i].UPD(dt);
+
+	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++) {
+		this->Current_Game.Bombs[i].UPD(dt);
+		if (this->Current_Game.Bombs[i].Explode())
+			Bombs_Explode.push_back(i);
+	}
+
+	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
+		this->Current_Game.Rockets[i].UPD(dt);
+		if (this->Current_Game.Rockets[i].Explode())
+			Rocket_Explode.push_back(i);
+	}
+
 }
