@@ -213,6 +213,9 @@
     <ClInclude Include="headers\Bonus.h">
       <Filter>Header Files\Shared</Filter>
     </ClInclude>
+    <ClInclude Include="headers\State_and_Changes.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -280,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="gengine_scene.cpp">
       <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\State_and_Changes.cpp">
+      <Filter>Source Files\Shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

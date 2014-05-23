@@ -2,25 +2,6 @@
 #define GAME_ENGINE_H_INCLUDED
 
 #include "Game.h"
-#include "Server.h"
-
-//TO DO - do this structers
-struct state
-{
-	int n; // number of players
-	float x[MAX_CLIENTS];
-	float y[MAX_CLIENTS];// coord of player x,y
-};   // nonaccumulating struct for state of players
-
-struct changes
-{
-	bool is_dead[MAX_CLIENTS]; //Alive or not clients?
-	int new_walls; //count of new walls
-	double *xn, *yn; // coordinates of new walls
-
-
-
-}; // accumulating struct for changes within walls, bombs, etc
 
 bool WallComparator(Wall &Wall1, Wall &Wall2);
 
@@ -48,7 +29,7 @@ private:
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
 
-	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) { }; // TO DO:
+	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 
 public:
 	// Data	
@@ -90,23 +71,23 @@ public:
 
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
-	void Player_Turn(const int &Player_number, const bool &left_turn); // TO DO:
+	void Player_Turn(const int &Player_number, const bool &left_turn); // TODO:
 	void Player_Add(Player &_Player);
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
 
-	void UPD(const double dt) {}; // TO DO:
+	void UPD(const double dt); // TODO:
 
 	// TO BE USED BY VOVA:
-	void Turn_Player(int side, int player_num) {}; // TO DO turn player to side (see define in client.h )
-	void Do_Step();                             // TO DO advance game on dt( 1/60 sec)
+	void Turn_Player(int side, int player_num); // TODO: turn player to side (see define in client.h )
+	void Do_Step();                             // TODO: advance game on dt( 1/60 sec)
 
 	// Plus, we need structers to store data in 4 functions below
-	void Get_Changes_ACC(changes *);    //TO DO getting changes for the last frame
-	void Update_Changes_ACC(changes *) {}; //TO DO setting changes for the last frame
-	void Get_Changes_NACC(state *);     //TO DO getting players state(coordinates and directions)
-	void Update_Changes_NACC(state *) {};  //TO DO setting players state(coordinates and directions)
-	void Start_Game(int, state *) {}; //TO DO setting starting positions for players(number of players is the first int), returning them in state *
+	void Get_Changes_ACC(changes *);    //TODO: getting changes for the last frame
+	void Update_Changes_ACC(changes *); //TODO: setting changes for the last frame
+	void Get_Changes_NACC(state *);     //TODO: getting players state(coordinates and directions)
+	void Update_Changes_NACC(state *);  //TODO: setting players state(coordinates and directions)
+	void Start_Game(int, state *);      //TODO: setting starting positions for players(number of players is the first int), returning them in state *
 };
 
 #endif // GAME_ENGINE_H_INCLUDED 

@@ -49,6 +49,7 @@ using namespace std;
 #include "headers\Bonus.h"
 #include "headers\Player.h"
 #include "headers\Game.h"
+#include "headers\State_and_Changes.h"
 #include "headers\Game_Engine.h"
 #include "headers\Server.h"
 #include "headers\Client.h"
