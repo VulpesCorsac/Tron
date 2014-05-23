@@ -114,41 +114,106 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 	Point2D < double > P4 = Polygon_from_cycle(_Cycle).Polygon[3];
 	Point2D < double > O = _Bonus.Point;
 	if (P4.x == P1.x)
-	if (O.x < max(P1.x, P2.x) &&
-		O.x > min(P1.x, P2.x) &&
-		O.y < max(P1.y, P4.y) &&
-		O.y > min(P1.y, P4.y))
-		return true;
+		if (O.x < max(P1.x, P2.x) &&
+			O.x > min(P1.x, P2.x) &&
+			O.y < max(P1.y, P4.y) &&
+			O.y > min(P1.y, P4.y))
+			return true;
 	if (P4.x == P3.x)
-	if (O.x < max(P3.x, P2.x) &&
-		O.x > min(P3.x, P2.x) &&
-		O.y < max(P3.y, P4.y) &&
-		O.y > min(P3.y, P4.y))
-		return true;
+		if (O.x < max(P3.x, P2.x) &&
+			O.x > min(P3.x, P2.x) &&
+			O.y < max(P3.y, P4.y) &&
+			O.y > min(P3.y, P4.y))
+			return true;
 	if ((P4.y > P1.y) && (P4.y > P3.y))
-	if ((O.y > P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
-		(O.y > P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
-		(O.y < P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
-		(O.y < P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
-		return true;
+		if ((O.y > P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
+			(O.y > P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
+			(O.y < P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
+			(O.y < P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
+			return true;
 	if ((P2.y > P1.y) && (P2.y > P3.y))
-	if ((O.y < P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
-		(O.y < P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
-		(O.y > P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
-		(O.y > P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
-		return true;
+		if ((O.y < P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
+			(O.y < P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
+			(O.y > P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
+			(O.y > P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
+			return true;
 	if ((P1.y > P2.y) && (P1.y > P4.y))
-	if ((O.y < P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
-		(O.y > P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
-		(O.y > P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
-		(O.y < P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
-		return true;
+		if ((O.y < P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
+			(O.y > P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
+			(O.y > P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
+			(O.y < P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
+			return true;
 	if ((P3.y > P1.y) && (P3.y > P2.y))
-	if ((O.y > P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
-		(O.y < P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
-		(O.y < P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
-		(O.y > P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
-		return true;
+		if ((O.y > P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
+			(O.y < P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
+			(O.y < P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
+			(O.y > P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
+			return true;
+	return false;
+}
+
+bool Game_Engine::Intersect(const Polygon2D < double > &P1, const Polygon2D < double > &P2) {
+	return 0;
+}
+
+int Game_Engine::Intersect_Tails(const Player &_Player1, const Player &_Player2, const double &dt) {
+	vector < Point2D < double > > V_1,V_2;
+	V_1.clear();
+	V_2.clear();
+	Polygon2D <double> P;
+	LightCycle _Cycle = _Player1.MyCycle;
+	P = Polygon_from_cycle(_Cycle);
+	V_1.push_back(P.Polygon[0]);
+	V_1.push_back(P.Polygon[1]);
+	_Cycle.UPD(dt);
+	P = Polygon_from_cycle(_Cycle);
+	V_1.push_back(P.Polygon[2]);
+	V_1.push_back(P.Polygon[3]);
+	Polygon2D < double > Pol1(V_1);
+
+	_Cycle = _Player2.MyCycle;
+	P = Polygon_from_cycle(_Cycle);
+	V_2.push_back(P.Polygon[0]);
+	V_2.push_back(P.Polygon[1]);
+	_Cycle.UPD(dt);
+	P = Polygon_from_cycle(_Cycle);
+	V_2.push_back(P.Polygon[2]);
+	V_2.push_back(P.Polygon[3]);
+	Polygon2D < double > Pol2(V_2);
+
+	if (Intersect(Pol1, Pol2)) {
+		Line2D < double > L1(0.5*(V_1[1] + V_1[0]), 0.5*(V_1[2] + V_1[3]));
+		Line2D < double > L2(0.5*(V_2[1] + V_2[0]), 0.5*(V_2[2] + V_2[3]));
+		Point2D < double > Cross_P;
+		Cross_line(L1, L2, Cross_P);
+		double dist1 = dist(Cross_P, 0.5*(V_1[1] + V_1[0]));
+		double dist2 = dist(Cross_P, 0.5*(V_2[1] + V_2[0]));
+		if (dist1 + 1.5*this->Constants->LightCycle_Length < dist2)
+			return 1;
+		if (dist2 + 1.5*this->Constants->LightCycle_Length < dist1)
+			return 2;
+		return 3;
+	}
+	return 0;
+}
+
+bool Game_Engine::Intersect_Walls_Not_Tails(const Player &_Player, const double &dt) {
+	vector < Point2D < double > > V_1;
+	V_1.clear();
+
+	LightCycle _Cycle = _Player.MyCycle;
+	V_1.push_back(Polygon_from_cycle(_Cycle).Polygon[0]);
+	V_1.push_back(Polygon_from_cycle(_Cycle).Polygon[1]);
+	_Cycle.UPD(dt);
+	V_1.push_back(Polygon_from_cycle(_Cycle).Polygon[2]);
+	V_1.push_back(Polygon_from_cycle(_Cycle).Polygon[3]);
+	Polygon2D < double > Pol1(V_1);
+
+	for (size_t i = this->Current_Game.Players.size(); i < this->Current_Game.Walls.size(); i++) {
+		Polygon2D < double > Pol2 = Polygon_from_wall(this->Current_Game.Walls[i]);
+		if (Intersect(Pol1, Pol2))
+			return true;
+	}
 	return false;
 }
 
@@ -211,6 +276,15 @@ void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Ki
 	return;
 } 
 
+/*bool Game_Engine::Out_of_Field(const Player &_Player, const double &dt) {
+	LightCycle _Cycle = _Player.MyCycle;
+	_Cycle.UPD(dt);
+	Bonus B(_Cycle.Current_Point + Norm(_Cycle.Direction)*this->Constants->LightCycle_Length, 1);
+	Player P(Point2D < double > (0, 0.5*this->Constants->Field_Width),)
+		Player(const Point2D < double > &St_Point, const Vector2D < double > &St_Direction, Init_Constants* _Constants);
+	if (_Cycle.Current_Point + Norm(_Cycle.Direction)*this->Constants->LightCycle_Length )
+		bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt)
+}*/
 // BOMBS
 void Game_Engine::Bomb_Add(const Bomb &_Bomb) {
 	this->Current_Game.Bombs.push_back(_Bomb);
@@ -253,6 +327,12 @@ void Game_Engine::Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_
 	return;
 }
 
+void Game_Engine::Bomb_Place(const int &Player_number) {
+	Bomb _Bomb(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Constants->Bomb_Time, this->Constants->Bomb_Radius);
+	this->Current_Game.Bombs.push_back(_Bomb);
+	this->Game_Changes.Placed_Bomb.push_back(_Bomb);
+	return;
+}
 // ROCKETS
 void Game_Engine::Rocket_Add(const Rocket &_Rocket) {
 	this->Current_Game.Rockets.push_back(_Rocket);
@@ -295,6 +375,12 @@ void Game_Engine::Rocket_Explosion(const int &Rocket_Number, vector < int > &Kil
 	return;
 }
 
+void Game_Engine::Rocket_Place(const int &Player_number) {
+	Rocket _Rock(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Current_Game.Players[Player_number].MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Length, this->Constants->Rocket_Radius );
+	this->Current_Game.Rockets.push_back(_Rock);
+	this->Game_Changes.Placed_Rocket.push_back(_Rock);
+	return;
+}
 // WALLS
 bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
 	assert(n >= 0 && n <= (int)this->Current_Game.Walls.size() && "Trying to modify wall that does not exist");
@@ -420,6 +506,19 @@ bool Game_Engine::Bonus_Delete(const vector < Bonus > &Bonuses) {
 	return f;
 }
 
+void Game_Engine::Bonus_Place(void) {
+	double x, y;
+	int Width = round(this->Constants->Field_Width);
+	int Length = round(this->Constants->Field_Length);
+	x = (double)(rand() % Width);
+	y = (double)(rand() % Length);
+	Point2D < double > Point(x, y);
+	Bonus _Bonus(Point, (int)(rand() % 2));
+	this->Current_Game.Bonuses.push_back(_Bonus);
+	this->Game_Changes.Placed_Bonuses.push_back(_Bonus);
+	return;
+}
+
 // PLAYERS
 Player Game_Engine::Player_Generate(void) {
 	double x, y;
@@ -514,27 +613,37 @@ void Game_Engine::PLayer_Turn_Client(const int &Player_number, const bool &left_
 	this->Current_Game.Walls.push_back(Wall(this->Current_Game.Walls[Player_number].Segment, Player_number, this->Current_Game.Walls.size()));
 	this->Current_Game.Walls[Player_number] = Wall(Segment2D <double>(C_P, C_P), Player_number, Player_number);
 }
-/*
-void Game_Engine::UPD(const double dt, State &St, Changes &Ch) {
 
+void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
+	Clear(Ch);
+	Clear(St);
+/*	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
+		if ((Intersect_Walls_Not_Tails(this->Current_Game.Players[i], dt)) || (Out_of_Field(this->Current_Game.Players[i], dt)))
+			Ch.Killed_Players.push_back(i);
+	}
+	*/
+	return;
 }
-*/
-void Game_Engine::UPD_Client(const double dt, vector < int > &Rocket_Explode, vector < int > &Bombs_Explode) {
-	Rocket_Explode.clear();
-	Bombs_Explode.clear();
+
+void Game_Engine::_UPD_Client(const double dt) {
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++)
 		this->Current_Game.Players[i].UPD(dt);
-
-	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++) {
+	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
 		this->Current_Game.Bombs[i].UPD(dt);
-		if (this->Current_Game.Bombs[i].Explode())
-			Bombs_Explode.push_back(i);
-	}
-
-	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
+	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
 		this->Current_Game.Rockets[i].UPD(dt);
-		if (this->Current_Game.Rockets[i].Explode())
-			Rocket_Explode.push_back(i);
-	}
+	return;
+}
 
+void Game_Engine::UPD(const double dt) {
+	State _St;
+	Changes _Ch;
+	_UPD(dt, _St, _Ch);
+	this->Game_State += _St;
+	this->Game_Changes += _Ch;
+	return;
+}
+
+void Game_Engine::UPD_Client(const double dt) {
+	_UPD_Client(dt);
 }

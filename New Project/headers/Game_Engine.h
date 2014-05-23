@@ -25,17 +25,23 @@ private:
 	bool Intersect(const Player &_Player, const Bomb &_Bomb);
 	bool Intersect(const Player &_Player, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player1, const Player &_Player2);
+	int Intersect_Tails(const Player &_Player1, const Player &_Player2, const double &dt);
+	bool Intersect_Walls_Not_Tails(const Player &_Player,const double &dt);
 	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
+	bool Intersect(const Polygon2D < double > &P1, const Polygon2D < double > &P2); // TODO:
 
 	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
+	bool Out_of_Field(const Player &_Player, const double &dt);
 
 public:
 	// Data	
 	Init_Constants* Constants;
 	Game Current_Game;
 	int Veryfied_Walls;
+	State Game_State;
+	Changes Game_Changes;
 
 	// Changes
 	void Bomb_Add(const Bomb &_Bomb);
@@ -44,7 +50,7 @@ public:
 	bool Bomb_Delete(const Bomb &_Bomb);
 	bool Bomb_Delete(const vector < Bomb > &Bombs);
 	void Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
-	void Bomb_Place(const Bomb &_Bomb, Changes &Ch); //TODO:
+	void Bomb_Place(const int &Player_number);
 
 	void Rocket_Add(const Rocket &_Rocket);
 	void Rocket_Add(const vector < Rocket > &Rockets);
@@ -52,7 +58,7 @@ public:
 	bool Rocket_Delete(const Rocket &_Rocket);
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
 	void Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
-	void Rocket_Place(const Rocket &_Rocket, Changes &Ch); //TODO:
+	void Rocket_Place(const int &Player_number);
 
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
@@ -71,7 +77,7 @@ public:
 	bool Bonus_Delete(const int &n);
 	bool Bonus_Delete(const Bonus &_Bonus);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
-	void Bonus_Place(const Bonus &_Bonus, Changes &Ch); //TODO: 
+	void Bonus_Place(void); 
 
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
@@ -82,18 +88,16 @@ public:
 	void Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch);
 	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);
 
-	void UPD(const double dt, State &St, Changes &Ch); // TODO:
-	void UPD_Client(const double dt, vector < int > &Rocket_Explode, vector < int > &Bombs_Explode); // TODO:
+	void _UPD(const double dt, State &St, Changes &Ch); // TODO:
+	void _UPD_Client(const double dt);
+	void UPD(const double dt);
+	void UPD_Client(const double dt);
 
-	void Turn_Player(int side, int player_num); // TODO: turn player to side (see define in client.h )
-	void Do_Step();                             // TODO: advance game on dt( 1/60 sec)
-
-	// Plus, we need structers to store data in 4 functions below
-	void Get_Changes_ACC(Changes *);    //TODO: getting changes for the last frame
-	void Update_Changes_ACC(Changes *); //TODO: setting changes for the last frame
-	void Get_Changes_NACC(State *);     //TODO: getting players state(coordinates and directions)
-	void Update_Changes_NACC(State *);  //TODO: setting players state(coordinates and directions)
-	void Start_Game(int, State *);      //TODO: setting starting positions for players(number of players is the first int), returning them in state *
+	void Get_Changes_ACC(Changes &Ch);    //TODO: getting changes for the last frame
+	void Update_Changes_ACC(Changes &Ch); //TODO: setting changes for the last frame
+	void Get_Changes_NACC(State &St);     //TODO: getting players state(coordinates and directions)
+	void Update_Changes_NACC(State &St);  //TODO: setting players state(coordinates and directions)
+	void Start_Game(const int &_Players_Ammount, State &St);      //TODO: setting starting positions for players(number of players is the first int), returning them in state *
 };
 
 #endif // GAME_ENGINE_H_INCLUDED 

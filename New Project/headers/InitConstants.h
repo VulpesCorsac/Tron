@@ -19,7 +19,7 @@ public:
     double LightCycle_Width;
     double LightCycle_DefaultSpeed;
 
-    // Rocket Constants //lol rockets
+    // Rocket Constants
     double Rocket_Speed;
     double Rocket_Length;
 	double Rocket_Radius;

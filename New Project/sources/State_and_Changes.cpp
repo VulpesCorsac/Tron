@@ -44,6 +44,10 @@ bool operator == (const Changes &Changes1, const Changes &Changes2) {
 		return false;
 	if (Changes1.Placed_Rocket.size() != Changes2.Placed_Rocket.size())
 		return false;
+	if (Changes1.Placed_Bonuses.size() != Changes2.Placed_Bonuses.size())
+		return false;
+	if (Changes1.Collected_Bonuses.size() != Changes2.Collected_Bonuses.size())
+		return false;
 
 	for (size_t i = 0; i < Changes1.Killed_Players.size(); i++) {
 		if (Changes1.Killed_Players[i] != Changes2.Killed_Players[i])
@@ -77,6 +81,16 @@ bool operator == (const Changes &Changes1, const Changes &Changes2) {
 
 	for (size_t i = 0; i < Changes1.Placed_Rocket.size(); i++) {
 		if (Changes1.Placed_Rocket[i] != Changes2.Placed_Rocket[i])
+			return false;
+	}
+
+	for (size_t i = 0; i < Changes1.Placed_Bonuses.size(); i++) {
+		if (Changes1.Placed_Bonuses[i] != Changes2.Placed_Bonuses[i])
+			return false;
+	}
+
+	for (size_t i = 0; i < Changes1.Collected_Bonuses.size(); i++) {
+		if (Changes1.Collected_Bonuses[i] != Changes2.Collected_Bonuses[i])
 			return false;
 	}
 	
@@ -132,6 +146,17 @@ Changes operator + ( const Changes &Changes1, const Changes &Changes2) {
 	for (size_t i = 0; i < Changes2.Placed_Rocket.size(); i++)
 		ans.Placed_Rocket.push_back(Changes2.Placed_Rocket[i]); 
 	
+	ans.Placed_Bonuses.reserve(Changes1.Placed_Bonuses.size() + Changes2.Placed_Bonuses.size());
+	for (size_t i = 0; i < Changes1.Placed_Bonuses.size(); i++)
+		ans.Placed_Bonuses.push_back(Changes1.Placed_Bonuses[i]);
+	for (size_t i = 0; i < Changes2.Placed_Bonuses.size(); i++)
+		ans.Placed_Bonuses.push_back(Changes2.Placed_Bonuses[i]);
+
+	ans.Collected_Bonuses.reserve(Changes1.Collected_Bonuses.size() + Changes2.Collected_Bonuses.size());
+	for (size_t i = 0; i < Changes1.Collected_Bonuses.size(); i++)
+		ans.Collected_Bonuses.push_back(Changes1.Collected_Bonuses[i]);
+	for (size_t i = 0; i < Changes2.Collected_Bonuses.size(); i++)
+		ans.Collected_Bonuses.push_back(Changes2.Collected_Bonuses[i]);
 	return ans;
 }
 
@@ -149,5 +174,7 @@ void Clear(Changes &Changes1) {
 	Changes1.New_Walls.clear();
 	Changes1.Placed_Bomb.clear();
 	Changes1.Placed_Rocket.clear();
+	Changes1.Placed_Bonuses.clear();
+	Changes1.Collected_Bonuses.clear();
 	return;
 }
