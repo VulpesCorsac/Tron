@@ -11,8 +11,9 @@ bool WallComparator(Wall &Wall1, Wall &Wall2) {
 	return true;
 }
 
+/*
 void Game_Engine::WallSort(const int &n1, const int &n2) {
-	sort(this->Current_Game.Walls.begin() + n1, this->Current_Game.Walls.begin() + n2 + 1);
+	sort(this->Current_Game.Walls.begin() + n1, this->Current_Game.Walls.begin() + n2 + 1, WallComparator);
 	for (size_t i = this->Veryfied_Walls; i < this->Current_Game.Walls.size(); i++) {
 		if (this->Current_Game.Walls[i].Wall_Number == -1) {
 			this->Veryfied_Walls = i - 1;
@@ -26,6 +27,7 @@ void Game_Engine::WallSort(const int &n1) {
 	WallSort(n1, this->Current_Game.Walls.size());
 	return;
 }
+*/
 
 int Game_Engine::round(const double &x) const {
 	return (int)floor(x + 0.5);
