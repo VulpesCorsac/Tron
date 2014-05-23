@@ -7,7 +7,7 @@
 #define ACCEPT_CONNECTION 2
 #define TEXT_MESSAGE 3
 #define UPD_GAME_STATE_NACC 4
-#define UPD_GAME_STATE_ACC 6
+#define UPD_GAME_STATE_ACC 5
 #define PLAYER_ACTION 6
 #define CHANGE_IN_NUM 7
 #define START_GAME 8
@@ -80,6 +80,7 @@ public:
 	int getPlCount();
 	bool startgame();
     bool think();
+	void gotoframe(int);
 	bool check_frame();
     bool broadcast(my_message);
     ~CServer();

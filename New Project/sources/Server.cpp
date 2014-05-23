@@ -3,6 +3,34 @@
 #include "../headers/Server.h"
 
 
+void write_state(my_message * msg, State * some_state)
+{
+
+}
+
+void read_state(my_message * msg, State * some_state)
+{
+
+}
+
+void write_changes(my_message * msg, Changes * some_changes)
+{
+
+}
+
+void read_changes(my_message * msg, Changes * some_changes)
+{
+
+}
+
+
+
+
+
+
+
+
+
 CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 {
 
@@ -55,42 +83,78 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 
 CServer :: CServer()
 {
+	for (int j = 0; j < MAX_CLIENTS; j++)
+	for (int i = 0; i < 100000; i++)
+	{
+		last_frame_action[j] = 0;
+		act[j][i].cadr = i;
+		act[j][i].start_bomb = false;
+		act[j][i].start_rocket = false;
+		act[j][i].turn = NO_TURN;
+		act[j][i].received = false;
+	}
+	stepped = 0;
 
 
-		cadr = 0;
-		game_started = false;
-		perm_to_connect = true;
-        number_of_clients = 0;
-		clients[0].occupied = true;
-        for(int i = 1; i < MAX_CLIENTS; i++)
-        {
-            clients[i].number = i;
-            clients[i].occupied = false;
-            clients[i].packets_sended = 0;
+	cadr = 0;
+	game_started = false;
+	perm_to_connect = true;
+	number_of_clients = 0;
+	for (int i = 1; i < MAX_CLIENTS; i++)
+	{
+		clients[i].number = i;
+		clients[i].occupied = false;
+		clients[i].packets_sended = 0;
+	}
+	my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-        }
-        my_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	u_long iMode = 1;
+	ioctlsocket(my_sock, FIONBIO, &iMode);
 
-        u_long iMode=1;
-        ioctlsocket(my_sock, FIONBIO, &iMode);
+	if (my_sock == INVALID_SOCKET)
+	{
+		perror("socket");
+	}
 
-        if (my_sock == INVALID_SOCKET)
-          {
-             perror("socket");
-          }
+	memset((char *)&myaddr, 0, sizeof(myaddr));
+	myaddr.sin_family = AF_INET;
+	myaddr.sin_port = htons(8400);
+	myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	if (bind(my_sock, (const sockaddr *)&myaddr, sizeof(myaddr)) == -1)
+	{
+		perror("bind");
+	}
 
-        memset((char *) &myaddr, 0, sizeof(myaddr));
-        myaddr.sin_family = AF_INET;
-        myaddr.sin_port = htons(8400);
-        myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-        if (bind(my_sock ,(const sockaddr *) &myaddr, sizeof(myaddr)) == -1)
-        {
-            perror("bind");
-        }
 
     }
 
 
+
+void CServer::gotoframe(int mframe)
+{
+	double dt = 1.0f / 60.0f;
+	int tostep;
+	int startframe = stepped;
+	tostep = mframe - stepped;
+	for (int i = startframe; i < tostep; i++)
+	{
+		for (int j = 0; j < number_of_clients ; i++)
+			if (act[j][i].received == true)
+			{
+				//			if (act[i][j].start_bomb == true)
+
+				//			if (act[i][j].start_rocket == true)
+
+
+				if (act[i][j].turn != NO_TURN)
+					ggame->Turn_Player(act[i][j].turn, j - 1);
+			}
+			ggame->UPD(dt);
+			stepped++;
+	}
+
+
+}
 
 bool CServer::Line_up()
 {
@@ -141,8 +205,33 @@ bool CServer :: check_frame()
 	if (mframe > max_frame[i]) mframe = max_frame[i];
 
 
+	if (mframe > stepped)
+	{
+		gotoframe(mframe);
 
-	return true;
+		Changes acc;
+		State nacc;
+
+		ggame->Get_Changes_ACC(&acc);
+		ggame->Get_Changes_NACC(&nacc);
+
+		my_message msg;
+
+		msg.cl_num = 0;
+		msg.length = 0;
+		msg.type = UPD_GAME_STATE_NACC;
+		write_state(&msg, &nacc);
+		broadcast(msg);
+
+
+		msg.cl_num = 0;
+		msg.length = 0;
+		msg.type = UPD_GAME_STATE_ACC;
+		write_changes(&msg, &acc);
+		broadcast(msg);
+		return true;
+	}
+	return false;
 }
 
 
@@ -224,7 +313,7 @@ bool CServer :: check_frame()
 			}
 
 
-			//check_frame();
+		check_frame();
 
         return true;
     }
@@ -249,25 +338,6 @@ bool CServer :: check_frame()
 	}
 
 
-	void write_state(my_message * msg, state * some_state)
-	{
-
-	}
-
-	void read_state(my_message * msg, state * some_state)
-	{
-
-	}
-
-	void write_changes(my_message * msg, changes * some_changes)
-	{
-
-	}
-
-	void read_changes(my_message * msg, changes * some_changes)
-	{
-
-	}
 
 	bool CServer::startgame()
 	{
@@ -278,7 +348,7 @@ bool CServer :: check_frame()
 		game_started = true;
 		perm_to_connect = false;
 
-		state beg_state;
+		State beg_state;
 		ggame->Start_Game(number_of_clients, &beg_state);
 		cadr = 0;
 

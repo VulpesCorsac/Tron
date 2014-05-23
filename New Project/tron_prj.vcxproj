@@ -128,6 +128,7 @@
     <ClInclude Include="headers\Player.h" />
     <ClInclude Include="headers\Rocket.h" />
     <ClInclude Include="headers\Server.h" />
+    <ClInclude Include="headers\State_and_Changes.h" />
     <ClInclude Include="headers\Wall.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="ObjLoader\listobj.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="sources\Player.cpp" />
     <ClCompile Include="sources\Rocket.cpp" />
     <ClCompile Include="sources\Server.cpp" />
+    <ClCompile Include="sources\State_and_Changes.cpp" />
     <ClCompile Include="sources\Wall.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

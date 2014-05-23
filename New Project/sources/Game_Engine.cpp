@@ -1,6 +1,33 @@
 #include "stdafx.h"
 #include "headers\Game_Engine.h"
 
+bool WallComparator(Wall &Wall1, Wall &Wall2) {
+	if (Wall1.Wall_Number != -1 && Wall2.Wall_Number != -1)
+		return (Wall1.Wall_Number < Wall2.Wall_Number);
+	if (Wall1.Wall_Number != -1 && Wall2.Wall_Number == -1)
+		return true;
+	if (Wall1.Wall_Number == -1 && Wall2.Wall_Number != -1)
+		return false;
+	return true;
+}
+
+/*
+void Game_Engine::WallSort(const int &n1, const int &n2) {
+	sort(this->Current_Game.Walls.begin() + n1, this->Current_Game.Walls.begin() + n2 + 1, WallComparator);
+	for (size_t i = this->Veryfied_Walls; i < this->Current_Game.Walls.size(); i++) {
+		if (this->Current_Game.Walls[i].Wall_Number == -1) {
+			this->Veryfied_Walls = i - 1;
+			return;
+		}
+	}
+	return;
+}
+
+void Game_Engine::WallSort(const int &n1) {
+	WallSort(n1, this->Current_Game.Walls.size());
+	return;
+}
+*/
 
 int Game_Engine::round(const double &x) const {
 	return (int)floor(x + 0.5);
@@ -127,65 +154,66 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 
 /*
 void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
-	Point2D < double > P1, P2, Player_Point;
-	vector < Player > Players; // All Players
-	vector < Wall > Walls; // All Walls
-	
-	//удалять стены и делать новые?
-	//номера игроков новых стен?
-	for (int i = 0; i < Players.size(); i++) {
-		if (Cross_polygon_circle( Polygon_from_cycle(Players[i].MyCycle), C))
-			Killed_Players.push_back(Players[i].Player_Number);
-		else {
-			Player_Point = Players[i].MyCycle.Current_Point;
-			if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
-				if (dist(P1, Player_Point) <= dist(P2, Player_Point)) {
-					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
-					if (Player_Point == Walls[i].Segment.B)
-						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
-					else
-						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
-				}
-				else {
-					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
-					if (Player_Point == Walls[i].Segment.B)
-						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
-					else
-						New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
-				}
-			}
-			if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
-				if (dist(P1, Player_Point) <= dist(P2, Player_Point))
-					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
-				else
-					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
-			}
-		}
-	}
-	
-	for (int i = Players.size(); i < Walls.size(); i++) {
-		if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
-			if (dist(P1, Walls[i].Segment.A) <= dist(P2, Walls[i].Segment.A)) {
-				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
-				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
-			}
-			else {
-				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
-				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
-			}
-		}
-		if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
-			if (Point_in_circle(Walls[i].Segment.A, C))
-				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
-			else
-				New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
-		}
-		if (Point_in_circle(Walls[i].Segment.A, C))
-			Deleted_Walls.push_back(i);
-	}
-	return;
+Point2D < double > P1, P2, Player_Point;
+vector < Player > Players; // All Players
+vector < Wall > Walls; // All Walls
+
+//удалять стены и делать новые?
+//номера игроков новых стен?
+for (int i = 0; i < Players.size(); i++) {
+if (Cross_polygon_circle( Polygon_from_cycle(Players[i].MyCycle), C))
+Killed_Players.push_back(Players[i].Player_Number);
+else {
+Player_Point = Players[i].MyCycle.Current_Point;
+if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
+if (dist(P1, Player_Point) <= dist(P2, Player_Point)) {
+New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
+if (Player_Point == Walls[i].Segment.B)
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
+else
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
+}
+else {
+New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
+if (Player_Point == Walls[i].Segment.B)
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
+else
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
+}
+}
+if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
+if (dist(P1, Player_Point) <= dist(P2, Player_Point))
+New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P1), i, i)));
+else
+New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
+}
+}
+}
+
+for (int i = Players.size(); i < Walls.size(); i++) {
+if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 2) {
+if (dist(P1, Walls[i].Segment.A) <= dist(P2, Walls[i].Segment.A)) {
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P2), 0, 0));
+}
+else {
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P2), 0, 0));
+}
+}
+if (Cross_segment_circle(Walls[i].Segment, C, P1, P2) == 1) {
+if (Point_in_circle(Walls[i].Segment.A, C))
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.A, P1), 0, 0));
+else
+New_walls.push_back(Wall(Segment2D <double>(Walls[i].Segment.B, P1), 0, 0));
+}
+if (Point_in_circle(Walls[i].Segment.A, C))
+Deleted_Walls.push_back(i);
+}
+return;
 }
 */
+
 // BOMBS
 void Game_Engine::Bomb_Add(const Bomb &_Bomb) {
 	this->Current_Game.Bombs.push_back(_Bomb);
@@ -205,20 +233,19 @@ bool Game_Engine::Bomb_Delete(const int &n) {
 }
 
 bool Game_Engine::Bomb_Delete(const Bomb &_Bomb) {
-	bool f = false;
-	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
-	if (_Bomb == this->Current_Game.Bombs[i]) {
-		Bomb_Delete((int)i);
-		return true;
+	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++) {
+		if (_Bomb == this->Current_Game.Bombs[i])
+			return Bomb_Delete((int)i);
 	}
-	return f;
+	return false;
 }
 
 bool Game_Engine::Bomb_Delete(const vector < Bomb > &Bombs) {
 	bool f = false;
-	for (size_t i = 0; i < Bombs.size(); i++)
-	if (Bomb_Delete(Bombs[i]))
-		f = true;
+	for (size_t i = 0; i < Bombs.size(); i++) {
+		if (Bomb_Delete(Bombs[i]))
+			f = true;
+	}
 	return f;
 }
 
@@ -248,20 +275,19 @@ bool Game_Engine::Rocket_Delete(const int &n) {
 }
 
 bool Game_Engine::Rocket_Delete(const Rocket &_Rocket) {
-	bool f = false;
-	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
-	if (_Rocket == this->Current_Game.Rockets[i]) {
-		f = Rocket_Delete((int)i);
-		break;
+	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
+		if (_Rocket == this->Current_Game.Rockets[i])
+			return Rocket_Delete((int)i);
 	}
-	return f;
+	return false;
 }
 
 bool Game_Engine::Rocket_Delete(const vector < Rocket > &Rockets) {
 	bool f = false;
-	for (size_t i = 0; i < Rockets.size(); i++)
-	if (Rocket_Delete(Rockets[i]))
-		f = true;
+	for (size_t i = 0; i < Rockets.size(); i++) {
+		if (Rocket_Delete(Rockets[i]))
+			f = true;
+	}
 	return f;
 }
 
@@ -273,17 +299,6 @@ void Game_Engine::Rocket_Explosion(const int &Rocket_Number, vector < int > &Kil
 }
 
 // WALLS
-void Game_Engine::Wall_Add(const Wall &_Wall) {
-	this->Current_Game.Walls.push_back(_Wall);
-	return;
-}
-
-void Game_Engine::Wall_Add(const vector < Wall > &Walls) {
-	for (size_t i = 0; i < Walls.size(); i++)
-		Wall_Add(Walls[i]);
-	return;
-}
-
 bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
 	assert(n >= 0 && n <= (int)this->Current_Game.Walls.size() && "Trying to modify wall that does not exist");
 	this->Current_Game.Walls[n] = New_Wall;
@@ -291,26 +306,40 @@ bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
 }
 
 bool Game_Engine::Wall_Modify(const Wall &_Wall, const Wall &New_Wall) {
-	bool f = false;
-	if (this->Current_Game.Walls[_Wall.Wall_Number].Wall_Number == _Wall.Wall_Number)
+	if (Equal(this->Current_Game.Walls[_Wall.Wall_Number], _Wall))
 		return Wall_Modify((int)_Wall.Wall_Number, New_Wall);
-	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-		if (Equal(_Wall, this->Current_Game.Walls[i])) {
-			f = Wall_Modify((int)i, New_Wall);
-		break;
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
+		if (Equal(_Wall, this->Current_Game.Walls[i]))
+			return Wall_Modify((int)i, New_Wall);
+	}
+	return false;
+}
+
+bool Game_Engine::Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls) {
+	assert(Walls.size() != New_Walls.size() && "Error! Walls ans New_Walls have different sizes");
+	bool f = false;
+	for (size_t i = 0; i < Walls.size(); i++) {
+		if (Wall_Modify(Walls[i], New_Walls[i]))
+			f = true;
 	}
 	return f;
 }
 
-bool Game_Engine::Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls) {
-	if (Walls.size() != New_Walls.size()) {
-		cerr << "Error! Walls ans New_Walls have different sizes" << endl;
-		throw - 1;
+bool Game_Engine::Wall_Add(const Wall &_Wall) {
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
+		if (Equal(_Wall, this->Current_Game.Walls[i]))
+			return Wall_Modify((int)i, _Wall);
 	}
+	this->Current_Game.Walls.push_back(_Wall);
+	return false;
+}
+
+bool Game_Engine::Wall_Add(const vector < Wall > &Walls) {
 	bool f = false;
-	for (size_t i = 0; i < Walls.size(); i++)
-	if (Wall_Modify(Walls[i], New_Walls[i]))
-		f = true;
+	for (size_t i = 0; i < Walls.size(); i++) {
+		if (Wall_Add(Walls[i]))
+			f = true;
+	}
 	return f;
 }
 
@@ -321,20 +350,19 @@ bool Game_Engine::Wall_Delete(const int &n) {
 }
 
 bool Game_Engine::Wall_Delete(const Wall &_Wall) {
-	bool f = false;
-	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-		if (_Wall == this->Current_Game.Walls[i]) {
-			f = Wall_Delete((int)i);
-			break;
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
+		if (Equal(_Wall, this->Current_Game.Walls[i]))
+			return Wall_Delete((int)i);
 	}
-	return f;
+	return false;
 }
 
 bool Game_Engine::Wall_Delete(const vector < Wall > &Walls) {
 	bool f = false;
-	for (size_t i = 0; i < Walls.size(); i++)
-	if (Wall_Delete(Walls[i]))
-		f = true;
+	for (size_t i = 0; i < Walls.size(); i++) {
+		if (Wall_Delete(Walls[i]))
+			f = true;
+	}
 	return f;
 }
 
@@ -344,20 +372,19 @@ bool Game_Engine::Wall_Delete_flag(const int &n) {
 }
 
 bool Game_Engine::Wall_Delete_flag(const Wall &_Wall) {
-	bool f = false;
-	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
-	if (_Wall == this->Current_Game.Walls[i]) {
-		f = Wall_Delete_flag((int)i);
-		break;
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
+		if (Equal(_Wall, this->Current_Game.Walls[i]))
+			return Wall_Delete_flag((int)i);
 	}
-	return f;
+	return false;
 }
 
 bool Game_Engine::Wall_Delete_flag(const vector < Wall > &Walls) {
 	bool f = false;
-	for (size_t i = 0; i < Walls.size(); i++)
-	if (Wall_Delete_flag(Walls[i]))
-		f = true;
+	for (size_t i = 0; i < Walls.size(); i++) {
+		if (Wall_Delete_flag(Walls[i]))
+			f = true;
+	}
 	return f;
 }
 
@@ -380,20 +407,19 @@ bool Game_Engine::Bonus_Delete(const int &n) {
 }
 
 bool Game_Engine::Bonus_Delete(const Bonus &_Bonus) {
-	bool f = false;
-	for (size_t i = 0; i < this->Current_Game.Bonuses.size(); i++)
-	if (_Bonus == this->Current_Game.Bonuses[i]) {
-		f = Bonus_Delete((int)i);
-		break;
+	for (size_t i = 0; i < this->Current_Game.Bonuses.size(); i++) {
+		if (_Bonus == this->Current_Game.Bonuses[i])
+			return Bonus_Delete((int)i);
 	}
-	return f;
+	return false;
 }
 
 bool Game_Engine::Bonus_Delete(const vector < Bonus > &Bonuses) {
 	bool f = false;
-	for (size_t i = 0; i < Bonuses.size(); i++)
-	if (Bonus_Delete(Bonuses[i]))
-		f = true;
+	for (size_t i = 0; i < Bonuses.size(); i++) {
+		if (Bonus_Delete(Bonuses[i]))
+			f = true;
+	}
 	return f;
 }
 
@@ -437,29 +463,23 @@ void Game_Engine::PLayer_Kill(const int &Player_number) {
 		else
 			killed = 1;
 		this->Current_Game.Players[Player_number].Kill();
-	} else {
+	}
+	else {
 		for (int i = 0; i < this->Current_Game.Players_Ammount; i++)
-			if (this->Current_Game.Players[i].Player_Number == Player_number) {
-				if (!this->Current_Game.Players[i].Alive)
-					killed = 2;
-				else
-					killed = 1;
-				this->Current_Game.Players[i].Kill();
-				break;
+		if (this->Current_Game.Players[i].Player_Number == Player_number) {
+			if (!this->Current_Game.Players[i].Alive)
+				killed = 2;
+			else
+				killed = 1;
+			this->Current_Game.Players[i].Kill();
+			break;
 		}
 	}
-	if (killed == 0) {
-		cerr << "Trying to kill a Player, that is not in Players range" << endl;
-		throw - 1;
-	}
-	if (killed == 2) {
-		cerr << "Trying to kill a Player, that is already dead" << endl;
-		throw - 1;
-	}
-
-	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++)
+	assert(killed == 1 && "Trying to kill a Player, that is not in Players range or trying to kill a Player, that is already dead");
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
 		if (this->Current_Game.Walls[i].Player_Number == Player_number)
 			Wall_Delete_flag((int)i);
+	}
 	return;
 }
 

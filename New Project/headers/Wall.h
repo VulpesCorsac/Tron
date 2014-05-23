@@ -10,10 +10,10 @@ public:
 	int Wall_Number;
 
 	// Modify a wall
-	void Modify(const Segment2D < double > &_Segment, const int &PlayerNumber, const int &WallNumber);
+	void Modify(const Segment2D < double > &_Segment, const int &PlayerNumber, const int &WallNumber = -1);
 	void Prolong(const Point2D < double > Point);
 
-	Wall(const Segment2D < double > &_Segment, const int &PlayerNumber, const int &WallNumber);
+	Wall(const Segment2D < double > &_Segment, const int &PlayerNumber, const int &WallNumber = -1);
 	~Wall();
 
 	Wall &operator = (const Wall &_Wall);
