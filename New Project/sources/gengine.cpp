@@ -368,7 +368,7 @@ void CGEngine::cycle()
 
 	if (cClient)
 	{
-		if (!cClient->think())
+		if (!true)//cClient->think())
 		{
 			lPlayer = -1;
 			delete cClient;
