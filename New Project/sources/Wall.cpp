@@ -14,6 +14,10 @@ void Wall::Prolong(const Point2D < double > Point) {
 	return;
 }
 
+Wall::Wall() {
+
+}
+
 Wall::Wall(const Segment2D < double > &_Segment, const int &PlayerNumber, const int &WallNumber) {
 	Modify(_Segment, PlayerNumber, WallNumber);
 }

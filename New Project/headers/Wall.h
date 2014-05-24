@@ -13,6 +13,7 @@ public:
 	void Modify(const Segment2D < double > &_Segment, const int &PlayerNumber, const int &WallNumber = -1);
 	void Prolong(const Point2D < double > Point);
 
+	Wall();
 	Wall(const Segment2D < double > &_Segment, const int &PlayerNumber, const int &WallNumber = -1);
 	~Wall();
 
