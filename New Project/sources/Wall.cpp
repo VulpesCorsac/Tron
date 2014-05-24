@@ -31,6 +31,7 @@ Wall &Wall::operator = (const Wall &_Wall) {
 		return *this;
 	this->Segment = _Wall.Segment;
 	this->Player_Number = _Wall.Player_Number;
+	this->Wall_Number = _Wall.Wall_Number;	//pffft mai brain
 	return *this;
 }
 

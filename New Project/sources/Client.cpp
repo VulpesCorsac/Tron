@@ -57,27 +57,25 @@ void read_changes(my_message * msg, Changes * some_changes);
 bool CClient :: check_for_actions(Actions *act)
 {
 	bool a = false;
-	if (game->isKeyPressed(VK_LEFT))
+	if (game->isKeyJustPressed(VK_LEFT))
 	{
 		act->turn = TURN_LEFT;
 		a = true;
-	}
-	if (game->isKeyPressed(VK_RIGHT))
+	} else
+	if (game->isKeyJustPressed(VK_RIGHT))
 	{
 		act->turn = TURN_RIGHT;
 		a = true;
-	}
-
-	if (!(game->isKeyPressed(VK_RIGHT) || game->isKeyPressed(VK_LEFT)))
+	} else
 	{
 		act->turn = NO_TURN;
 	}
-	if (game->isKeyPressed(VK_SPACE))
+	if (game->isKeyJustPressed(VK_SPACE))
 	{
 		act->start_bomb = true;
 		a = true;
 	}
-	if (game->isKeyPressed(VK_CONTROL))
+	if (game->isKeyJustPressed(VK_CONTROL))
 	{
 		act->start_rocket = true;
 		a = true;
@@ -142,6 +140,11 @@ bool CClient :: connect(const char *ip)
 }
 
 
+Game* CClient::getGame_r()
+{
+	if (!game_started) return NULL;
+	return &ggame->Current_Game;
+}
 
 bool CClient::think()
 {
@@ -196,7 +199,6 @@ bool CClient::think()
 			}
 		}
 
-
 		if (msg.type == UPD_GAME_STATE_ACC)
 		{
 			Changes temp_changes;
@@ -212,7 +214,6 @@ bool CClient::think()
 			//here comes the sg.buf parsing to temp_state
 			ggame->Update_Changes_NACC(temp_state);
 		}
-
 	}
 
 	if (game_started)
@@ -227,13 +228,13 @@ bool CClient::think()
 			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
-			//if (curact.turn != NO_TURN)
-				//ggame->Turn_Player(curact.turn, getPID() - 1); //vovan << check here
+			if (curact.turn != NO_TURN)
+				ggame->PLayer_Turn_Client(getPID(), curact.turn == TURN_LEFT); //krivoruchka beite krivorucky
 		}
 		else frames_wtanws++;
 
 
-		ggame->UPD(dt);
+		ggame->UPD_Client(dt);
 	}
 //	if ()
 	return true;

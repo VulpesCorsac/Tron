@@ -142,12 +142,21 @@ void CGEngine::load()
 	gridTex = new CGLTexture();
 	gridTex->load("gridTex.png");
 
+	gridTex2 = new CGLTexture();
+	gridTex2->load("gridTex2.png");
+
 	whiteTex = new CGLTexture();
 	whiteTex->load("whiteTex.png");
+
+	wallTex = new CGLTexture();
+	wallTex->load("wallTex.png");
+
 
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
 
 	gridMesh = generateGridMesh(100, 100, 1.0f, 0.05f);
+	gridMesh2 = generateGridMesh2(100, 100, 1.0f);
+
 	motoMesh = new CMesh();
 	motoMesh->loadFrom("models\\cycle.objm");
 	motoMesh->setTexture(whiteTex);
@@ -199,6 +208,8 @@ void CGEngine::initRender()
 	unv_3DLtex = glGetUniformLocation(drawProg3DL, "cTex");
 	unv_3DLclr = glGetUniformLocation(drawProg3DL, "cClr");
 	unv_3DLTRM = glGetUniformLocation(drawProg3DL, "MVP");
+	unv_3DLM = glGetUniformLocation(drawProg3DL, "M");
+	unv_3DL_refl = glGetUniformLocation(drawProg3DL, "refl");
 
 	//printf("%d\n", gl)
 	///
@@ -246,11 +257,14 @@ void CGEngine::setRasterTrg(Point p)
 	float x = (p.x - resX / 2) * (2.0f / resX);
 	float y = -(p.y - resY / 2) * (2.0f / resY);
 	glRasterPos2f(x, y);
+	cTex = 0;	//coz relevant operations may reset texture
 	//glRasterPos2i((int)p.x, (int)p.y);
 }
 
 void CGEngine::selTexture(GLuint tx)
 {
+	if (cTex == tx) return;
+
 	if (!is3D)
 	{
 		if (shdMode_2D != shdm_tex)
@@ -267,14 +281,14 @@ void CGEngine::selTexture(GLuint tx)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	//const float vv[4] = { 1, 1, 1, 1 };
 	//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, vv);
-	
+	cTex = tx;
 }
 
 void CGEngine::setColorMod(const glm::vec4 &clr)
 {
-	
-	cColorMod = clr;
+	cColorMod = clr; 
 	glUniform4f(is3D ? unv_3Dclr : unv_2Dclr, clr[0], clr[1], clr[2], clr[3]);
+	if (is3D) glUniform4f(unv_3DLclr, clr[0], clr[1], clr[2], clr[3]);
 }
 
 void CGEngine::selFontColor(const glm::vec4 &clr)
@@ -283,6 +297,7 @@ void CGEngine::selFontColor(const glm::vec4 &clr)
 	{
 		shdMode_2D = shdm_fnt;
 		glUseProgram(drawProgFnt);
+		cTex = 0;
 	}	
 	glm::mat4 ntrm = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(unv_2DFTRM, 1, GL_FALSE, &ntrm[0][0]);
@@ -341,6 +356,7 @@ void CGEngine::cycle()
 	//ScreenToClient()
 	//mPos = Point(type(pp.x), type(pp.y));
 	mState = GetKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
+	updKeyboard();
 
 	if (gui)
 		gui->think(mPos, mState);
@@ -358,8 +374,6 @@ void CGEngine::cycle()
 		CloseHandle(hTh_Server);
 		hTh_Server = NULL;
 		serverKill = false;
-
-		
 		printf("Server was killed\n");
 		lPlayer = -1;
 		delete cClient;
@@ -368,11 +382,37 @@ void CGEngine::cycle()
 
 	if (cClient)
 	{
-		if (!true)//cClient->think())
+		if (!cClient->think())
 		{
 			lPlayer = -1;
 			delete cClient;
 			cClient = NULL;
+		}
+		if (!rGame)
+		{
+			rGame = cClient->getGame_r();
+			//okay, we receive no correct game from vovan so let's make it
+			if (rGame)
+			{
+				rGame->Players_Ammount = 1;
+				Player pl;
+				pl.Alive = true;
+				pl.MyCycle.Current_Point = Point2D<double>(0, 0);
+				pl.MyCycle.Direction = Vector2D<double>(1, 0);
+				pl.MyCycle.Speed = 0.4;//lolwatisit
+				pl.Player_Number = 0;
+				pl.Team_Number = 0;
+
+				rGame->Walls.resize(1);
+				rGame->Walls[0].Segment.A = pl.MyCycle.Current_Point;
+				rGame->Walls[0].Segment.B = pl.MyCycle.Current_Point;
+				rGame->Walls[0].Player_Number = 0;
+				rGame->Walls[0].Wall_Number = 0;
+
+				rGame->Players.push_back(pl);
+
+				setGame(rGame);
+			}
 		}
 	}
 
@@ -392,18 +432,25 @@ void CGEngine::go2D()
 	glUniformMatrix4fv(unv_2DTRM, 1, GL_FALSE, &TRM_2d[0][0]);
 	glUniform1i(unv_2Dtex, 0);
 	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
+
+	cTex = 0;
 }
 
 void CGEngine::go3D()
 {
 	glUseProgram(drawProg3D);
 	is3D = true;
+	glUniform1i(unv_3Dtex, 0);
+	glUniform1i(unv_3DLtex, 0);
 
-	projMat = glm::perspective(45.0f, resX / float(resY), 0.1f, 100.0f);
+	projMat = glm::perspective(45.0f / 180.0f * 3.14159f, resX / float(resY), 0.1f, 100.0f);
 	wrldMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	camMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
 	updMatrices();
+
+	cTex = 0;
+
 }
 
 void CGEngine::draw()
@@ -414,7 +461,7 @@ void CGEngine::draw()
 	glEnable(GL_DEPTH_TEST);	
 //	glDisable(GL_LIGHTING);//not sure if this is still needed
 //	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_MULTISAMPLE);
 	// glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	//glEnable(GL_COLOR_MATERIAL);
@@ -435,15 +482,28 @@ void CGEngine::draw()
 	glutSwapBuffers();
 }
 
+void CGEngine::updKeyboard()
+{
+	fori(i, 256)
+	{
+		if ((GetKeyState(i) & 0x8000) != 0)
+		{
+			lKeys[i]++;
+		}
+		else {
+			lKeys[i] = 0;
+		}
+	}
+}
+
 bool CGEngine::isKeyPressed(int vkey)
 {
-	return (GetKeyState(vkey) & 0x8000) != 0;
+	return lKeys[vkey] > 0;
 }
 
 bool CGEngine::isKeyJustPressed(int vkey)
 {
-	//TODO for me.
-	return false;
+	return lKeys[vkey] == 1;
 }
 
 void CGEngine::start()
@@ -542,7 +602,10 @@ bool CGEngine::goHosting()
 {
 	assert(!cServer && !hTh_Server && !cClient);
 
-	cServer = new CServer();
+	Game_Engine* nge = new Game_Engine();
+	nge->Constants = ic;
+
+	cServer = new CServer(this, nge);
 	isServerExit = false;
 	serverKill = false;
 	hTh_Server = CreateThread(NULL, 0, hostThreadFunc, this, 0, &hThId_Server);
@@ -563,7 +626,7 @@ bool CGEngine::goHosting()
 bool CGEngine::goJoining(const char* ip)
 {
 	assert(!cClient);
-	cClient = new CClient();
+	cClient = new CClient(this, new Game_Engine);
 	if (!cClient->connect(ip))
 	{
 		delete cClient;
@@ -581,6 +644,7 @@ CGEngine::CGEngine(Init_Constants* aic)
 	hTh_Server = 0;
 	cServer = NULL;
 	cClient = NULL;
+	wRender = NULL;
 	isServerExit = serverKill = false;
 	ic = aic;
 	resX = ic->resX;
@@ -588,4 +652,5 @@ CGEngine::CGEngine(Init_Constants* aic)
 	lPlayer = -1;
 	g_render = this;
 	rGame = NULL;
+	fori(i, 256) lKeys[i] = 0;
 }

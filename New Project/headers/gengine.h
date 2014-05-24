@@ -15,11 +15,16 @@
 	class handling window creation, menu and game rendering, and providing functions to handle keyboard input
 	(will handle mouse too, probably)
 */
-
+struct CCurScene;
+class CWallRender;
 
 class CGEngine
 {
 private:
+
+	int lKeys[256];
+	void updKeyboard();
+
 	const int shdm_tex = 0,  shdm_fnt = 1;
 
 	int resX, resY;
@@ -31,9 +36,10 @@ private:
 
 	GLuint drawProg1, drawProgFnt, drawProg3D, drawProg3DL;
 
-	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM, unv_3DLTRM, unv_2DFTRM ;	// transformation matrix for 2D/3D shaders
+	GLuint unv_2DTRM, unv_2Dtex, unv_3DTRM, unv_3DLTRM, unv_3DLM, unv_2DFTRM;	// transformation matrix for 2D/3D shaders
 	GLuint unv_2Dclr, unv_2DF_clr;
 	GLuint unv_3Dtex, unv_3Dclr, unv_3DLtex, unv_3DLclr;
+	GLuint unv_3DL_refl;
 
 	GLuint VertexArrayID;
 
@@ -61,18 +67,29 @@ private:
 
 	//scene rendering stuff
 
+	vector<float> pAngs;
+
 	glm::mat4 projMat, camMat, pcMat, wrldMat, pcwMat;
 
 	glm::vec3 cam_Pos, cam_Trg, cam_Up;
 	glm::vec3 cam_Pos_t, cam_Trg_t;	//target state
 
-	CGLTexture* menuTex, *gridTex, *whiteTex;
-	CMesh* gridMesh, *motoMesh;
+	CGLTexture* menuTex, *gridTex, *gridTex2, *whiteTex, *wallTex;
+	CMesh* gridMesh, *motoMesh, *gridMesh2;
 
 	//size (x,z) ; spacing and line width
 	void updCamera();
 	void updMatrices();
+
+	//
+	void buildScene(Game* gm, CCurScene& cs);
+	//more specific drawscene.
+	void drawScene(CCurScene& cs, glm::mat4 &tr);
+
+	CWallRender* wRender;
+
 	CMesh* generateGridMesh(int nx, int ny, float sp, float w);
+	CMesh* generateGridMesh2(int nx, int ny, float sp);
 public:
 	Game* rGame;
 
@@ -82,6 +99,8 @@ public:
 
 	CServer* cServer;
 	CClient* cClient;
+
+	GLuint cTex;
 
 	void doExit();
 	void setRasterTrg(Point p);
@@ -105,6 +124,8 @@ public:
 
 	void drawScene(Game* gm);
 	void prepForScene(Game* gm);
+
+	void setGame(Game* gm);
 
 	void svth_Entry();	//entry point for server thread
 
