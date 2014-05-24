@@ -185,9 +185,16 @@ int Game_Engine::Intersect_Tails(const Player &_Player1, const Player &_Player2,
 		Line2D < double > L1(0.5*(V_1[1] + V_1[0]), 0.5*(V_1[2] + V_1[3]));
 		Line2D < double > L2(0.5*(V_2[1] + V_2[0]), 0.5*(V_2[2] + V_2[3]));
 		Point2D < double > Cross_P;
+		double dist1, dist2;
 		Cross_line(L1, L2, Cross_P);
-		double dist1 = dist(Cross_P, 0.5*(V_1[1] + V_1[0]));
-		double dist2 = dist(Cross_P, 0.5*(V_2[1] + V_2[0]));
+		if (abs(dist(Cross_P, 0.5*(V_1[1] + V_1[0])) + this->Constants->LightCycle_Length - dist(Cross_P, 0.5*(V_1[2] + V_1[3]))) < EPS)
+			dist1 = -dist(Cross_P, 0.5*(V_1[1] + V_1[0]));
+		else 
+			dist1 = dist(Cross_P, 0.5*(V_1[1] + V_1[0]));
+		if (abs(dist(Cross_P, 0.5*(V_2[1] + V_2[0])) + this->Constants->LightCycle_Length - dist(Cross_P, 0.5*(V_2[2] + V_2[3]))) < EPS)
+			dist2 = -dist(Cross_P, 0.5*(V_2[1] + V_2[0]));
+		else 
+			dist2 = dist(Cross_P, 0.5*(V_2[1] + V_2[0]));
 		if (dist1 + 1.5*this->Constants->LightCycle_Length < dist2)
 			return 1;
 		if (dist2 + 1.5*this->Constants->LightCycle_Length < dist1)
@@ -276,15 +283,14 @@ void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Ki
 	return;
 } 
 
-/*bool Game_Engine::Out_of_Field(const Player &_Player, const double &dt) {
+bool Game_Engine::Out_of_Field(const Player &_Player, const double &dt) {
 	LightCycle _Cycle = _Player.MyCycle;
 	_Cycle.UPD(dt);
-	Bonus B(_Cycle.Current_Point + Norm(_Cycle.Direction)*this->Constants->LightCycle_Length, 1);
-	Player P(Point2D < double > (0, 0.5*this->Constants->Field_Width),)
-		Player(const Point2D < double > &St_Point, const Vector2D < double > &St_Direction, Init_Constants* _Constants);
-	if (_Cycle.Current_Point + Norm(_Cycle.Direction)*this->Constants->LightCycle_Length )
-		bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt)
-}*/
+	Point2D < double > P = _Cycle.Current_Point + this->Constants->LightCycle_Length*Norm(_Cycle.Direction);
+	if ((P.x < 0) || (P.x > this->Constants->Field_Width) || (P.y < 0) || (P.y > this->Constants->LightCycle_Length))
+		return true;
+	return false;
+}
 // BOMBS
 void Game_Engine::Bomb_Add(const Bomb &_Bomb) {
 	this->Current_Game.Bombs.push_back(_Bomb);
@@ -617,11 +623,43 @@ void Game_Engine::PLayer_Turn_Client(const int &Player_number, const bool &left_
 void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 	Clear(Ch);
 	Clear(St);
-/*	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
+	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if ((Intersect_Walls_Not_Tails(this->Current_Game.Players[i], dt)) || (Out_of_Field(this->Current_Game.Players[i], dt)))
 			Ch.Killed_Players.push_back(i);
+		else
+			for (size_t j = i; j < this->Current_Game.Players.size() - 1; j++) {
+				if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 3) {
+					Ch.Killed_Players.push_back(i);
+					Ch.Killed_Players.push_back(j + 1);
+					break;
+				}
+				if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 1) {
+					Ch.Killed_Players.push_back(i);
+					break;
+				}
+				if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 2)
+					Ch.Killed_Players.push_back(j + 1);
+			}
 	}
-	*/
+
+	vector < int > K_Ps;
+	vector < std::pair < int, Wall > > N_Ts;
+	vector < int > D_Ws;
+	vector < Wall > N_Ws;
+	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++) {
+		if (this->Current_Game.Bombs[i].Explode()) {
+			Bomb_Explosion(i, K_Ps, N_Ts, D_Ws, N_Ws);
+		}
+	}
+	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
+		if (this->Current_Game.Rockets[i].Explode()) {
+			Rocket_Explosion(i, K_Ps, N_Ts, D_Ws, N_Ws);
+		}
+	}
+
+	set < int > Temp(Ch.Killed_Players.begin(), Ch.Killed_Players.end());
+	Ch.Killed_Players = vector < int >(Temp.begin(), Temp.end());
+
 	return;
 }
 
