@@ -5,6 +5,15 @@
 #include "..\headers\Server.h"
 
 
+//temporary stuff to fix linking
+
+
+void Game_Engine::Get_Changes_ACC(Changes &Ch){};
+void Game_Engine::Update_Changes_ACC(Changes &Ch){};
+void Game_Engine::Get_Changes_NACC(State &St){};
+void Game_Engine::Update_Changes_NACC(State &St){};
+void Game_Engine::Start_Game(const int &_Players_Ammount, State &St){};
+
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
 

@@ -30,6 +30,10 @@ public:
 	Player(const Point2D < double > &St_Point, const Vector2D < double > &St_Direction, Init_Constants* _Constants);
 	Player();
 	~Player();
+	
+	Player &operator = (const Player &Player1);
+	friend bool operator == (const Player &Player1, const Player &Player2);
+	friend bool operator != (const Player &Player1, const Player &Player2);
 };
 
 #endif // PLAYER_H_INCLUDED

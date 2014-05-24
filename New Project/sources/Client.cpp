@@ -5,6 +5,8 @@
 #include "..\headers\gengine.h"
 
 
+const double dt = 1.0f / 60.0f;
+
 void init_network()
 {
     WORD ver = MAKEWORD(2,2);
@@ -17,13 +19,15 @@ void init_network()
 CClient::CClient()
 {
 	connected = 0;
+	game_started = false;
 }
 
 CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 {
 	 game = _game;
 	 ggame = _ggame;
-     connected = 0;
+	 connected = 0;
+	 game_started = false;
 }
 
 int CClient::getPID()
@@ -81,7 +85,6 @@ bool CClient :: check_for_actions(Actions *act)
 	return a;
 }
 
-
 bool CClient :: connect(const char *ip)
 {
     my_sock = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -115,12 +118,13 @@ bool CClient :: connect(const char *ip)
     int msg_size;
 	int lol_size = 0;
 
-    sendto(my_sock,(char *) &msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-    while(((msg_size = recvfrom(my_sock, (char*) &msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len)) == -1) && (lol_size < 100000))
+	sendto(my_sock, (char *)&msg, sizeof(my_message)-2048, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    while(((msg_size = recvfrom(my_sock, (char*) &msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len)) == -1) && (lol_size < 10000))
     {
 		lol_size++;
+		Sleep(0);
     }
-	if (lol_size = 10000)
+	if (lol_size == 10000)
 		perror("TIMED OUT");
     if(msg_size > 0){
         if(msg.type == ACCEPT_CONNECTION)
@@ -166,7 +170,7 @@ bool CClient::think()
 		{	
 			State beg_state;
 			read_state(&msg, &beg_state);
-			ggame->Update_Changes_NACC(&beg_state);
+			ggame->Update_Changes_NACC(beg_state);
 			cadr = 0;
 			game_started = true;
 		}
@@ -181,7 +185,15 @@ bool CClient::think()
 				
 
 			if (rec_act.turn != NO_TURN)
-				ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+			{
+				if (cadr > rec_act.cadr)
+				{
+					ggame->Current_Game.Players[msg.cl_num - 1].UPD(-dt *(cadr - rec_act.cadr));
+				//	ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
+				}
+			//	else ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+			}
 		}
 
 
@@ -190,7 +202,7 @@ bool CClient::think()
 			Changes temp_changes;
 			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
-			ggame->Update_Changes_ACC(&temp_changes);
+			ggame->Update_Changes_ACC(temp_changes);
 		}
 
 		if (msg.type == UPD_GAME_STATE_NACC)
@@ -198,29 +210,31 @@ bool CClient::think()
 			State temp_state;
 			read_state(&msg, &temp_state);
 			//here comes the sg.buf parsing to temp_state
-			ggame->Update_Changes_NACC(&temp_state);
+			ggame->Update_Changes_NACC(temp_state);
 		}
 
 	}
 
-	Actions curact;
-	curact.cadr = cadr;
-	if (check_for_actions(&curact) || (frames_wtanws >=5))
+	if (game_started)
 	{
-		msg_anw.type = PLAYER_ACTION;
-		msg.cl_num = getPID();
-		sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
-		sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-		frames_wtanws = 0;
+		Actions curact;
+		curact.cadr = cadr;
+		if (check_for_actions(&curact) || (frames_wtanws >=5))
+		{
+			msg_anw.type = PLAYER_ACTION;
+			msg.cl_num = getPID();
+			sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
+			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			frames_wtanws = 0;
 
-		if (curact.turn != NO_TURN)
-			ggame->Turn_Player(curact.turn, getPID() - 1);
+			//if (curact.turn != NO_TURN)
+				//ggame->Turn_Player(curact.turn, getPID() - 1); //vovan << check here
+		}
+		else frames_wtanws++;
+
+
+		ggame->UPD(dt);
 	}
-	else frames_wtanws++;
-
-
-	const double dt = 1.0f / 60.0f;
-	ggame->UPD(dt);
 //	if ()
 	return true;
 }

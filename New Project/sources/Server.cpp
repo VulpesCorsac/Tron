@@ -146,8 +146,8 @@ void CServer::gotoframe(int mframe)
 				//			if (act[i][j].start_rocket == true)
 
 
-				if (act[i][j].turn != NO_TURN)
-					ggame->Turn_Player(act[i][j].turn, j - 1);
+				//if (act[i][j].turn != NO_TURN)   //vovan << check here
+				//	ggame->Turn_Player(act[i][j].turn, j - 1);
 			}
 			ggame->UPD(dt);
 			stepped++;
@@ -212,8 +212,8 @@ bool CServer :: check_frame()
 		Changes acc;
 		State nacc;
 
-		ggame->Get_Changes_ACC(&acc);
-		ggame->Get_Changes_NACC(&nacc);
+		ggame->Get_Changes_ACC(acc);
+		ggame->Get_Changes_NACC(nacc);
 
 		my_message msg;
 
@@ -312,8 +312,8 @@ bool CServer :: check_frame()
 				}
 			}
 
-
-		check_frame();
+		if (game_started)
+			check_frame();
 
         return true;
     }
@@ -348,9 +348,11 @@ bool CServer :: check_frame()
 		game_started = true;
 		perm_to_connect = false;
 
-		State beg_state;
-		ggame->Start_Game(number_of_clients, &beg_state);
+		State beg_state;	//vovan << check here
+		ggame->Start_Game(number_of_clients, beg_state);
 		cadr = 0;
+
+		ggame->Get_Changes_NACC( beg_state);
 
 		my_message msg;
 		msg.cl_num = 0;

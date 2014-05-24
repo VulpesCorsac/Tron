@@ -63,3 +63,36 @@ Player::~Player() {
 
 }
 
+Player& Player::operator = (const Player &Player1) {
+	if (this == &Player1)
+		return *this;
+	this->MyCycle = Player1.MyCycle;
+	this->Alive = Player1.Alive;
+	this->Bomb_Ammount = Player1.Bomb_Ammount;
+	this->Constants = Player1.Constants;
+	this->Player_Number = Player1.Player_Number;
+	this->Rocket_Ammount = Player1.Rocket_Ammount;
+	this->Team_Number = Player1.Team_Number;
+	return *this;
+}
+
+bool operator == (const Player &Player1, const Player &Player2) {
+	if (Player1.Alive != Player2.Alive)
+		return false;
+	if (Player1.Bomb_Ammount != Player2.Bomb_Ammount)
+		return false;
+	if (Player1.Constants != Player2.Constants)
+		return false;
+	if (Player1.MyCycle != Player2.MyCycle)
+		return false;
+	if (Player1.Player_Number != Player2.Player_Number)
+		return false;
+	if (Player1.Rocket_Ammount != Player2.Rocket_Ammount)
+		return false;
+	if (Player1.Team_Number != Player2.Team_Number)
+		return false;
+}
+
+bool operator != (const Player &Player1, const Player &Player2) {
+	return (!(Player1 == Player2));
+}
