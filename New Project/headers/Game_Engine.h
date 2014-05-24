@@ -93,11 +93,12 @@ public:
 	void UPD(const double dt);
 	void UPD_Client(const double dt);
 
-	void Get_Changes_ACC(Changes &Ch);    //TODO: getting changes for the last frame
-	void Update_Changes_ACC(Changes &Ch); //TODO: setting changes for the last frame
-	void Get_Changes_NACC(State &St);     //TODO: getting players state(coordinates and directions)
-	void Update_Changes_NACC(State &St);  //TODO: setting players state(coordinates and directions)
-	void Start_Game(const int &_Players_Ammount, State &St);      //TODO: setting starting positions for players(number of players is the first int), returning them in state *
+	void Get_Changes_ACC(Changes &Ch);
+	void Update_Changes_ACC(const Changes &Ch); //TODO: setting changes for the last frame
+	void Get_Changes_NACC(State &St);
+	void Update_Changes_NACC(const State &St);
+	void Start_Game(const int &_Players_Ammount, State &St);
+	void Start_Game_Client(const State &St);
 };
 
 #endif // GAME_ENGINE_H_INCLUDED 

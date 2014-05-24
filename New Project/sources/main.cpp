@@ -5,15 +5,6 @@
 #include "..\headers\Server.h"
 
 
-//temporary stuff to fix linking
-
-
-void Game_Engine::Get_Changes_ACC(Changes &Ch){};
-void Game_Engine::Update_Changes_ACC(Changes &Ch){};
-void Game_Engine::Get_Changes_NACC(State &St){};
-void Game_Engine::Update_Changes_NACC(State &St){};
-void Game_Engine::Start_Game(const int &_Players_Ammount, State &St){};
-
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
 
@@ -47,6 +38,6 @@ int main(int argc, char** argv) {
     scanf("%d",&a);*/
 	
 //CClient vov;
- //   vov.connect("127.0.0.1");
+//   vov.connect("127.0.0.1");
     return 0;
 }

@@ -11,7 +11,6 @@ bool WallComparator(Wall &Wall1, Wall &Wall2) {
 	return true;
 }
 
-/*
 void Game_Engine::WallSort(const int &n1, const int &n2) {
 	sort(this->Current_Game.Walls.begin() + n1, this->Current_Game.Walls.begin() + n2 + 1, WallComparator);
 	for (size_t i = this->Veryfied_Walls; i < this->Current_Game.Walls.size(); i++) {
@@ -27,7 +26,6 @@ void Game_Engine::WallSort(const int &n1) {
 	WallSort(n1, this->Current_Game.Walls.size());
 	return;
 }
-*/
 
 int Game_Engine::round(const double &x) const {
 	return (int)floor(x + 0.5);
@@ -40,8 +38,7 @@ Polygon2D < double > Game_Engine::Polygon_from(const Point2D < double > &C_p, co
 		Pol.push_back(Point2D < double >(C_p.x + w / 2.0, C_p.y));
 		Pol.push_back(Pol[0] + V);
 		Pol.push_back(Pol[1] + V);
-	}
-	else {
+	} else {
 		Pol.push_back(Point2D < double >(C_p.x + w / (2.0*SQRT(1 + SQR(V.x / V.y))), 0));
 		Pol[0].y = C_p.y - V.x*(Pol[0].x - C_p.x) / V.y;
 		Pol.push_back(Point2D < double >(C_p.x - w / (2.0*SQRT(1 + SQR(V.x / V.y))), 0));
@@ -239,8 +236,7 @@ void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Ki
 						New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P2), i));
 					else
 						New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P2), i));
-				}
-				else {
+				} else {
 					New_Tails.push_back(std::make_pair(i, Wall(Segment2D <double>(Player_Point, P2), i, i)));
 					if (Player_Point == this->Current_Game.Walls[i].Segment.B)
 						New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P1), i));
@@ -264,8 +260,7 @@ void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Ki
 			if (dist(P1, this->Current_Game.Walls[i].Segment.A) <= dist(P2, this->Current_Game.Walls[i].Segment.A)) {
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P1), i));
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P2), i));
-			}
-			else {
+			} else {
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P1), i));
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P2), i));
 			}
@@ -291,6 +286,7 @@ bool Game_Engine::Out_of_Field(const Player &_Player, const double &dt) {
 		return true;
 	return false;
 }
+
 // BOMBS
 void Game_Engine::Bomb_Add(const Bomb &_Bomb) {
 	this->Current_Game.Bombs.push_back(_Bomb);
@@ -339,6 +335,7 @@ void Game_Engine::Bomb_Place(const int &Player_number) {
 	this->Game_Changes.Placed_Bomb.push_back(_Bomb);
 	return;
 }
+
 // ROCKETS
 void Game_Engine::Rocket_Add(const Rocket &_Rocket) {
 	this->Current_Game.Rockets.push_back(_Rocket);
@@ -387,6 +384,7 @@ void Game_Engine::Rocket_Place(const int &Player_number) {
 	this->Game_Changes.Placed_Rocket.push_back(_Rock);
 	return;
 }
+
 // WALLS
 bool Game_Engine::Wall_Modify(const int &n, const Wall &New_Wall) {
 	assert(n >= 0 && n <= (int)this->Current_Game.Walls.size() && "Trying to modify wall that does not exist");
@@ -684,4 +682,39 @@ void Game_Engine::UPD(const double dt) {
 
 void Game_Engine::UPD_Client(const double dt) {
 	_UPD_Client(dt);
+	return;
+}
+
+void Game_Engine::Start_Game(const int &_Players_Ammount, State &St) {
+	this->Current_Game.Clear();
+	this->Current_Game.Start(Player_Generate(_Players_Ammount));
+	St.Players = this->Current_Game.Players;
+	return;
+}
+
+void Game_Engine::Start_Game_Client(const State &St) {
+	this->Current_Game.Clear();
+	this->Current_Game.Start(St.Players);
+	return;
+}
+
+void Game_Engine::Get_Changes_ACC(Changes &Ch) {
+	Ch = this->Game_Changes;
+	Clear(this->Game_Changes);
+	return;
+}
+
+void Game_Engine::Update_Changes_ACC(const Changes &Ch) {
+
+}
+
+void Game_Engine::Get_Changes_NACC(State &St) {
+	St = this->Game_State;
+	Clear(this->Game_State);
+	return;
+}
+
+void Game_Engine::Update_Changes_NACC(const State &St) {
+	this->Current_Game.Players = St.Players;
+	return;
 }
