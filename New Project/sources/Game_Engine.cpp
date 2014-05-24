@@ -150,7 +150,7 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 }
 
 bool Game_Engine::Intersect(const Polygon2D < double > &P1, const Polygon2D < double > &P2) {
-	return 0;
+	return Cross_polygon(P1, P2);
 }
 
 int Game_Engine::Intersect_Tails(const Player &_Player1, const Player &_Player2, const double &dt) {

@@ -7,12 +7,6 @@ T Point_to_line(const Point2D < T > &Point, const Line2D < T > &Line) {
 }
 
 template < class T >
-Point2D < T > Closest_point(const Line2D < T > &Line, const Point2D < T > &Point) {
-	T k = (Point_to_line(Point, Line)) / (SQR(Line.A) + SQR(Line.B));
-	return Point2D < T >(Point.x - Line.A*k, Point.y - Line.B*k);
-}
-
-template < class T >
 bool Point_in_line(const Point2D < T > &Point, const Line2D < T > &Line) {
 	return (ABS(Point_to_line(Point, Line)) <= EPS);
 }
@@ -51,6 +45,12 @@ bool Cross_line(const Line2D < T > &Line1, const Line2D < T > &Line2, Point2D < 
 	Point.x = (Line2.B*Line1.C - Line1.B*Line2.C) / (Line2.A*Line1.B - Line1.A*Line2.B);
 	Point.y = (Line1.B != 0 ? (-Line1.C - Line1.A*Point.x) / Line1.B : (-Line2.C - Line2.A*Point.x) / Line2.B);
 	return true;
+}
+
+template < class T >
+Point2D < T > Closest_point(const Line2D < T > &Line, const Point2D < T > &Point) {
+	T k = (Point_to_line(Point, Line)) / (SQR(Line.A) + SQR(Line.B));
+	return Point2D < T >(Point.x - Line.A*k, Point.y - Line.B*k);
 }
 
 #endif // FUNCTIONS_LINE2D_HPP_INCLUDED
