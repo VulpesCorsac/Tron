@@ -312,8 +312,8 @@ bool CServer :: check_frame()
 				}
 			}
 
-
-		check_frame();
+		if (game_started)
+			check_frame();
 
         return true;
     }

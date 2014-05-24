@@ -19,13 +19,15 @@ void init_network()
 CClient::CClient()
 {
 	connected = 0;
+	game_started = false;
 }
 
 CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 {
 	 game = _game;
 	 ggame = _ggame;
-     connected = 0;
+	 connected = 0;
+	 game_started = false;
 }
 
 int CClient::getPID()
@@ -212,23 +214,26 @@ bool CClient::think()
 
 	}
 
-	Actions curact;
-	curact.cadr = cadr;
-	if (check_for_actions(&curact) || (frames_wtanws >=5))
+	if (game_started)
 	{
-		msg_anw.type = PLAYER_ACTION;
-		msg.cl_num = getPID();
-		sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
-		sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-		frames_wtanws = 0;
+		Actions curact;
+		curact.cadr = cadr;
+		if (check_for_actions(&curact) || (frames_wtanws >=5))
+		{
+			msg_anw.type = PLAYER_ACTION;
+			msg.cl_num = getPID();
+			sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
+			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			frames_wtanws = 0;
 
-		//if (curact.turn != NO_TURN)
-			//ggame->Turn_Player(curact.turn, getPID() - 1); //vovan << check here
+			//if (curact.turn != NO_TURN)
+				//ggame->Turn_Player(curact.turn, getPID() - 1); //vovan << check here
+		}
+		else frames_wtanws++;
+
+
+		ggame->UPD(dt);
 	}
-	else frames_wtanws++;
-
-
-	ggame->UPD(dt);
 //	if ()
 	return true;
 }
