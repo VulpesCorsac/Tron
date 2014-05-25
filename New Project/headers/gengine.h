@@ -22,6 +22,8 @@ class CGEngine
 {
 private:
 
+	friend CWallRender;
+
 	__int64 lpTime, dtTime;
 
 	int lKeys[256];

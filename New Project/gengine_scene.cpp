@@ -102,6 +102,8 @@ private:
 	vector<CWallMesh> dWalls;
 	vector<Wall> dWallsS;
 
+	vector<CWallMesh> statWalls;
+
 	//if t1 is low and t2 is high, U is assumed to be lengthy direction, V - not.
 	void makeWall2(CMesh*trg, vec3 sPos, vec3 ePos, vec2 t1, vec2 t2, float w, float h, float h2)
 	{
@@ -197,6 +199,14 @@ public:
 			e.cMod = i->cMod;
 			sc.e[RG_ALPHA].push_back(e);
 		}
+		forvec(CWallMesh, statWalls, i)
+		{
+			CDrawEl e;
+			e.dMesh = i->m;
+			e.wMat = mat4(1.0f);
+			e.cMod = i->cMod;
+			sc.e[RG_OPAQUE].push_back(e);
+		}
 	}
 
 	void setDynamicWall(const Wall& w, int ind, bool isLast)
@@ -211,14 +221,34 @@ public:
 		setWall(dWalls[ind], w, isLast);
 	}
 
-	void prepare(Game* g)
+	void prepare(Game* g, Init_Constants* ic, CGEngine* gEng)
 	{
 		forvec(CWallMesh, wm, i) delete i->m;
 		forvec(CWallMesh, dWalls, i) delete i->m;
+		forvec(CWallMesh, statWalls, i) delete i->m;
 		wm.clear();
 		ws_ni.clear();
 		ws_i.clear();
 		dWalls.clear();
+		statWalls.clear();
+
+		vec3 vp[4];
+		vp[0] = vec3(0, 0, 0);
+		vp[1] = vec3(0, 0, ic->Field_Width);
+		vp[2] = vec3(ic->Field_Length, 0, ic->Field_Width);
+		vp[3] = vec3(ic->Field_Length, 0, 0);
+
+		CWallMesh m;
+		m.m = new CMesh();
+		m.cMod = vec4(0.0f, 0.8f, 0.8f, 1.0f);
+		fori(i, 4)
+		{
+			int j = (i + 1) % 4;
+			makeWall2(m.m, vp[i], vp[j], vec2(0.0f, 0.0f), vec2(0.0f, 0.0f), 0.05f, 2.0f, 2.0f);
+		}
+		m.m->toBuffer(false);
+		m.m->setTexture(gEng->whiteTex);
+		statWalls.push_back(m);
 	}
 
 	~CWallRender()
@@ -343,7 +373,13 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		if (pAngs[i->Player_Number] - nang >= 3.14159f) pAngs[i->Player_Number] -= 2 * 3.14159f;
 		if (nang - pAngs[i->Player_Number] >= 3.14159f) pAngs[i->Player_Number] += 2 * 3.14159f;
 
-		pAngs[i->Player_Number] = pAngs[i->Player_Number] * asp + nang * (1 - asp);
+		//pAngs[i->Player_Number] = pAngs[i->Player_Number] * asp + nang * (1 - asp);
+		if (pAngs[i->Player_Number] - nang > 0.3f) pAngs[i->Player_Number] -= 0.3f;
+		if (nang - pAngs[i->Player_Number] > 0.3f) pAngs[i->Player_Number] += 0.3f;
+		if (fabsf(pAngs[i->Player_Number] - nang) < 0.3f) pAngs[i->Player_Number] = nang;
+
+	//		pAngs[i->Player_Number] += pAngs[i->Player_Number] * asp + nang * (1 - asp);
+
 		cs.e[RG_OP_LIGHTING].push_back(e);
 	}
 }
@@ -420,7 +456,10 @@ void CGEngine::drawScene(Game* gm)
 	glEnable(GL_DEPTH_TEST);
 	gridMesh2->draw(this);
 	glDisable(GL_DEPTH_TEST);
+
+	//setColorMod(vec4(1.0f, 1.0f, 0.0f + float(rand() % 100) * 0.00f, 1.0f));
 	gridMesh->draw(this);
+	//setColorMod(vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_WRITEMASK);
 
@@ -454,6 +493,7 @@ void CGEngine::prepForScene(Game* gm)
 	{
 		wRender = new CWallRender();
 		wRender->wTex = wallTex;
+		wRender->prepare(gm, ic, this);
 	}
 
 	pAngs.resize(gm->Players.size(), 0.0f);

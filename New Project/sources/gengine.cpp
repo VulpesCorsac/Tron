@@ -154,8 +154,8 @@ void CGEngine::load()
 
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
 
-	gridMesh = generateGridMesh(100, 100, 1.0f, 0.05f);
-	gridMesh2 = generateGridMesh2(100, 100, 1.0f);
+	gridMesh = generateGridMesh(400, 400, 1.0f, 0.05f);
+	gridMesh2 = generateGridMesh2(400, 400, 1.0f);
 
 	motoMesh = new CMesh();
 	motoMesh->loadFrom("models\\cycle.objm");
@@ -405,7 +405,7 @@ void CGEngine::cycle()
 				rGame->Players_Ammount = 1;
 				Player pl;
 				pl.Alive = true;
-				pl.MyCycle.Current_Point = Point2D<double>(0, 0);
+				pl.MyCycle.Current_Point = Point2D<double>(50.0, 50.0);
 				pl.MyCycle.Direction = Vector2D<double>(1, 0);
 				pl.MyCycle.Speed = 10;//lolwatisit
 				pl.Player_Number = 0;
@@ -451,7 +451,7 @@ void CGEngine::go3D()
 	glUniform1i(unv_3Dtex, 0);
 	glUniform1i(unv_3DLtex, 0);
 
-	projMat = glm::perspective(80.0f / 180.0f * 3.14159f, resX / float(resY), 0.1f, 100.0f);
+	projMat = glm::perspective(80.0f / 180.0f * 3.14159f, resX / float(resY), 0.1f, 512.0f);
 	wrldMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	camMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
