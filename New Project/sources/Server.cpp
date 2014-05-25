@@ -97,6 +97,7 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 	number_of_clients = 0;
 	for (int i = 1; i < MAX_CLIENTS; i++)
 	{
+		clients[i].alive = false;
 		clients[i].number = i;
 		clients[i].occupied = false;
 		clients[i].packets_sended = 0;
@@ -144,6 +145,7 @@ CServer :: CServer()
 	number_of_clients = 0;
 	for (int i = 1; i < MAX_CLIENTS; i++)
 	{
+		clients[i].alive = false;
 		clients[i].number = i;
 		clients[i].occupied = false;
 		clients[i].packets_sended = 0;
@@ -244,7 +246,7 @@ bool CServer :: check_frame()
 	}
 
 	for (int i = 0; i < number_of_clients; i++)
-	if (mframe > max_frame[i]) mframe = max_frame[i];
+	if ((mframe > max_frame[i]) && (clients[i].alive == true)) mframe = max_frame[i];
 
 
 	if (mframe > stepped)
@@ -265,6 +267,11 @@ bool CServer :: check_frame()
 		write_state(&msg, &nacc);
 		broadcast(msg);
 
+		for (int i = 0; i < number_of_clients; i++)
+		{
+			if (nacc.Players[i].Alive == false)
+				clients[i].alive = false;
+		}
 
 		msg.cl_num = 0;
 		msg.length = 0;
@@ -309,6 +316,7 @@ bool CServer :: check_frame()
 						{
 							if (clients[i].occupied == false)
 							{
+								clients[i].alive = true;
 								clients[i].occupied = true;
 								clients[i].packets_sended = 0;
 								clients[i].addr = tempaddr;
@@ -338,6 +346,7 @@ bool CServer :: check_frame()
 					clients[msg.cl_num].occupied = 0;
 					clients[msg.cl_num].packets_sended = 0;
 					clients[msg.cl_num].number = 0;
+					clients[msg.cl_num].alive = false;
 				}
 
 				if (msg.type == PLAYER_ACTION)

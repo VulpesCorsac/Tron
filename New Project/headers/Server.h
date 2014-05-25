@@ -47,6 +47,7 @@ struct client_info
     int packets_sended;
     int number;
     bool occupied;
+	bool alive;
 };
 
 

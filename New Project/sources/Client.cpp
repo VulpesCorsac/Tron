@@ -173,7 +173,7 @@ bool CClient::think()
 		{	
 			State beg_state;
 			read_state(&msg, &beg_state);
-			ggame->Update_Changes_NACC(beg_state);
+			ggame->Start_Game_Client(beg_state);
 			cadr = 0;
 			game_started = true;
 		}
