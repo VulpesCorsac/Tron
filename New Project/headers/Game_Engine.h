@@ -36,7 +36,7 @@ private:
 	bool Out_of_Field(const Player &_Player, const double &dt);
 
 public:
-	// Data	
+	// Data
 	Init_Constants* Constants;
 	Game Current_Game;
 	int Veryfied_Walls;
@@ -63,14 +63,14 @@ public:
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
 	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls);
-	bool Wall_Prolong(const int &n); //TODO:
-	bool Wall_Prolong_All(void); //TODO:
+	bool Wall_Prolong(const int &n);
+	bool Wall_Prolong_All(void);
 	bool Wall_Add(const Wall &_Wall);
 	bool Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Delete(const int &n);
 	bool Wall_Delete(const Wall &_Wall);
 	bool Wall_Delete(const vector < Wall > &Walls);
-	bool Wall_Delete(const vector < int > &Walls); //TODO:
+	bool Wall_Delete(const vector < int > &Walls);
 	bool Wall_Delete_flag(const int &n);
 	bool Wall_Delete_flag(const Wall &_Wall);
 	bool Wall_Delete_flag(const vector < Wall > &Walls);
@@ -80,7 +80,7 @@ public:
 	bool Bonus_Delete(const int &n);
 	bool Bonus_Delete(const Bonus &_Bonus);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
-	void Bonus_Place(void); 
+	void Bonus_Place(void);
 
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
@@ -91,13 +91,13 @@ public:
 	void Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch);
 	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);
 
-	void _UPD(const double dt, State &St, Changes &Ch); // TODO:
+	void _UPD(const double dt, State &St, Changes &Ch);
 	void _UPD_Client(const double dt);
 	void UPD(const double dt);
 	void UPD_Client(const double dt);
 
 	bool Game_Over(int &Win_Team); // returns -1 when all are dead
-	
+
 	void Get_Changes_ACC(Changes &Ch);
 	void Update_Changes_ACC(const Changes &Ch); //TODO:
 	void Get_Changes_NACC(State &St);
@@ -106,4 +106,4 @@ public:
 	void Start_Game_Client(const State &St);
 };
 
-#endif // GAME_ENGINE_H_INCLUDED 
+#endif // GAME_ENGINE_H_INCLUDED

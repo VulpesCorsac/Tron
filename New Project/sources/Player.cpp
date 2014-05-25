@@ -3,7 +3,7 @@
 
 void Player::Kill(void) {
 	this->Alive = false;
-	this->MyCycle = LightCycle();
+	this->MyCycle = LightCycle(Point2D < double > (-100, -100), Vector2D < double > (0, 0), 0);
 	return;
 }
 
