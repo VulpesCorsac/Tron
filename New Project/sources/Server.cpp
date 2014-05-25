@@ -182,7 +182,7 @@ void CServer::gotoframe(int mframe)
 	tostep = mframe - stepped;
 	for (int i = startframe; i < tostep; i++)
 	{
-		for (int j = 0; j < number_of_clients ; i++)
+		for (int j = 0; j < number_of_clients ; j++)
 			if (act[j][i].received == true)
 			{
 				//			if (act[i][j].start_bomb == true)
@@ -191,7 +191,7 @@ void CServer::gotoframe(int mframe)
 
 
 				if (act[i][j].turn != NO_TURN)   //vovan << check here
-					ggame->PLayer_Turn_Client(j - 1, act[i][j].turn == TURN_LEFT);
+					ggame->PLayer_Turn_Client(j, act[j][i].turn == TURN_LEFT);
 			}
 			ggame->UPD(dt);
 			stepped++;
