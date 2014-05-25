@@ -35,10 +35,9 @@ void write_state(my_message * msg, State * some_state)
 void read_state(my_message * msg, State * some_state)
 {
 	int number_of_players;
-	number_of_players = (int)some_state->Players.size();
 	int* p = (int*)msg->buff;
 	number_of_players = *(p++);
-
+	some_state->Players.resize(number_of_players);
 
 	for (int i = 0; i < number_of_players; i++)
 
@@ -405,7 +404,7 @@ bool CServer :: check_frame()
 		ggame->Start_Game(number_of_clients, beg_state);
 		cadr = 0;
 
-		ggame->Get_Changes_NACC( beg_state);
+//		ggame->Get_Changes_NACC( beg_state); 
 
 		my_message msg;
 		msg.cl_num = 0;

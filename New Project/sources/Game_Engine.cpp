@@ -549,7 +549,11 @@ Player Game_Engine::Player_Generate(void) {
 vector < Player > Game_Engine::Player_Generate(const int &n) {
 	vector < Player > Temp(n);
 	for (int i = 0; i < n; i++)
+	{
 		Temp[i] = Player_Generate();
+		Temp[i].Player_Number = i;
+		Temp[i].Team_Number = 0;//TODO for someone
+	}
 	return Temp;
 }
 
