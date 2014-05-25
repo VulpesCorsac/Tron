@@ -317,6 +317,15 @@ bool Game_Engine::Bomb_Delete(const Bomb &_Bomb) {
 	return false;
 }
 
+bool Game_Engine::Bomb_Delete(const vector < int > &Bombs) {
+	bool f = false;
+	for (size_t i = 0; i < Bombs.size(); i++) {
+		if (Bomb_Delete(Bombs[i]))
+			f = true;
+	}
+	return f;
+}
+
 bool Game_Engine::Bomb_Delete(const vector < Bomb > &Bombs) {
 	bool f = false;
 	for (size_t i = 0; i < Bombs.size(); i++) {
@@ -366,6 +375,15 @@ bool Game_Engine::Rocket_Delete(const Rocket &_Rocket) {
 	return false;
 }
 
+bool Game_Engine::Rocket_Delete(const vector < int > &Rockets) {
+	bool f = false;
+	for (size_t i = 0; i < Rockets.size(); i++) {
+		if (Rocket_Delete(Rockets[i]))
+			f = true;
+	}
+	return f;
+}
+
 bool Game_Engine::Rocket_Delete(const vector < Rocket > &Rockets) {
 	bool f = false;
 	for (size_t i = 0; i < Rockets.size(); i++) {
@@ -406,11 +424,10 @@ bool Game_Engine::Wall_Modify(const Wall &_Wall, const Wall &New_Wall) {
 	return false;
 }
 
-bool Game_Engine::Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls) {
-	assert(Walls.size() != New_Walls.size() && "Error! Walls ans New_Walls have different sizes");
+bool Game_Engine::Wall_Modify(const vector < pair < Wall, Wall > > &Walls) {
 	bool f = false;
 	for (size_t i = 0; i < Walls.size(); i++) {
-		if (Wall_Modify(Walls[i], New_Walls[i]))
+		if (Wall_Modify(Walls[i].first, Walls[i].second))
 			f = true;
 	}
 	return f;
@@ -465,7 +482,7 @@ bool Game_Engine::Wall_Delete(const Wall &_Wall) {
 	return false;
 }
 
-bool Game_Engine::Wall_Delete(const vector < Wall > &Walls) {
+bool Game_Engine::Wall_Delete(const vector < int > &Walls) {
 	bool f = false;
 	for (size_t i = 0; i < Walls.size(); i++) {
 		if (Wall_Delete(Walls[i]))
@@ -474,8 +491,13 @@ bool Game_Engine::Wall_Delete(const vector < Wall > &Walls) {
 	return f;
 }
 
-bool Wall_Delete(const vector < int > &Walls) {
-	return true;
+bool Game_Engine::Wall_Delete(const vector < Wall > &_Walls) {
+	bool f = false;
+	for (size_t i = 0; i < _Walls.size(); i++) {
+		if (Wall_Delete(_Walls[i]))
+			f = true;
+	}
+	return f;
 }
 
 bool Game_Engine::Wall_Delete_flag(const int &n) {
@@ -492,6 +514,15 @@ bool Game_Engine::Wall_Delete_flag(const Wall &_Wall) {
 }
 
 bool Game_Engine::Wall_Delete_flag(const vector < Wall > &Walls) {
+	bool f = false;
+	for (size_t i = 0; i < Walls.size(); i++) {
+		if (Wall_Delete_flag(Walls[i]))
+			f = true;
+	}
+	return f;
+}
+
+bool Game_Engine::Wall_Delete_flag(const vector < int > &Walls) {
 	bool f = false;
 	for (size_t i = 0; i < Walls.size(); i++) {
 		if (Wall_Delete_flag(Walls[i]))
@@ -524,6 +555,15 @@ bool Game_Engine::Bonus_Delete(const Bonus &_Bonus) {
 			return Bonus_Delete((int)i);
 	}
 	return false;
+}
+
+bool Game_Engine::Bonus_Delete(const vector < int > &Bonuses) {
+	bool f = false;
+	for (size_t i = 0; i < Bonuses.size(); i++) {
+		if (Bonus_Delete(Bonuses[i]))
+			f = true;
+	}
+	return f;
 }
 
 bool Game_Engine::Bonus_Delete(const vector < Bonus > &Bonuses) {
@@ -609,6 +649,11 @@ void Game_Engine::PLayer_Kill(const int &Player_number) {
 			Wall_Delete_flag((int)i);
 	}
 	return;
+}
+
+void Game_Engine::PLayer_Kill(const vector < int > &Players_Numbers) {
+	for (size_t i = 0; i < Players_Numbers.size(); i++)
+		PLayer_Kill(Players_Numbers[i]);
 }
 
 void Game_Engine::Player_Add(Player &_Player) {
@@ -791,7 +836,16 @@ void Game_Engine::Get_Changes_ACC(Changes &Ch) {
 }
 
 void Game_Engine::Update_Changes_ACC(const Changes &Ch) {
-
+	PLayer_Kill(Ch.Killed_Players);
+	Wall_Add(Ch.New_Walls);
+	Wall_Modify(Ch.Modifyed_Walls);
+	Bomb_Add(Ch.Placed_Bomb);
+	Bomb_Delete(Ch.Exploded_Bombs);
+	Rocket_Add(Ch.Placed_Rocket);
+	Rocket_Delete(Ch.Exploded_Rockets);
+	Bonus_Add(Ch.Placed_Bonuses);
+	Bonus_Delete(Ch.Collected_Bonuses);
+	return;
 }
 
 void Game_Engine::Get_Changes_NACC(State &St) {
