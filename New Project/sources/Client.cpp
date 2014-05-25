@@ -56,6 +56,7 @@ void read_changes(my_message * msg, Changes * some_changes);
 
 bool CClient :: check_for_actions(Actions *act)
 {
+	act->turn = NO_TURN;
 	bool a = false;
 	if (game->isKeyJustPressed(VK_LEFT))
 	{
@@ -228,14 +229,14 @@ bool CClient::think()
 		if (check_for_actions(&curact) || (frames_wtanws >=5))
 		{
 			int * p = (int *)msg.buff;
-			msg_anw.type = PLAYER_ACTION;
-			msg.cl_num = getPID();
+			msg.type = PLAYER_ACTION;
+			msg.cl_num = getPID() + 1;
 			*(p++) = curact.cadr;
 			*(p++) = curact.start_bomb;
 			*(p++) = curact.start_rocket;
 			*(p++) = curact.turn;
 			
-			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message) - 2036, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
 			if (curact.turn != NO_TURN)
