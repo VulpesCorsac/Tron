@@ -57,27 +57,25 @@ void read_changes(my_message * msg, Changes * some_changes);
 bool CClient :: check_for_actions(Actions *act)
 {
 	bool a = false;
-	if (game->isKeyPressed(VK_LEFT))
+	if (game->isKeyJustPressed(VK_LEFT))
 	{
 		act->turn = TURN_LEFT;
 		a = true;
-	}
-	if (game->isKeyPressed(VK_RIGHT))
+	} else
+	if (game->isKeyJustPressed(VK_RIGHT))
 	{
 		act->turn = TURN_RIGHT;
 		a = true;
-	}
-
-	if (!(game->isKeyPressed(VK_RIGHT) || game->isKeyPressed(VK_LEFT)))
+	} else
 	{
 		act->turn = NO_TURN;
 	}
-	if (game->isKeyPressed(VK_SPACE))
+	if (game->isKeyJustPressed(VK_SPACE))
 	{
 		act->start_bomb = true;
 		a = true;
 	}
-	if (game->isKeyPressed(VK_CONTROL))
+	if (game->isKeyJustPressed(VK_CONTROL))
 	{
 		act->start_rocket = true;
 		a = true;
@@ -142,6 +140,11 @@ bool CClient :: connect(const char *ip)
 }
 
 
+Game* CClient::getGame_r()
+{
+	if (!game_started) return NULL;
+	return &ggame->Current_Game;
+}
 
 bool CClient::think()
 {
@@ -170,7 +173,7 @@ bool CClient::think()
 		{	
 			State beg_state;
 			read_state(&msg, &beg_state);
-			ggame->Update_Changes_NACC(beg_state);
+			ggame->Start_Game_Client(beg_state);
 			cadr = 0;
 			game_started = true;
 		}
@@ -178,7 +181,12 @@ bool CClient::think()
 		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
 		{
 			Actions rec_act;
-			sscanf(msg.buff, "%d %d %d %d", &rec_act.cadr, &rec_act.start_bomb, &rec_act.start_rocket, &rec_act.turn);
+			int * p = (int *)msg.buff;
+			rec_act.cadr = *(p++);
+			rec_act.start_bomb = *(p++);
+			rec_act.start_rocket = *(p++);
+			rec_act.turn = *(p++);
+
 //			if (rec_act.start_bomb == true)
 
 //			if (rec_act.start_rocket == true)
@@ -189,13 +197,12 @@ bool CClient::think()
 				if (cadr > rec_act.cadr)
 				{
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(-dt *(cadr - rec_act.cadr));
-				//	ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+					ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
 				}
-			//	else ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+				else ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 			}
 		}
-
 
 		if (msg.type == UPD_GAME_STATE_ACC)
 		{
@@ -212,7 +219,6 @@ bool CClient::think()
 			//here comes the sg.buf parsing to temp_state
 			ggame->Update_Changes_NACC(temp_state);
 		}
-
 	}
 
 	if (game_started)
@@ -221,19 +227,24 @@ bool CClient::think()
 		curact.cadr = cadr;
 		if (check_for_actions(&curact) || (frames_wtanws >=5))
 		{
+			int * p = (int *)msg.buff;
 			msg_anw.type = PLAYER_ACTION;
 			msg.cl_num = getPID();
-			sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
+			*(p++) = curact.cadr;
+			*(p++) = curact.start_bomb;
+			*(p++) = curact.start_rocket;
+			*(p++) = curact.turn;
+			
 			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
-			//if (curact.turn != NO_TURN)
-				//ggame->Turn_Player(curact.turn, getPID() - 1); //vovan << check here
+			if (curact.turn != NO_TURN)
+				ggame->PLayer_Turn_Client(getPID(), curact.turn == TURN_LEFT);
 		}
 		else frames_wtanws++;
 
 
-		ggame->UPD(dt);
+		ggame->UPD_Client(dt);
 	}
 //	if ()
 	return true;

@@ -549,7 +549,11 @@ Player Game_Engine::Player_Generate(void) {
 vector < Player > Game_Engine::Player_Generate(const int &n) {
 	vector < Player > Temp(n);
 	for (int i = 0; i < n; i++)
+	{
 		Temp[i] = Player_Generate();
+		Temp[i].Player_Number = i;
+		Temp[i].Team_Number = 0;//TODO for someone
+	}
 	return Temp;
 }
 
@@ -715,6 +719,5 @@ void Game_Engine::Get_Changes_NACC(State &St) {
 }
 
 void Game_Engine::Update_Changes_NACC(const State &St) {
-	this->Current_Game.Players = St.Players;
-	return;
+
 }

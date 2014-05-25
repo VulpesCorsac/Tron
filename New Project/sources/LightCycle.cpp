@@ -20,9 +20,18 @@ void LightCycle::Turn(const double &alpha) {
 
 void LightCycle::Turn(const bool &is_left_turn) {
 	if (is_left_turn)
-		this->Direction = turn(this->Direction, this->Current_Point,  0.5*PI < double > ());
+	{
+		Direction = Point2D<double>(Direction.y, -Direction.x);
+	}
+	else {
+		Direction = Point2D<double>(-Direction.y, Direction.x);
+	}
+	//i guess i fixed it rait -- nope i didn't still doesn't work
+	/*
+	if (is_left_turn)
+		this->Direction = turn(this->Direction, Point2D<double>(0.0, 0.0),  0.5*PI < double > ());
 	else
-		this->Direction = turn(this->Direction, this->Current_Point, -0.5*PI < double >());
+		this->Direction = turn(this->Direction, Point2D<double>(0.0, 0.0), -0.5*PI < double >());*/
 }
 
 void LightCycle::SpeedUp(const double &New_Speed) {

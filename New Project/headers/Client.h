@@ -40,6 +40,7 @@ public:
 
 	//also, put here a func to get Game for rendering
 
+	Game* getGame_r();	//okay, i'll do it
 	CClient();
 	CClient(CGEngine * _game, Game_Engine *ggame);
 	bool think();

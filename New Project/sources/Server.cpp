@@ -5,12 +5,59 @@
 
 void write_state(my_message * msg, State * some_state)
 {
+	int number_of_players;
+	number_of_players =(int) some_state->Players.size();
+	int* p = (int*)msg->buff;
+	*(p++) = number_of_players;
 
+
+	for (int i = 0; i < number_of_players; i++)
+
+	{
+		*(p++) = some_state->Players[i].Alive;
+		*(p++) = some_state->Players[i].Bomb_Ammount;
+		*(p++) = some_state->Players[i].Player_Number;
+		*(p++) = some_state->Players[i].Rocket_Ammount;
+		*(p++) = some_state->Players[i].Team_Number;
+		*((double*)p) = some_state->Players[i].MyCycle.Current_Point.x;
+			p += 2;
+		*((double*)p) = some_state->Players[i].MyCycle.Current_Point.y;
+			p += 2;
+		*((double*)p) = some_state->Players[i].MyCycle.Direction.x;
+			p += 2;
+		*((double*)p) = some_state->Players[i].MyCycle.Direction.y;
+			p += 2;
+		*((double*)p) = some_state->Players[i].MyCycle.Speed;
+			p += 2;
+	}
 }
 
 void read_state(my_message * msg, State * some_state)
 {
+	int number_of_players;
+	int* p = (int*)msg->buff;
+	number_of_players = *(p++);
+	some_state->Players.resize(number_of_players);
 
+	for (int i = 0; i < number_of_players; i++)
+
+	{
+		some_state->Players[i].Alive = *(p++);
+		some_state->Players[i].Bomb_Ammount = *(p++);
+		some_state->Players[i].Player_Number = *(p++);
+		some_state->Players[i].Rocket_Ammount = *(p++);
+		some_state->Players[i].Team_Number = *(p++);
+		some_state->Players[i].MyCycle.Current_Point.x = *((double*)p);
+		p += 2;
+		some_state->Players[i].MyCycle.Current_Point.y = *((double*)p);
+		p += 2;
+		some_state->Players[i].MyCycle.Direction.x = *((double*)p);
+		p += 2;
+		*((double*)p) = some_state->Players[i].MyCycle.Direction.y = *((double*)p);
+		p += 2;  
+		some_state->Players[i].MyCycle.Speed = *((double*)p);
+		p += 2;
+	}
 }
 
 void write_changes(my_message * msg, Changes * some_changes)
@@ -22,12 +69,6 @@ void read_changes(my_message * msg, Changes * some_changes)
 {
 
 }
-
-
-
-
-
-
 
 
 
@@ -55,6 +96,7 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 	number_of_clients = 0;
 	for (int i = 1; i < MAX_CLIENTS; i++)
 	{
+		clients[i].alive = false;
 		clients[i].number = i;
 		clients[i].occupied = false;
 		clients[i].packets_sended = 0;
@@ -102,6 +144,7 @@ CServer :: CServer()
 	number_of_clients = 0;
 	for (int i = 1; i < MAX_CLIENTS; i++)
 	{
+		clients[i].alive = false;
 		clients[i].number = i;
 		clients[i].occupied = false;
 		clients[i].packets_sended = 0;
@@ -138,7 +181,7 @@ void CServer::gotoframe(int mframe)
 	tostep = mframe - stepped;
 	for (int i = startframe; i < tostep; i++)
 	{
-		for (int j = 0; j < number_of_clients ; i++)
+		for (int j = 0; j < number_of_clients ; j++)
 			if (act[j][i].received == true)
 			{
 				//			if (act[i][j].start_bomb == true)
@@ -146,8 +189,8 @@ void CServer::gotoframe(int mframe)
 				//			if (act[i][j].start_rocket == true)
 
 
-				//if (act[i][j].turn != NO_TURN)   //vovan << check here
-				//	ggame->Turn_Player(act[i][j].turn, j - 1);
+				if (act[i][j].turn != NO_TURN)   //vovan << check here
+					ggame->PLayer_Turn_Client(j, act[j][i].turn == TURN_LEFT);
 			}
 			ggame->UPD(dt);
 			stepped++;
@@ -202,7 +245,7 @@ bool CServer :: check_frame()
 	}
 
 	for (int i = 0; i < number_of_clients; i++)
-	if (mframe > max_frame[i]) mframe = max_frame[i];
+	if ((mframe > max_frame[i]) && (clients[i].alive == true)) mframe = max_frame[i];
 
 
 	if (mframe > stepped)
@@ -223,6 +266,11 @@ bool CServer :: check_frame()
 		write_state(&msg, &nacc);
 		broadcast(msg);
 
+		for (int i = 0; i < number_of_clients; i++)
+		{
+			if (nacc.Players[i].Alive == false)
+				clients[i].alive = false;
+		}
 
 		msg.cl_num = 0;
 		msg.length = 0;
@@ -267,6 +315,7 @@ bool CServer :: check_frame()
 						{
 							if (clients[i].occupied == false)
 							{
+								clients[i].alive = true;
 								clients[i].occupied = true;
 								clients[i].packets_sended = 0;
 								clients[i].addr = tempaddr;
@@ -296,18 +345,20 @@ bool CServer :: check_frame()
 					clients[msg.cl_num].occupied = 0;
 					clients[msg.cl_num].packets_sended = 0;
 					clients[msg.cl_num].number = 0;
+					clients[msg.cl_num].alive = false;
 				}
 
 				if (msg.type == PLAYER_ACTION)
 				{
 					int curfr;
+					int * p = (int *)msg.buff;
 					clients[msg.cl_num].count++;
 					
-					sscanf(msg.buff, "%d",  &curfr);
+					curfr = *(p++);
 					act[msg.cl_num][curfr].received = true;
-					sscanf(msg.buff, "%d", &act[msg.cl_num][curfr].start_bomb);
-					sscanf(msg.buff, "%d", &act[msg.cl_num][curfr].start_rocket);
-					sscanf(msg.buff, "%d", &act[msg.cl_num][curfr].turn);
+					act[msg.cl_num][curfr].start_bomb = *(p++);
+					act[msg.cl_num][curfr].start_rocket = *(p++);
+					act[msg.cl_num][curfr].turn = *(p++);
 					broadcast(msg);
 				}
 			}
@@ -342,6 +393,7 @@ bool CServer :: check_frame()
 	bool CServer::startgame()
 	{
 
+
 		if (number_of_clients < 1)
 			return false;
 		Line_up();
@@ -352,12 +404,11 @@ bool CServer :: check_frame()
 		ggame->Start_Game(number_of_clients, beg_state);
 		cadr = 0;
 
-		ggame->Get_Changes_NACC( beg_state);
+//		ggame->Get_Changes_NACC( beg_state); 
 
 		my_message msg;
 		msg.cl_num = 0;
 		msg.type = START_GAME;
-		sprintf(msg.buff, "%d", number_of_clients);
 		
 		write_state( &msg, &beg_state);
 

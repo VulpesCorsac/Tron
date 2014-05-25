@@ -7,6 +7,7 @@
 #define STDAFX_H_INCLUDED
 
 #define FREEGLUT_STATIC
+#define GLM_FORCE_RADIANS
 
 #include <algorithm>
 #include <stdlib.h>

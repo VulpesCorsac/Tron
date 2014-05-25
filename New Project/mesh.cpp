@@ -5,6 +5,23 @@
 #include "ObjLoader\objLoader.h"
 
 
+void renQuad::autoNormal()
+{
+	glm::vec3 nn = glm::normalize(glm::cross(v[1] - v[0], v[3] - v[0]));	//no idea about the sign yet, totest
+	setNormal(nn);
+}
+
+
+void renQuad::defaultUV(glm::vec2 t1, glm::vec2 t2)
+{
+	uv[0] = t1;
+	uv[2] = t2;
+	uv[1].y = uv[0].y;
+	uv[1].x = uv[2].x;
+	uv[3].y = uv[2].y;
+	uv[3].x = uv[0].x;
+}
+
 void renQuad::defaultUV(float tx, float ty)
 {
 	uv[0].x = 0; uv[0].y = 0;
@@ -41,6 +58,12 @@ void CMesh::appendQuad(renQuad& q)
 
 void CMesh::toBuffer(bool isDyn, bool clrTemp)
 {
+	if (!q_v.size())
+	{
+		bf.relBuffers();
+		bufI_size = bufQ_size = 0;
+		return;
+	}
 	if (!isDyn || !bf.bufs[0] || bufQ_size != qSize)
 	{
 		bf.relBuffers();
@@ -49,13 +72,13 @@ void CMesh::toBuffer(bool isDyn, bool clrTemp)
 		bufI_size = qSize * 6;
 
 		GLuint memType = isDyn ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
-		if (!isDyn)
-		{
+	//	if (!isDyn)
+	//	{
 			bf.allocBuff(GLDB_VERTEX, bufQ_size * 4, &q_v[0], memType);
 			bf.allocBuff(GLDB_UV, bufQ_size * 4, &q_uv[0], memType);
 			bf.allocBuff(GLDB_NORMALS, bufQ_size * 4, &q_n[0], memType);
 			bf.allocBuff(GLDB_INDEX, bufQ_size * 6, &q_i[0], memType);
-		}
+	//	}
 	} else {
 
 		bf.updBuff(GLDB_VERTEX, bufQ_size * 4, &q_v[0]);
@@ -69,6 +92,7 @@ void CMesh::toBuffer(bool isDyn, bool clrTemp)
 		q_n.clear();
 		q_i.clear();
 		q_uv.clear();
+		qSize = 0;
 	}
 }
 
