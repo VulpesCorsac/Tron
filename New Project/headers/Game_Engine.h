@@ -48,6 +48,7 @@ public:
 	void Bomb_Add(const vector < Bomb > &Bombs);
 	bool Bomb_Delete(const int &n);
 	bool Bomb_Delete(const Bomb &_Bomb);
+	bool Bomb_Delete(const vector < int >  &Bombs);
 	bool Bomb_Delete(const vector < Bomb > &Bombs);
 	void Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 	void Bomb_Place(const int &Player_number);
@@ -56,29 +57,33 @@ public:
 	void Rocket_Add(const vector < Rocket > &Rockets);
 	bool Rocket_Delete(const int &n);
 	bool Rocket_Delete(const Rocket &_Rocket);
+	bool Rocket_Delete(const vector < int >  &Rockets);
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
 	void Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 	void Rocket_Place(const int &Player_number);
 
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
-	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls);
+	bool Wall_Modify(const vector < pair < Wall, Wall > > &Walls);
 	bool Wall_Prolong(const int &n);
 	bool Wall_Prolong_All(void);
 	bool Wall_Add(const Wall &_Wall);
 	bool Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Delete(const int &n);
 	bool Wall_Delete(const Wall &_Wall);
+	bool Wall_Delete(const vector < int >  &Walls);
 	bool Wall_Delete(const vector < Wall > &Walls);
-	bool Wall_Delete(const vector < int > &Walls);
 	bool Wall_Delete_flag(const int &n);
 	bool Wall_Delete_flag(const Wall &_Wall);
 	bool Wall_Delete_flag(const vector < Wall > &Walls);
+	bool Wall_Delete_flag(const vector < int >  &Walls);
+	bool Wall_Parse(const vector < pair < Wall, Wall > > &Walls);
 
 	void Bonus_Add(const Bonus &_Bonus);
 	void Bonus_Add(const vector < Bonus > &Bonuses);
 	bool Bonus_Delete(const int &n);
 	bool Bonus_Delete(const Bonus &_Bonus);
+	bool Bonus_Delete(const vector < int >   &Bonuses);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
 	void Bonus_Place(void);
 
@@ -87,6 +92,7 @@ public:
 	void Player_Add(Player &_Player);
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
+	void PLayer_Kill(const vector < int > &Players_Numbers);
 
 	void Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch);
 	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);

@@ -56,6 +56,7 @@ void read_changes(my_message * msg, Changes * some_changes);
 
 bool CClient :: check_for_actions(Actions *act)
 {
+	act->turn = NO_TURN;
 	bool a = false;
 	if (game->isKeyJustPressed(VK_LEFT))
 	{
@@ -197,6 +198,7 @@ bool CClient::think()
 				if (cadr > rec_act.cadr)
 				{
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(-dt *(cadr - rec_act.cadr));
+					ggame->Wall_Prolong(msg.cl_num - 1);
 					ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
 				}
@@ -209,7 +211,7 @@ bool CClient::think()
 			Changes temp_changes;
 			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
-			ggame->Update_Changes_ACC(temp_changes);
+		//	ggame->Update_Changes_ACC(temp_changes);
 		}
 
 		if (msg.type == UPD_GAME_STATE_NACC)
@@ -217,7 +219,7 @@ bool CClient::think()
 			State temp_state;
 			read_state(&msg, &temp_state);
 			//here comes the sg.buf parsing to temp_state
-			ggame->Update_Changes_NACC(temp_state);
+		//	ggame->Update_Changes_NACC(temp_state);
 		}
 	}
 
@@ -228,14 +230,14 @@ bool CClient::think()
 		if (check_for_actions(&curact) || (frames_wtanws >=5))
 		{
 			int * p = (int *)msg.buff;
-			msg_anw.type = PLAYER_ACTION;
-			msg.cl_num = getPID();
+			msg.type = PLAYER_ACTION;
+			msg.cl_num = getPID() + 1;
 			*(p++) = curact.cadr;
 			*(p++) = curact.start_bomb;
 			*(p++) = curact.start_rocket;
 			*(p++) = curact.turn;
 			
-			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message) - 1700, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
 			if (curact.turn != NO_TURN)

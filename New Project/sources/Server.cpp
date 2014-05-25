@@ -62,7 +62,8 @@ void read_state(my_message * msg, State * some_state)
 
 void write_changes(my_message * msg, Changes * some_changes)
 {
-
+	//int *p = (int *)msg->buff;
+	//some_changes
 }
 
 void read_changes(my_message * msg, Changes * some_changes)
@@ -248,6 +249,7 @@ bool CServer :: check_frame()
 	if ((mframe > max_frame[i]) && (clients[i].alive == true)) mframe = max_frame[i];
 
 
+	
 	if (mframe > stepped)
 	{
 		gotoframe(mframe);
@@ -264,7 +266,7 @@ bool CServer :: check_frame()
 		msg.length = 0;
 		msg.type = UPD_GAME_STATE_NACC;
 		write_state(&msg, &nacc);
-		broadcast(msg);
+		//broadcast(msg);
 
 		for (int i = 0; i < number_of_clients; i++)
 		{
@@ -276,7 +278,7 @@ bool CServer :: check_frame()
 		msg.length = 0;
 		msg.type = UPD_GAME_STATE_ACC;
 		write_changes(&msg, &acc);
-		broadcast(msg);
+		//broadcast(msg);
 		return true;
 	}
 	return false;
@@ -290,6 +292,8 @@ bool CServer :: check_frame()
             sockaddr_in tempaddr;
             int slen = sizeof(sockaddr_in);
             my_message msg, anws;
+
+
 			if (game_started)
 			{
 				cadr++;
@@ -306,7 +310,7 @@ bool CServer :: check_frame()
 						anws.cl_num = 0;
 						anws.length = 1;
 						anws.pack_num = 0;
-						sendto(my_sock, (char *)&anws, sizeof(my_message), 0, (struct sockaddr *) &tempaddr, sizeof(tempaddr));
+						sendto(my_sock, (char *)&anws, sizeof(my_message) - 2046, 0, (struct sockaddr *) &tempaddr, sizeof(tempaddr));
 					}
 					else
 					{
@@ -324,7 +328,7 @@ bool CServer :: check_frame()
 								anws.cl_num = 0;
 								anws.length = 4;
 								anws.pack_num = 0;
-								sendto(my_sock, (char *)&anws, sizeof(my_message), 0, (struct sockaddr *) &clients[i].addr, sizeof(tempaddr));
+								sendto(my_sock, (char *)&anws, sizeof(my_message) - 2046, 0, (struct sockaddr *) &clients[i].addr, sizeof(tempaddr));
 								break;
 							}
 						}
@@ -362,11 +366,11 @@ bool CServer :: check_frame()
 					broadcast(msg);
 				}
 			}
-
+			
 		if (game_started)
 			check_frame();
-
-        return true;
+		
+		return true;
     }
 
 
@@ -377,7 +381,7 @@ bool CServer :: check_frame()
 		{
 			if (clients[i].occupied == true)
 			{
-				sendto(my_sock, (char *) &msg, sizeof(my_message), 0, (sockaddr *)&clients[i].addr, len);
+				sendto(my_sock, (char *) &msg, sizeof(my_message) - 1700, 0, (sockaddr *)&clients[i].addr, len);
 			}
 		}
 		return true;
