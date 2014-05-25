@@ -117,12 +117,12 @@ bool CClient :: connect(const char *ip)
 	int lol_size = 0;
 
 	sendto(my_sock, (char *)&msg, sizeof(my_message)-2048, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-    while(((msg_size = recvfrom(my_sock, (char*) &msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len)) == -1) && (lol_size < 10000))
+    while(((msg_size = recvfrom(my_sock, (char*) &msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len)) == -1) && (lol_size < 1000))
     {
 		lol_size++;
-		Sleep(0);
+		Sleep(1);
     }
-	if (lol_size == 10000)
+	if (lol_size == 1000)
 		perror("TIMED OUT");
     if(msg_size > 0){
         if(msg.type == ACCEPT_CONNECTION)
