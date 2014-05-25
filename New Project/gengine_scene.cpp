@@ -426,11 +426,6 @@ void CGEngine::drawScene(CCurScene& cs, glm::mat4 &tr)
 	}
 }
 
-bool Game_Engine::Wall_Prolong_All()
-{
-	return true;
-}
-
 void CGEngine::drawScene(Game* gm)
 {
 

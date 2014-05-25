@@ -249,6 +249,7 @@ bool CServer :: check_frame()
 	if ((mframe > max_frame[i]) && (clients[i].alive == true)) mframe = max_frame[i];
 
 
+	
 	if (mframe > stepped)
 	{
 		gotoframe(mframe);
@@ -265,7 +266,7 @@ bool CServer :: check_frame()
 		msg.length = 0;
 		msg.type = UPD_GAME_STATE_NACC;
 		write_state(&msg, &nacc);
-		broadcast(msg);
+		//broadcast(msg);
 
 		for (int i = 0; i < number_of_clients; i++)
 		{
@@ -277,7 +278,7 @@ bool CServer :: check_frame()
 		msg.length = 0;
 		msg.type = UPD_GAME_STATE_ACC;
 		write_changes(&msg, &acc);
-		broadcast(msg);
+		//broadcast(msg);
 		return true;
 	}
 	return false;
@@ -380,7 +381,7 @@ bool CServer :: check_frame()
 		{
 			if (clients[i].occupied == true)
 			{
-				sendto(my_sock, (char *) &msg, sizeof(my_message) - 2000, 0, (sockaddr *)&clients[i].addr, len);
+				sendto(my_sock, (char *) &msg, sizeof(my_message) - 1700, 0, (sockaddr *)&clients[i].addr, len);
 			}
 		}
 		return true;
