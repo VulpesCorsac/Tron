@@ -181,7 +181,12 @@ bool CClient::think()
 		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
 		{
 			Actions rec_act;
-			sscanf(msg.buff, "%d %d %d %d", &rec_act.cadr, &rec_act.start_bomb, &rec_act.start_rocket, &rec_act.turn);
+			int * p = (int *)msg.buff;
+			rec_act.cadr = *(p++);
+			rec_act.start_bomb = *(p++);
+			rec_act.start_rocket = *(p++);
+			rec_act.turn = *(p++);
+
 //			if (rec_act.start_bomb == true)
 
 //			if (rec_act.start_rocket == true)
@@ -222,9 +227,14 @@ bool CClient::think()
 		curact.cadr = cadr;
 		if (check_for_actions(&curact) || (frames_wtanws >=5))
 		{
+			int * p = (int *)msg.buff;
 			msg_anw.type = PLAYER_ACTION;
 			msg.cl_num = getPID();
-			sprintf(msg.buff, "%d %d %d %d", curact.cadr, curact.start_bomb, curact.start_rocket, curact.turn);
+			*(p++) = curact.cadr;
+			*(p++) = curact.start_bomb;
+			*(p++) = curact.start_rocket;
+			*(p++) = curact.turn;
+			
 			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
