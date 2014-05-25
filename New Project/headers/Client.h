@@ -27,13 +27,16 @@ private:
 	bool game_started;
     my_message msg, msg_anw;
 	int my_num;
+	int number_of_clients;
 	long long cadr;
 	long long stepped;
 	CGEngine *game;
 	Game_Engine *ggame;
 	int frames_wtanws;
+	Actions act[MAX_CLIENTS][100000];
 
-
+	void goforward(int frame);
+	void goback(int frame);
 	bool check_for_actions(Actions *);
 
 public:

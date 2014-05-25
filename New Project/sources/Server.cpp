@@ -62,12 +62,111 @@ void read_state(my_message * msg, State * some_state)
 
 void write_changes(my_message * msg, Changes * some_changes)
 {
-	//int *p = (int *)msg->buff;
-	//some_changes
+	int len;
+	int * p = (int *)msg->buff;
+	*(p++) = len = some_changes->Killed_Players.size();
+	for (int i = 0; i < len; i++)
+		*(p++) = some_changes->Killed_Players[i];
+
+
+	*(p++) = len = some_changes->Modifyed_Walls.size();
+	assert(len < 10);
+	for (int i = 0; i < len; i++)
+	{
+		*(p++) = some_changes->Modifyed_Walls[i].first.Player_Number;
+		*(p++) = some_changes->Modifyed_Walls[i].first.Wall_Number;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.y;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.y;
+		p = p + 2;
+
+
+		*(p++) = some_changes->Modifyed_Walls[i].second.Player_Number;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.y;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.B.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.B.y;
+		p = p + 2;
+		*(p++) = some_changes->Modifyed_Walls[i].second.Wall_Number;
+
+	}
+
+	*(p++) = len = some_changes->New_Walls.size();
+	for (int i = 0; i < len; i++)
+	{
+		*(p++) = some_changes->New_Walls[i].Player_Number;
+		*((double *)p) = some_changes->New_Walls[i].Segment.A.x;
+		p = p + 2;
+		*((double *)p) = some_changes->New_Walls[i].Segment.A.y;
+		p = p + 2;
+		*((double *)p) = some_changes->New_Walls[i].Segment.B.x;
+		p = p + 2;
+		*((double *)p) = some_changes->New_Walls[i].Segment.B.y;
+		p = p + 2;
+		*(p++) = some_changes->New_Walls[i].Wall_Number;
+	}
+
 }
 
 void read_changes(my_message * msg, Changes * some_changes)
 {
+	int len;
+	int * p = (int *)msg->buff;
+	*(p++) = len = some_changes->Killed_Players.size();
+	for (int i = 0; i < len; i++)
+		*(p++) = some_changes->Killed_Players[i];
+
+
+	*(p++) = len = some_changes->Modifyed_Walls.size();
+	assert(len < 10);
+	for (int i = 0; i < len; i++)
+	{
+		*(p++) = some_changes->Modifyed_Walls[i].first.Player_Number;
+		*(p++) = some_changes->Modifyed_Walls[i].first.Wall_Number;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.y;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.y;
+		p = p + 2;
+
+
+		*(p++) = some_changes->Modifyed_Walls[i].second.Player_Number;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.y;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.B.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.B.y;
+		p = p + 2;
+		*(p++) = some_changes->Modifyed_Walls[i].second.Wall_Number;
+
+	}
+
+	*(p++) = len = some_changes->New_Walls.size();
+	for (int i = 0; i < len; i++)
+	{
+		*(p++) = some_changes->New_Walls[i].Player_Number;
+		*((double *)p) = some_changes->New_Walls[i].Segment.A.x;
+		p = p + 2;
+		*((double *)p) = some_changes->New_Walls[i].Segment.A.y;
+		p = p + 2;
+		*((double *)p) = some_changes->New_Walls[i].Segment.B.x;
+		p = p + 2;
+		*((double *)p) = some_changes->New_Walls[i].Segment.B.y;
+		p = p + 2;
+		*(p++) = some_changes->New_Walls[i].Wall_Number;
+	}
 
 }
 
@@ -174,7 +273,7 @@ CServer :: CServer()
 
 
 
-void CServer::gotoframe(int mframe)
+	void CServer::gotoframe(int mframe)
 {
 	double dt = 1.0f / 60.0f;
 	int tostep;
@@ -200,7 +299,7 @@ void CServer::gotoframe(int mframe)
 
 }
 
-bool CServer::Line_up()
+	bool CServer::Line_up()
 {
 	my_message msg;
 	msg.type = CHANGE_IN_NUM;
@@ -225,7 +324,7 @@ bool CServer::Line_up()
 	return true;
 }
 
-bool CServer :: check_frame()
+	bool CServer :: check_frame()
 {
 
 	int max_frame[MAX_CLIENTS], received[MAX_CLIENTS];
@@ -264,9 +363,19 @@ bool CServer :: check_frame()
 
 		msg.cl_num = 0;
 		msg.length = 0;
+		msg.type = UPD_GAME_STATE_ACC;
+		write_changes(&msg, &acc);
+		broadcast(msg);
+
+
+
+
+		msg.cl_num = 0;
+		msg.length = 0;
+		msg.pack_num = mframe;
 		msg.type = UPD_GAME_STATE_NACC;
 		write_state(&msg, &nacc);
-		//broadcast(msg);
+		broadcast(msg);
 
 		for (int i = 0; i < number_of_clients; i++)
 		{
@@ -274,11 +383,7 @@ bool CServer :: check_frame()
 				clients[i].alive = false;
 		}
 
-		msg.cl_num = 0;
-		msg.length = 0;
-		msg.type = UPD_GAME_STATE_ACC;
-		write_changes(&msg, &acc);
-		//broadcast(msg);
+		
 		return true;
 	}
 	return false;
@@ -381,7 +486,7 @@ bool CServer :: check_frame()
 		{
 			if (clients[i].occupied == true)
 			{
-				sendto(my_sock, (char *) &msg, sizeof(my_message) - 1700, 0, (sockaddr *)&clients[i].addr, len);
+				sendto(my_sock, (char *) &msg, sizeof(my_message), 0, (sockaddr *)&clients[i].addr, len);
 			}
 		}
 		return true;

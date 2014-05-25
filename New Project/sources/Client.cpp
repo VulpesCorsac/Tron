@@ -20,6 +20,17 @@ CClient::CClient()
 {
 	connected = 0;
 	game_started = false;
+	for (int j = 0; j < MAX_CLIENTS; j++)
+	for (int i = 0; i < 100000; i++)
+	{
+	//	last_frame_action[j] = 0;
+		act[j][i].cadr = i;
+		act[j][i].start_bomb = false;
+		act[j][i].start_rocket = false;
+		act[j][i].turn = NO_TURN;
+		act[j][i].received = false;
+	}
+	stepped = 0;
 }
 
 CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
@@ -28,6 +39,17 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 	 ggame = _ggame;
 	 connected = 0;
 	 game_started = false;
+	 for (int j = 0; j < MAX_CLIENTS; j++)
+	 for (int i = 0; i < 100000; i++)
+	 {
+	//	 last_frame_action[j] = 0;
+		 act[j][i].cadr = i;
+		 act[j][i].start_bomb = false;
+		 act[j][i].start_rocket = false;
+		 act[j][i].turn = NO_TURN;
+		 act[j][i].received = false;
+	 }
+	 stepped = 0;
 }
 
 int CClient::getPID()
@@ -82,6 +104,32 @@ bool CClient :: check_for_actions(Actions *act)
 		a = true;
 	}
 	return a;
+}
+
+
+void CClient :: goback(int frame)
+{
+	int i = 0;
+	if (frame > cadr)
+		return;
+	while ((i < ggame->Current_Game.Walls.size()) && (ggame->Current_Game.Walls[i].Wall_Number >= 0))
+	{
+		i++;
+	}
+	i++;
+	ggame->Current_Game.Walls.resize(i);
+}
+
+void CClient::goforward(int frame)
+{
+	for (int j = 0; j < cadr - frame; j++)
+	{
+		for (int i = 0; i < number_of_clients; i++)
+		if (act[i][j + frame].received == true)
+			ggame->PLayer_Turn_Client(i, act[i][j].turn == TURN_LEFT);
+		ggame->UPD_Client(dt);
+	}
+
 }
 
 bool CClient :: connect(const char *ip)
@@ -187,7 +235,8 @@ bool CClient::think()
 			rec_act.start_bomb = *(p++);
 			rec_act.start_rocket = *(p++);
 			rec_act.turn = *(p++);
-
+			rec_act.received = true;
+			act[msg.cl_num - 1][msg.pack_num] = rec_act;
 //			if (rec_act.start_bomb == true)
 
 //			if (rec_act.start_rocket == true)
@@ -211,15 +260,20 @@ bool CClient::think()
 			Changes temp_changes;
 			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
-		//	ggame->Update_Changes_ACC(temp_changes);
+			ggame->Update_Changes_ACC(temp_changes);
 		}
 
 		if (msg.type == UPD_GAME_STATE_NACC)
 		{
+			int curcadr;
 			State temp_state;
+			curcadr = msg.pack_num;
 			read_state(&msg, &temp_state);
+			number_of_clients = temp_state.Players.size();
+			goback(curcadr);
+			ggame->Update_Changes_NACC(temp_state);
+			goforward(cadr);
 			//here comes the sg.buf parsing to temp_state
-		//	ggame->Update_Changes_NACC(temp_state);
 		}
 	}
 
@@ -237,7 +291,7 @@ bool CClient::think()
 			*(p++) = curact.start_rocket;
 			*(p++) = curact.turn;
 			
-			sendto(my_sock, (char *)&msg, sizeof(my_message) - 1700, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
 			if (curact.turn != NO_TURN)
@@ -254,6 +308,8 @@ bool CClient::think()
 
 CClient:: ~CClient()
 {
+
+
     closesocket(my_sock);
 }
 
