@@ -763,6 +763,20 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 			Ch += Ch_buf;
 		}
 	}
+	
+	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
+		if (Intersect(this->Current_Game.Rockets[i], dt)){
+			Ch.Exploded_Rockets.push_back(i);
+			Clear(Ch_buf);
+			Rocket_Explosion(i, K_Ps, N_Ts, D_Ws, N_Ws);
+			for (size_t j = 0; j < N_Ts.size(); j++)
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[N_Ts[j].first], N_Ts[j].second));
+			for (size_t j = 0; j < D_Ws.size(); j++)
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D <double>(Point2D <double>(0, 0), Point2D <double>(0, 0)), -1, -1)));
+			Ch += Ch_buf;
+		}
+	}
+
 	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
 		if (this->Current_Game.Rockets[i].Explode()) {
 			Clear(Ch_buf);
@@ -774,6 +788,8 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 			Ch += Ch_buf;
 		}
 	}
+
+
 
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive) {
