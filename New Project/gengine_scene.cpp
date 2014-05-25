@@ -346,7 +346,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 
 	forvec(Wall, gm->Walls, i)
 	{
-		wRender->setDynamicWall(*i, i - gm->Walls.begin(), i == gm->Walls.begin());
+		wRender->setDynamicWall(*i, i - gm->Walls.begin(), (i - gm->Walls.begin()) < int(gm->Players.size()));
 	}
 	wRender->addTo(cs);
 
@@ -426,6 +426,11 @@ void CGEngine::drawScene(CCurScene& cs, glm::mat4 &tr)
 	}
 }
 
+bool Game_Engine::Wall_Prolong_All()
+{
+	return true;
+}
+
 void CGEngine::drawScene(Game* gm)
 {
 
@@ -437,7 +442,8 @@ void CGEngine::drawScene(Game* gm)
 	//tm += 0.001f;
 	updCamera();
 
-	gm->Walls[0].Segment.B = gm->Players[0].MyCycle.Current_Point;	//pffft...
+	fori(i, (int)gm->Players.size())
+		gm->Walls[i].Segment.B = gm->Players[i].MyCycle.Current_Point;	//pffft...
 
 	//scene preparing
 
