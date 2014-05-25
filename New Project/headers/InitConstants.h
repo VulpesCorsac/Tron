@@ -7,7 +7,7 @@ private:
 	bool Check();
 
 public:
-    // Field Constants
+    // Field Constants // y or x?
     double Field_Width;
     double Field_Length;
 

@@ -30,7 +30,7 @@ private:
 	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
-	bool Intersect(const Polygon2D < double > &P1, const Polygon2D < double > &P2); // TODO:
+	bool Intersect(const Polygon2D < double > &P1, const Polygon2D < double > &P2);
 
 	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 	bool Out_of_Field(const Player &_Player, const double &dt);
@@ -93,11 +93,12 @@ public:
 	void UPD(const double dt);
 	void UPD_Client(const double dt);
 
-	void Get_Changes_ACC(Changes &Ch);    //TODO: getting changes for the last frame
-	void Update_Changes_ACC(Changes &Ch); //TODO: setting changes for the last frame
-	void Get_Changes_NACC(State &St);     //TODO: getting players state(coordinates and directions)
-	void Update_Changes_NACC(State &St);  //TODO: setting players state(coordinates and directions)
-	void Start_Game(const int &_Players_Ammount, State &St);      //TODO: setting starting positions for players(number of players is the first int), returning them in state *
+	void Get_Changes_ACC(Changes &Ch);
+	void Update_Changes_ACC(const Changes &Ch); //TODO: setting changes for the last frame
+	void Get_Changes_NACC(State &St);
+	void Update_Changes_NACC(const State &St);
+	void Start_Game(const int &_Players_Ammount, State &St);
+	void Start_Game_Client(const State &St);
 };
 
 #endif // GAME_ENGINE_H_INCLUDED 

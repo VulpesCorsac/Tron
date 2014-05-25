@@ -13,6 +13,8 @@ public:
 	vector < Rocket > Rockets; //All Rockets
 	vector < Bonus > Bonuses; // All Bonuses
 
+	void Clear(void);
+	void Start(const vector < Player > &_Players);
 };
 
 #endif // GAME_H_INCLUDED

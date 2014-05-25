@@ -38,6 +38,6 @@ int main(int argc, char** argv) {
     scanf("%d",&a);*/
 	
 //CClient vov;
- //   vov.connect("127.0.0.1");
+//   vov.connect("127.0.0.1");
     return 0;
 }

@@ -24,11 +24,36 @@ T dist(const Point2D < T > &Point1, const Point2D < T > &Point2) {
 }
 
 template < class T >
+Point2D < T > min_px(const Point2D < T > &Point1, const Point2D < T > &Point2) {
+	return ((Point1.x < Point2.x) || (ABS(Point1.x - Point2.x) <= EPS && Point1.y < Point2.y) ? Point1 : Point2);
+}
+
+template < class T >
+Point2D < T > max_px(const Point2D < T > &Point1, const Point2D < T > &Point2) {
+	return ((Point1.x > Point2.x) || (ABS(Point1.x - Point2.x) <= EPS && Point1.y > Point2.y) ? Point1 : Point2);
+}
+
+template < class T >
+Point2D < T > min_py(const Point2D < T > &Point1, const Point2D < T > &Point2) {
+	return ((Point1.y < Point2.y) || (ABS(Point1.y - Point2.y) <= EPS && Point1.x < Point2.x) ? Point1 : Point2);
+}
+
+template < class T >
+Point2D < T > max_py(const Point2D < T > &Point1, const Point2D < T > &Point2) {
+	return ((Point1.y > Point2.y) || (ABS(Point1.y - Point2.y) <= EPS && Point1.x > Point2.x) ? Point1 : Point2);
+}
+
+template < class T >
 T polar_angle(const Point2D < T > &Point) {
     T alpha = atan2(Point.y, Point.x);
     if (alpha < 0)
         alpha += 2 * PI < T > ();
     return alpha;
+}
+
+template < class T >
+T polar_dist(const T &alpha, const T &r1, const T &betta, const T &r2) {
+	return dist(Point2D < T >(r1 * cos(alpha), r1 * sin(alpha)), Point2D < T >(r2 * cos(betta), r2 * sin(betta)));
 }
 
 template < class T >

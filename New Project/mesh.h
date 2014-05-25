@@ -10,7 +10,10 @@ struct renQuad
 	glm::vec3 v[4], n[4];
 	glm::vec2 uv[4];
 	void defaultUV(float tx = 1.0f, float ty = 1.0f);
+	void defaultUV(glm::vec2 t1, glm::vec2 t2);
 	void setNormal(glm::vec3 a);
+	void autoNormal();
+	void autoNormalSmooth();
 };
 
 class CMesh
