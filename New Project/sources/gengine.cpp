@@ -407,6 +407,8 @@ void CGEngine::cycle()
 			//okay, we receive no correct game from vovan so let's make it
 			if (rGame)
 			{
+
+				/*
 				rGame->Players_Ammount = 1;
 				Player pl;
 				pl.Alive = true;
@@ -422,7 +424,7 @@ void CGEngine::cycle()
 				rGame->Walls[0].Player_Number = 0;
 				rGame->Walls[0].Wall_Number = 0;
 
-				rGame->Players.push_back(pl);
+				rGame->Players.push_back(pl);*/
 
 				setGame(rGame);
 			}
@@ -641,7 +643,9 @@ bool CGEngine::goHosting()
 bool CGEngine::goJoining(const char* ip)
 {
 	assert(!cClient);
-	cClient = new CClient(this, new Game_Engine);
+	Game_Engine* gge = new Game_Engine();
+	gge->Constants = ic;
+	cClient = new CClient(this, gge);
 	if (!cClient->connect(ip))
 	{
 		delete cClient;

@@ -428,11 +428,12 @@ void CGEngine::drawScene(CCurScene& cs, glm::mat4 &tr)
 
 void CGEngine::drawScene(Game* gm)
 {
+
 	//camera update
 	cam_Up = vec3(0.0f, 1.0f, 0.0f);
-	cam_Trg_t = point2DToVec3(gm->Players[lPlayer].MyCycle.Current_Point);
+	cam_Trg_t = point2DToVec3(gm->Players[lPlayer].MyCycle.Current_Point) + vec3(0.0f, 0.5f, 0.0f);
 	vec3 dps = normalize(vector2DToVec3(gm->Players[lPlayer].MyCycle.Direction));
-	cam_Pos_t = cam_Trg_t - dps * 3.0f /*+ vec3(dps.z, 0, -dps.x) */+ vec3(0.0f, 1.0f, 0.0f);
+	cam_Pos_t = cam_Trg_t - dps * 1.0f /*+ vec3(dps.z, 0, -dps.x) */ + vec3(0.0f, 0.5f, 0.0f);
 	//tm += 0.001f;
 	updCamera();
 
@@ -473,7 +474,7 @@ void CGEngine::drawScene(Game* gm)
 	//motoMesh->draw(this);
 
 
-	float alp = 0.96f;
+	float alp = 0.9f;
 	cam_Pos = cam_Pos * alp + cam_Pos_t * (1 - alp);
 	cam_Trg = cam_Trg * alp + cam_Trg_t * (1 - alp);
 

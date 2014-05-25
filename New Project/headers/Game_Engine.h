@@ -96,7 +96,7 @@ public:
 	void Get_Changes_ACC(Changes &Ch);
 	void Update_Changes_ACC(const Changes &Ch); //TODO: setting changes for the last frame
 	void Get_Changes_NACC(State &St);
-	void Update_Changes_NACC(const State &St);
+	void Update_Changes_NACC(const State &St); //TODO:
 	void Start_Game(const int &_Players_Ammount, State &St);
 	void Start_Game_Client(const State &St);
 };

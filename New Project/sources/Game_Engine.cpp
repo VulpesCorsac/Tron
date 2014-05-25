@@ -715,6 +715,5 @@ void Game_Engine::Get_Changes_NACC(State &St) {
 }
 
 void Game_Engine::Update_Changes_NACC(const State &St) {
-	this->Current_Game.Players = St.Players;
-	return;
+
 }
