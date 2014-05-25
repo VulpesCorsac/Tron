@@ -418,14 +418,14 @@ bool Game_Engine::Wall_Modify(const vector < Wall > &Walls, const vector < Wall 
 
 bool Game_Engine::Wall_Prolong(const int &n) {
 	assert(n >= 0 && n < this->Current_Game.Players_Ammount && "Trying to prolong tail that does not exist");
-	Segment2D Seg(this->Current_Game.Walls[n].Segment.A, this->Current_Game.Players[n].MyCycle.Current_Point);
+	Segment2D < double > Seg(this->Current_Game.Walls[n].Segment.A, this->Current_Game.Players[n].MyCycle.Current_Point);
 	return Wall_Modify(n, Wall(Seg, this->Current_Game.Walls[n].Player_Number, this->Current_Game.Walls[n].Wall_Number));
 }
 
 bool Game_Engine::Wall_Prolong_All(void) {
 	bool f = false;
 	for (size_t i = 0; i < this->Current_Game.Players_Ammount; i++) {
-		if (this->Current_game.Players[i].Alive) {
+		if (this->Current_Game.Players[i].Alive) {
 			Wall_Prolong((int)i);
 			f = true;
 		}
@@ -475,7 +475,7 @@ bool Game_Engine::Wall_Delete(const vector < Wall > &Walls) {
 }
 
 bool Wall_Delete(const vector < int > &Walls) {
-
+	return true;
 }
 
 bool Game_Engine::Wall_Delete_flag(const int &n) {
@@ -762,10 +762,10 @@ void Game_Engine::UPD_Client(const double dt) {
 bool Game_Engine::Game_Over(int &Win_Team) {
 	set < int > Alive_Teams;
 	Win_Team = -1;
-	for (size_t i = 0; i < this->Current_Game.Players_Ammout; i++) {
+	for (size_t i = 0; i < this->Current_Game.Players_Ammount; i++) {
 		if (this->Current_Game.Players[i].Alive) {
-			Alive_Teams.insert(this->Current_Game.Players[i].TeamNumber);
-			Win_Team = this->Current_Game.Players[i].TeamNumber;
+			Alive_Teams.insert(this->Current_Game.Players[i].Team_Number);
+			Win_Team = this->Current_Game.Players[i].Team_Number;
 		}
 	}
 	return (Alive_Teams.size() == 1);
