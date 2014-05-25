@@ -29,8 +29,9 @@ private:
 	bool Intersect_Walls_Not_Tails(const Player &_Player,const double &dt);
 	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
-	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
+	bool Intersect(const Rocket &_Rocket, const double &dt);
 	bool Intersect(const Polygon2D < double > &P1, const Polygon2D < double > &P2);
+	bool Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt);
 
 	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 	bool Out_of_Field(const Player &_Player, const double &dt);

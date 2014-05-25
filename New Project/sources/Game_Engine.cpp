@@ -102,6 +102,21 @@ bool Game_Engine::Intersect(const Wall &_Wall, const Rocket &_Rocket) {
 	return(Cross_segment_circle(_Wall.Segment, Circ, P1, P2));
 }
 
+bool Game_Engine::Intersect(const Rocket &_Rocket, const double &dt) {
+	//bool Intersect(const LightCycle &Cycle, const Wall &_Wall);
+	Wall Rock(Segment2D <double>(_Rocket.Current_Point, _Rocket.Current_Point + dt*this->Constants->Rocket_Speed*Norm(_Rocket.Direction)), -1, -1);
+	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
+		if (this->Current_Game.Players[i].Alive)
+			if (Intersect(this->Current_Game.Players[i].MyCycle, Rock))
+				return true;
+	}
+	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
+		if (Intersect(Polygon_from_wall(this->Current_Game.Walls[i]), Polygon_from_wall(Rock)))
+			return true;
+	}
+	return false;
+}
+
 bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const double &dt) {
 	LightCycle _Cycle = _Player.MyCycle;
 	Point2D < double > P1 = Polygon_from_cycle(_Cycle).Polygon[0];
