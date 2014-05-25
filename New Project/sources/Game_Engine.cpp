@@ -186,11 +186,11 @@ int Game_Engine::Intersect_Tails(const Player &_Player1, const Player &_Player2,
 		Cross_line(L1, L2, Cross_P);
 		if (abs(dist(Cross_P, 0.5*(V_1[1] + V_1[0])) + this->Constants->LightCycle_Length - dist(Cross_P, 0.5*(V_1[2] + V_1[3]))) < EPS)
 			dist1 = -dist(Cross_P, 0.5*(V_1[1] + V_1[0]));
-		else 
+		else
 			dist1 = dist(Cross_P, 0.5*(V_1[1] + V_1[0]));
 		if (abs(dist(Cross_P, 0.5*(V_2[1] + V_2[0])) + this->Constants->LightCycle_Length - dist(Cross_P, 0.5*(V_2[2] + V_2[3]))) < EPS)
 			dist2 = -dist(Cross_P, 0.5*(V_2[1] + V_2[0]));
-		else 
+		else
 			dist2 = dist(Cross_P, 0.5*(V_2[1] + V_2[0]));
 		if (dist1 + 1.5*this->Constants->LightCycle_Length < dist2)
 			return 1;
@@ -280,7 +280,7 @@ void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Ki
 			Deleted_Walls.push_back(i);
 	}
 	return;
-} 
+}
 
 bool Game_Engine::Out_of_Field(const Player &_Player, const double &dt) {
 	LightCycle _Cycle = _Player.MyCycle;
@@ -416,6 +416,23 @@ bool Game_Engine::Wall_Modify(const vector < Wall > &Walls, const vector < Wall 
 	return f;
 }
 
+bool Game_Engine::Wall_Prolong(const int &n) {
+	assert(n >= 0 && n < this->Current_Game.Players_Ammount && "Trying to prolong tail that does not exist");
+	Segment2D Seg(this->Current_Game.Walls[n].Segment.A, this->Current_Game.Players[n].MyCycle.Current_Point);
+	return Wall_Modify(n, Wall(Seg, this->Current_Game.Walls[n].Player_Number, this->Current_Game.Walls[n].Wall_Number));
+}
+
+bool Game_Engine::Wall_Prolong_All(void) {
+	bool f = false;
+	for (size_t i = 0; i < this->Current_Game.Players_Ammount; i++) {
+		if (this->Current_game.Players[i].Alive) {
+			Wall_Prolong((int)i);
+			f = true;
+		}
+	}
+	return f;
+}
+
 bool Game_Engine::Wall_Add(const Wall &_Wall) {
 	for (size_t i = 0; i < this->Current_Game.Walls.size(); i++) {
 		if (Equal(_Wall, this->Current_Game.Walls[i]))
@@ -457,9 +474,13 @@ bool Game_Engine::Wall_Delete(const vector < Wall > &Walls) {
 	return f;
 }
 
+bool Wall_Delete(const vector < int > &Walls) {
+
+}
+
 bool Game_Engine::Wall_Delete_flag(const int &n) {
 	assert(n >= 0 && n < (int)this->Current_Game.Walls.size() && "Trying to delete wall that does not exist");
-	return Wall_Modify(n, Wall(Segment2D < double >(Point2D < double >(-1, -1), Point2D < double >(-1, -1)), -1, this->Current_Game.Walls[n].Wall_Number));
+	return Wall_Modify(n, Wall(Segment2D < double >(Point2D < double >(-100, -100), Point2D < double >(-100, -100)), this->Current_Game.Walls[n].Player_Number, this->Current_Game.Walls[n].Wall_Number));
 }
 
 bool Game_Engine::Wall_Delete_flag(const Wall &_Wall) {
@@ -555,7 +576,7 @@ vector < Player > Game_Engine::Player_Generate(const int &n) {
 	for (int i = 0; i < n; i++) {
 		Temp[i] = Player_Generate();
 		Temp[i].Player_Number = i;
-		Temp[i].Team_Number = 0;//TODO for someone
+		Temp[i].Team_Number = i; //TODO: for someone
 	}
 	return Temp;
 }
@@ -628,7 +649,6 @@ void Game_Engine::PLayer_Turn_Client(const int &Player_number, const bool &left_
 void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 	Clear(Ch);
 	Clear(St);
-	Wall_Prolong_All();
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive) {
 			if ((Intersect_Walls_Not_Tails(this->Current_Game.Players[i], dt)) || (Out_of_Field(this->Current_Game.Players[i], dt)))
@@ -679,7 +699,7 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 			Ch += Ch_buf;
 		}
 	}
-	
+
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive) {
 			for (size_t j = 0; j < this->Current_Game.Bonuses.size(); j++) {
@@ -694,11 +714,12 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 		}
 	}
 
-
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive)
 			this->Current_Game.Players[i].UPD(dt);
 	}
+	Wall_Prolong_All();
+
 	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
 		this->Current_Game.Bombs[i].UPD(dt);
 	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
@@ -712,11 +733,11 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 }
 
 void Game_Engine::_UPD_Client(const double dt) {
-	Wall_Prolong_All();
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive)
 			this->Current_Game.Players[i].UPD(dt);
 	}
+	Wall_Prolong_All();
 	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
 		this->Current_Game.Bombs[i].UPD(dt);
 	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
@@ -736,6 +757,18 @@ void Game_Engine::UPD(const double dt) {
 void Game_Engine::UPD_Client(const double dt) {
 	_UPD_Client(dt);
 	return;
+}
+
+bool Game_Engine::Game_Over(int &Win_Team) {
+	set < int > Alive_Teams;
+	Win_Team = -1;
+	for (size_t i = 0; i < this->Current_Game.Players_Ammout; i++) {
+		if (this->Current_Game.Players[i].Alive) {
+			Alive_Teams.insert(this->Current_Game.Players[i].TeamNumber);
+			Win_Team = this->Current_Game.Players[i].TeamNumber;
+		}
+	}
+	return (Alive_Teams.size() == 1);
 }
 
 void Game_Engine::Start_Game(const int &_Players_Ammount, State &St) {
@@ -768,5 +801,6 @@ void Game_Engine::Get_Changes_NACC(State &St) {
 }
 
 void Game_Engine::Update_Changes_NACC(const State &St) {
-
+	this->Current_Game.Players = St.Players;
+	Wall_Prolong_All();
 }
