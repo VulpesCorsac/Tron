@@ -338,7 +338,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 
 		float nang = -atan2f(i->MyCycle.Direction.y, i->MyCycle.Direction.x);
 
-		const float asp = 0.98f;
+		const float asp = 0.9f;
 
 		if (pAngs[i->Player_Number] - nang >= 3.14159f) pAngs[i->Player_Number] -= 2 * 3.14159f;
 		if (nang - pAngs[i->Player_Number] >= 3.14159f) pAngs[i->Player_Number] += 2 * 3.14159f;
@@ -433,7 +433,7 @@ void CGEngine::drawScene(Game* gm)
 	//motoMesh->draw(this);
 
 
-	float alp = 0.98f;
+	float alp = 0.96f;
 	cam_Pos = cam_Pos * alp + cam_Pos_t * (1 - alp);
 	cam_Trg = cam_Trg * alp + cam_Trg_t * (1 - alp);
 

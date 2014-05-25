@@ -355,6 +355,14 @@ void CGEngine::cycle()
 	//GetCursorPos(&pp);
 	//ScreenToClient()
 	//mPos = Point(type(pp.x), type(pp.y));
+	__int64 cpTime;
+	do
+	{
+		QueryPerformanceCounter((LARGE_INTEGER*)&cpTime);
+		if (cpTime - lpTime < dtTime) Sleep(0);
+	} while (cpTime - lpTime < dtTime);
+	lpTime = cpTime;
+
 	mState = GetKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
 	updKeyboard();
 
@@ -399,7 +407,7 @@ void CGEngine::cycle()
 				pl.Alive = true;
 				pl.MyCycle.Current_Point = Point2D<double>(0, 0);
 				pl.MyCycle.Direction = Vector2D<double>(1, 0);
-				pl.MyCycle.Speed = 0.4;//lolwatisit
+				pl.MyCycle.Speed = 10;//lolwatisit
 				pl.Player_Number = 0;
 				pl.Team_Number = 0;
 
@@ -443,7 +451,7 @@ void CGEngine::go3D()
 	glUniform1i(unv_3Dtex, 0);
 	glUniform1i(unv_3DLtex, 0);
 
-	projMat = glm::perspective(45.0f / 180.0f * 3.14159f, resX / float(resY), 0.1f, 100.0f);
+	projMat = glm::perspective(80.0f / 180.0f * 3.14159f, resX / float(resY), 0.1f, 100.0f);
 	wrldMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	camMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	setColorMod(glm::vec4(1.0, 1.0, 1.0, 1.0));
@@ -462,7 +470,7 @@ void CGEngine::draw()
 //	glDisable(GL_LIGHTING);//not sure if this is still needed
 //	glDisable(GL_TEXTURE_2D);
 	//glEnable(GL_CULL_FACE);
-	glEnable(GL_MULTISAMPLE);
+	//glEnable(GL_MULTISAMPLE);
 	// glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	//glEnable(GL_COLOR_MATERIAL);
 	glDepthFunc(GL_LEQUAL);
@@ -510,7 +518,7 @@ void CGEngine::start()
 {
 	isExit = false;
 	mPos.x = 0; mPos.y = 0;
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 //	glutInitContextVersion(3, 3);
 //	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
 //	glutInitContextProfile(GLUT_CORE_PROFILE);
@@ -526,6 +534,8 @@ void CGEngine::start()
 	glutDisplayFunc(r_display);
 	g_render = this;
 
+	glEnable(GL_MULTISAMPLE);
+	glHint(GL_MULTISAMPLE_FILTER_HINT_NV, GL_NICEST);
 
 //	glewExperimental = true;
 	GLenum err = glewInit();
@@ -653,4 +663,9 @@ CGEngine::CGEngine(Init_Constants* aic)
 	g_render = this;
 	rGame = NULL;
 	fori(i, 256) lKeys[i] = 0;
+
+	lpTime = 0;
+	QueryPerformanceCounter((LARGE_INTEGER*)&lpTime);
+	QueryPerformanceFrequency((LARGE_INTEGER*)&dtTime);
+	dtTime /= 60;
 }

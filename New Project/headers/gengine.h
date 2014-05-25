@@ -22,6 +22,8 @@ class CGEngine
 {
 private:
 
+	__int64 lpTime, dtTime;
+
 	int lKeys[256];
 	void updKeyboard();
 
