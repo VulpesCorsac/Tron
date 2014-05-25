@@ -222,6 +222,10 @@ bool Game_Engine::Intersect_Walls_Not_Tails(const Player &_Player, const double 
 }
 
 void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls) {
+	Killed_Players.clear();
+	New_Tails.clear();
+	Deleted_Walls.clear();
+	New_walls.clear();
 	Point2D < double > P1, P2, Player_Point;
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (Cross_polygon_circle(Polygon_from_cycle(this->Current_Game.Players[i].MyCycle), C))
@@ -624,49 +628,95 @@ void Game_Engine::PLayer_Turn_Client(const int &Player_number, const bool &left_
 void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 	Clear(Ch);
 	Clear(St);
+	Wall_Prolong_All();
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
-		if ((Intersect_Walls_Not_Tails(this->Current_Game.Players[i], dt)) || (Out_of_Field(this->Current_Game.Players[i], dt)))
-			Ch.Killed_Players.push_back(i);
-		else
+		if (this->Current_Game.Players[i].Alive) {
+			if ((Intersect_Walls_Not_Tails(this->Current_Game.Players[i], dt)) || (Out_of_Field(this->Current_Game.Players[i], dt)))
+				Ch.Killed_Players.push_back(i);
+			else
 			for (size_t j = i; j < this->Current_Game.Players.size() - 1; j++) {
-				if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 3) {
-					Ch.Killed_Players.push_back(i);
-					Ch.Killed_Players.push_back(j + 1);
-					break;
+				if (this->Current_Game.Players[j].Alive) {
+					if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 3) {
+						Ch.Killed_Players.push_back(i);
+						Ch.Killed_Players.push_back(j + 1);
+						break;
+					}
+					if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 1) {
+						Ch.Killed_Players.push_back(i);
+						break;
+					}
+					if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 2)
+						Ch.Killed_Players.push_back(j + 1);
 				}
-				if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 1) {
-					Ch.Killed_Players.push_back(i);
-					break;
-				}
-				if (Intersect_Tails(this->Current_Game.Players[i], this->Current_Game.Players[j + 1], dt) == 2)
-					Ch.Killed_Players.push_back(j + 1);
 			}
+		}
 	}
 
 	vector < int > K_Ps;
 	vector < std::pair < int, Wall > > N_Ts;
 	vector < int > D_Ws;
 	vector < Wall > N_Ws;
+	Changes Ch_buf;
 	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++) {
 		if (this->Current_Game.Bombs[i].Explode()) {
-			Bomb_Explosion(i, K_Ps, N_Ts, D_Ws, N_Ws);
+			Clear(Ch_buf);
+			Bomb_Explosion(i, Ch_buf.Killed_Players, N_Ts, D_Ws, Ch_buf.New_Walls);
+			for (size_t j = 0; j < N_Ts.size(); j++)
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[N_Ts[j].first],N_Ts[j].second));
+			for (size_t j = 0; j < D_Ws.size(); j++)
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D <double>(Point2D <double>(0, 0), Point2D <double>(0, 0)), -1, -1)));
+			Ch += Ch_buf;
 		}
 	}
 	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
 		if (this->Current_Game.Rockets[i].Explode()) {
+			Clear(Ch_buf);
 			Rocket_Explosion(i, K_Ps, N_Ts, D_Ws, N_Ws);
+			for (size_t j = 0; j < N_Ts.size(); j++)
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[N_Ts[j].first], N_Ts[j].second));
+			for (size_t j = 0; j < D_Ws.size(); j++)
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D <double>(Point2D <double>(0, 0), Point2D <double>(0, 0)), -1, -1)));
+			Ch += Ch_buf;
 		}
 	}
+	
+	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
+		if (this->Current_Game.Players[i].Alive) {
+			for (size_t j = 0; j < this->Current_Game.Bonuses.size(); j++) {
+				if (Intersect(this->Current_Game.Players[i], this->Current_Game.Bonuses[j], dt)) {
+					Ch.Collected_Bonuses.push_back(j);
+					if (this->Current_Game.Bonuses[j].Rocket)
+						this->Current_Game.Players[i].Gotta_Rocket();
+					if (this->Current_Game.Bonuses[j].Bomb)
+						this->Current_Game.Players[i].Gotta_Bomb();
+				}
+			}
+		}
+	}
+
+
+	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
+		if (this->Current_Game.Players[i].Alive)
+			this->Current_Game.Players[i].UPD(dt);
+	}
+	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
+		this->Current_Game.Bombs[i].UPD(dt);
+	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
+		this->Current_Game.Rockets[i].UPD(dt);
 
 	set < int > Temp(Ch.Killed_Players.begin(), Ch.Killed_Players.end());
 	Ch.Killed_Players = vector < int >(Temp.begin(), Temp.end());
 
+	St.Players = this->Current_Game.Players;
 	return;
 }
 
 void Game_Engine::_UPD_Client(const double dt) {
-	for (size_t i = 0; i < this->Current_Game.Players.size(); i++)
-		this->Current_Game.Players[i].UPD(dt);
+	Wall_Prolong_All();
+	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
+		if (this->Current_Game.Players[i].Alive)
+			this->Current_Game.Players[i].UPD(dt);
+	}
 	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
 		this->Current_Game.Bombs[i].UPD(dt);
 	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
