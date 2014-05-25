@@ -25,7 +25,7 @@ private:
 	bool Intersect(const Player &_Player, const Bomb &_Bomb);
 	bool Intersect(const Player &_Player, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player1, const Player &_Player2);
-	int Intersect_Tails(const Player &_Player1, const Player &_Player2, const double &dt);
+	 int Intersect_Tails(const Player &_Player1, const Player &_Player2, const double &dt);
 	bool Intersect_Walls_Not_Tails(const Player &_Player,const double &dt);
 	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
@@ -63,11 +63,14 @@ public:
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
 	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls);
+	bool Wall_Prolong(const int &n); //TODO:
+	bool Wall_Prolong_All(void); //TODO:
 	bool Wall_Add(const Wall &_Wall);
 	bool Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Delete(const int &n);
 	bool Wall_Delete(const Wall &_Wall);
 	bool Wall_Delete(const vector < Wall > &Walls);
+	bool Wall_Delete(const vector < int > &Walls); //TODO:
 	bool Wall_Delete_flag(const int &n);
 	bool Wall_Delete_flag(const Wall &_Wall);
 	bool Wall_Delete_flag(const vector < Wall > &Walls);
@@ -93,10 +96,12 @@ public:
 	void UPD(const double dt);
 	void UPD_Client(const double dt);
 
+	bool Game_Over(int &Win_Team); // returns -1 when all are dead
+	
 	void Get_Changes_ACC(Changes &Ch);
-	void Update_Changes_ACC(const Changes &Ch); //TODO: setting changes for the last frame
+	void Update_Changes_ACC(const Changes &Ch); //TODO:
 	void Get_Changes_NACC(State &St);
-	void Update_Changes_NACC(const State &St); //TODO:
+	void Update_Changes_NACC(const State &St);
 	void Start_Game(const int &_Players_Ammount, State &St);
 	void Start_Game_Client(const State &St);
 };
