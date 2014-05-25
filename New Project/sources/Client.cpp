@@ -192,10 +192,10 @@ bool CClient::think()
 				if (cadr > rec_act.cadr)
 				{
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(-dt *(cadr - rec_act.cadr));
-				//	ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+					ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
 				}
-			//	else ggame->Turn_Player(rec_act.turn, msg.cl_num - 1);
+				else ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 			}
 		}
 
@@ -229,7 +229,7 @@ bool CClient::think()
 			frames_wtanws = 0;
 
 			if (curact.turn != NO_TURN)
-				ggame->PLayer_Turn_Client(getPID(), curact.turn == TURN_LEFT); //krivoruchka beite krivorucky
+				ggame->PLayer_Turn_Client(getPID(), curact.turn == TURN_LEFT);
 		}
 		else frames_wtanws++;
 

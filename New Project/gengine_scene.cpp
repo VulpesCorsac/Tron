@@ -325,9 +325,9 @@ void CGEngine::updMatrices()
 	pcMat = projMat * camMat;
 	pcwMat = pcMat * wrldMat;
 
-	glUniformMatrix4fv(unv_3DTRM, 1, GL_FALSE, &pcwMat[0][0]);
 	glUniformMatrix4fv(unv_3DLTRM, 1, GL_FALSE, &pcwMat[0][0]);
 	glUniformMatrix4fv(unv_3DLM, 1, GL_FALSE, &wrldMat[0][0]);
+	glUniformMatrix4fv(unv_3DTRM, 1, GL_FALSE, &pcwMat[0][0]);
 }
 
 void CGEngine::updCamera()
@@ -406,6 +406,7 @@ void CGEngine::drawScene(CCurScene& cs, glm::mat4 &tr)
 			glDisable(GL_DEPTH_WRITEMASK);
 			glUseProgram(drawProg3D);
 		}
+
 
 		forvec(CDrawEl, cs.e[rg], i)
 		{

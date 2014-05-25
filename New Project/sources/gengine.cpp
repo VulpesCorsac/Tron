@@ -223,7 +223,11 @@ void CGEngine::setBuffs(CDrawBuffers& bf)
 	//glBindVertexArray(VertexArrayID);
 	fori(i, GLDB_COUNT)
 	{
-		if (!bf.bufs[i]) continue;
+		if (!bf.bufs[i])
+		{
+			glDisableVertexAttribArray(i);
+			continue;
+		}
 	//	
 		if (i != GLDB_INDEX)
 		{
@@ -232,6 +236,7 @@ void CGEngine::setBuffs(CDrawBuffers& bf)
 			glVertexAttribPointer(i, buf_szs[i], GL_FLOAT, GL_FALSE, 0, (void*)0);
 		}
 		else {
+			glDisableVertexAttribArray(i);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bf.bufs[i]);
 		}
 	}
