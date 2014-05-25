@@ -531,6 +531,21 @@ bool Game_Engine::Wall_Delete_flag(const vector < int > &Walls) {
 	return f;
 }
 
+bool Game_Engine::Wall_Parse(const vector < pair < Wall, Wall > > &Walls) {
+	vector < pair < Wall, Wall > > To_Be_Changed;
+	vector < Wall > To_Be_Deleted;
+
+	for (size_t i = 0; i < Walls.size(); i++) {
+		if (Walls[i].second.Segment.A.x < 0 || Walls[i].second.Segment.A.y < 0 ||
+			Walls[i].second.Segment.B.x < 0 || Walls[i].second.Segment.B.y < 0)
+			To_Be_Deleted.push_back(Walls[i].first);
+		else
+			To_Be_Changed.push_back(make_pair(Walls[i].first, Walls[i].second));
+	}
+
+	return (Wall_Delete_flag(To_Be_Deleted) && Wall_Modify(To_Be_Changed));
+}
+
 // BONUSES
 void Game_Engine::Bonus_Add(const Bonus &_Bonus) {
 	this->Current_Game.Bonuses.push_back(_Bonus);
@@ -838,7 +853,7 @@ void Game_Engine::Get_Changes_ACC(Changes &Ch) {
 void Game_Engine::Update_Changes_ACC(const Changes &Ch) {
 	PLayer_Kill(Ch.Killed_Players);
 	Wall_Add(Ch.New_Walls);
-	Wall_Modify(Ch.Modifyed_Walls);
+	Wall_Parse(Ch.Modifyed_Walls);
 	Bomb_Add(Ch.Placed_Bomb);
 	Bomb_Delete(Ch.Exploded_Bombs);
 	Rocket_Add(Ch.Placed_Rocket);

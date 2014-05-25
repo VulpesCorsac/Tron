@@ -77,6 +77,7 @@ public:
 	bool Wall_Delete_flag(const Wall &_Wall);
 	bool Wall_Delete_flag(const vector < Wall > &Walls);
 	bool Wall_Delete_flag(const vector < int >  &Walls);
+	bool Wall_Parse(const vector < pair < Wall, Wall > > &Walls);
 
 	void Bonus_Add(const Bonus &_Bonus);
 	void Bonus_Add(const vector < Bonus > &Bonuses);
