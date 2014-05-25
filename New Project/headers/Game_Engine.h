@@ -25,7 +25,7 @@ private:
 	bool Intersect(const Player &_Player, const Bomb &_Bomb);
 	bool Intersect(const Player &_Player, const Rocket &_Rocket);
 	bool Intersect(const Player &_Player1, const Player &_Player2);
-	int Intersect_Tails(const Player &_Player1, const Player &_Player2, const double &dt);
+	 int Intersect_Tails(const Player &_Player1, const Player &_Player2, const double &dt);
 	bool Intersect_Walls_Not_Tails(const Player &_Player,const double &dt);
 	bool Intersect(const Wall &_Wall, const Bomb &_Bomb);
 	bool Intersect(const Wall &_Wall, const Rocket &_Rocket);
@@ -63,6 +63,8 @@ public:
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
 	bool Wall_Modify(const vector < Wall > &Walls, const vector < Wall > &New_Walls);
+	bool Wall_Prolong(const int &n);
+	bool Wall_Prolong_All(void);
 	bool Wall_Add(const Wall &_Wall);
 	bool Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Delete(const int &n);
