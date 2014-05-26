@@ -362,6 +362,8 @@ CServer :: CServer()
 		ggame->Get_Changes_ACC(acc);
 		ggame->Get_Changes_NACC(nacc);
 
+		ggame->Update_Changes_ACC(acc);
+
 		my_message msg;
 
 		msg.cl_num = 0;
