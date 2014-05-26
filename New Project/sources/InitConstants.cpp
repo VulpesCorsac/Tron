@@ -61,6 +61,10 @@ bool Init_Constants::Check() {
 		std::cerr << "ResolutionY isn't positive!" << std::endl;
 		return false;
 	}
+	if (this->Teams_Ammount <= 0) {
+		std::cerr << "Team ammount isn't Positive!" << std::endl;
+		return false;
+	}
 	return true;
 }
 
@@ -103,6 +107,8 @@ void Init_Constants::Init_from_config_file() {
 			std::cin >> this->resX;
 		else if (s == "ResolutionY")
 			std::cin >> this->resY;
+		else if (s == "Teams_Ammount")
+			std::cin >> this->Teams_Ammount;
 		else
 			std::cerr << "Error in reading config.cfg file: unknown attribte:" << s << std::endl;
 

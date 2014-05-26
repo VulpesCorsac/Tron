@@ -835,7 +835,7 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 	return;
 }
 
-void Game_Engine::_UPD_Client(const double dt, bool noBombs) {
+void Game_Engine::_UPD_Client(const double dt, State &St, Changes &Ch, bool noBombs) {
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive)
 			this->Current_Game.Players[i].UPD(dt);
@@ -863,7 +863,13 @@ void Game_Engine::UPD(const double dt) {
 }
 
 void Game_Engine::UPD_Client(const double dt, bool noBombs) {
-	_UPD_Client(dt, noBombs);
+	Changes Ch;
+	State St;
+	_UPD_Client(dt, St, Ch, noBombs);
+	for (size_t i = 0; i < Ch.Exploded_Bombs.size(); i++)
+		this->Exploded_Bomb.push_back(this->Current_Game.Bombs[i]);
+	for (size_t i = 0; i < Ch.Exploded_Rockets.size(); i++)
+		this->Exploded_Rocket.push_back(this->Current_Game.Rockets[i]);
 	return;
 }
 
@@ -882,6 +888,8 @@ bool Game_Engine::Game_Over(int &Win_Team) {
 void Game_Engine::Start_Game(const int &_Players_Ammount, State &St) {
 	this->Current_Game.Clear();
 	this->Current_Game.Start(Player_Generate(_Players_Ammount));
+	for (int i = 0; i < _Players_Ammount; i++)
+		this->Current_Game.Players[i].Team_Number = i % this->Constants->Teams_Ammount;
 	St.Players = this->Current_Game.Players;
 	return;
 }

@@ -90,6 +90,9 @@ public:
 	State Game_State;
 	Changes Game_Changes;
 
+	vector < Bomb > Exploded_Bomb;
+	vector < Rocket > Exploded_Rocket;
+
 	// Changes
 	void Bomb_Place(const int &Player_number);
 	void Rocket_Place(const int &Player_number);
@@ -101,7 +104,7 @@ public:
 	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);
 
 	void _UPD(const double dt, State &St, Changes &Ch);
-	void _UPD_Client(const double dt, bool noBombs);
+	void _UPD_Client(const double dt, State &St, Changes &Ch, bool noBombs);
 	void UPD(const double dt);
 	void UPD_Client(const double dt, bool noBombs = false);
 

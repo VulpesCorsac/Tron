@@ -33,6 +33,9 @@ public:
 	//Graphics Constants
 	int resX, resY;
 
+	// Team Constants
+	int Teams_Ammount;
+
     // Initing constants
 	void Init_from_config_file();
 
