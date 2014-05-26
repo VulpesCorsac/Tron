@@ -120,7 +120,7 @@ void CClient :: goback(int frame)
 	{
 		i++;
 	}
-	i++;
+	//i++;
 	ggame->Current_Game.Walls.resize(i);
 }
 
@@ -274,15 +274,18 @@ bool CClient::think()
 
 		if (msg.type == UPD_GAME_STATE_NACC)
 		{
+			
 			int curcadr;
 			State temp_state;
 			curcadr = msg.pack_num;
 			read_state(&msg, &temp_state);
-			forvec(Player, temp_state.Players, i) i->Constants = ggame->Constants;
 			number_of_clients = temp_state.Players.size();
 			goback(curcadr);
+			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
 			ggame->Update_Changes_NACC(temp_state);
-			goforward(cadr);
+			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
+			goforward(curcadr);
+
 			//here comes the sg.buf parsing to temp_state
 		}
 	}
@@ -301,6 +304,7 @@ bool CClient::think()
 			*(p++) = curact.start_bomb;
 			*(p++) = curact.start_rocket;
 			*(p++) = curact.turn;
+			act[getPID()][msg.pack_num] = curact;
 			
 			sendto(my_sock, (char *)&msg, sizeof(my_message)- 2000, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
