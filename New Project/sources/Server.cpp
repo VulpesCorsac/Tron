@@ -119,8 +119,8 @@ void read_changes(my_message * msg, Changes * some_changes)
 {
 	int len;
 	int  *p = (int *)msg->buff;
-	some_changes->Killed_Players.resize(len);
 	len = *(p++);
+	some_changes->Killed_Players.resize(len);
 	for (int i = 0; i < len; i++)
 	some_changes->Killed_Players[i] = *(p++);
 
@@ -363,7 +363,7 @@ CServer :: CServer()
 		ggame->Get_Changes_ACC(acc);
 		ggame->Get_Changes_NACC(nacc);
 
-		ggame->Update_Changes_ACC(acc);
+	//	ggame->Update_Changes_ACC(acc);
 
 		my_message msg;
 

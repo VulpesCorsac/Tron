@@ -301,7 +301,7 @@ bool Game_Engine::Out_of_Field(const Player &_Player, const double &dt) {
 	LightCycle _Cycle = _Player.MyCycle;
 	_Cycle.UPD(dt);
 	Point2D < double > P = _Cycle.Current_Point + this->Constants->LightCycle_Length*Norm(_Cycle.Direction);
-	if ((P.x < 0) || (P.x > this->Constants->Field_Width) || (P.y < 0) || (P.y > this->Constants->LightCycle_Length))
+	if ((P.x < 0) || (P.x > this->Constants->Field_Width) || (P.y < 0) || (P.y > this->Constants->Field_Length))
 		return true;
 	return false;
 }
@@ -699,11 +699,13 @@ void Game_Engine::Player_Add(vector < Player > &Players) {
 	return;
 }
 
-void Game_Engine::Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch) {
+void Game_Engine::Player_Turn(const int &Player_number, const bool &left_turn) {
 	Point2D < double >  C_P = this->Current_Game.Players[Player_number].MyCycle.Current_Point;
 	Wall N_W(this->Current_Game.Walls[Player_number].Segment, Player_number, this->Current_Game.Walls.size());
 	Wall M_W(Segment2D <double>(C_P, C_P), Player_number, Player_number);
 
+	Changes Ch;
+	Clear(Ch);
 	Ch.Modifyed_Walls.push_back(std::make_pair(this->Current_Game.Walls[Player_number], M_W));
 	Ch.New_Walls.push_back(N_W);
 
@@ -711,7 +713,8 @@ void Game_Engine::Player_Turn(const int &Player_number, const bool &left_turn, S
 	this->Current_Game.Walls.push_back(N_W);
 	this->Current_Game.Walls[Player_number] = M_W;
 
-	St.Players = this->Current_Game.Players;
+	this->Game_State.Players = this->Current_Game.Players;
+	this->Game_Changes += Ch;
 }
 
 void Game_Engine::PLayer_Turn_Client(const int &Player_number, const bool &left_turn) {
@@ -841,7 +844,7 @@ void Game_Engine::UPD(const double dt) {
 	Changes _Ch;
 	_UPD(dt, _St, _Ch);
 	Update_Changes_ACC(_Ch);
-	Update_Changes_NACC(_St);
+	_St.Players = this->Current_Game.Players;
 	this->Game_State += _St;
 	this->Game_Changes += _Ch;
 	return;

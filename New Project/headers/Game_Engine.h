@@ -55,8 +55,6 @@ private:
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
 	bool Wall_Modify(const vector < pair < Wall, Wall > > &Walls);
-	bool Wall_Prolong(const int &n);
-	bool Wall_Prolong_All(void);
 	bool Wall_Add(const Wall &_Wall);
 	bool Wall_Add(const vector < Wall > &Walls);
 	bool Wall_Delete(const int &n);
@@ -96,7 +94,10 @@ public:
 	void Bomb_Place(const int &Player_number);
 	void Rocket_Place(const int &Player_number);
 
-	void Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch);
+	bool Wall_Prolong(const int &n);
+	bool Wall_Prolong_All(void);
+
+	void Player_Turn(const int &Player_number, const bool &left_turn);
 	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);
 
 	void _UPD(const double dt, State &St, Changes &Ch);

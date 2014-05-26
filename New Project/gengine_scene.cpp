@@ -411,6 +411,7 @@ void CGEngine::drawScene(CCurScene& cs, glm::mat4 &tr)
 
 		forvec(CDrawEl, cs.e[rg], i)
 		{
+			if (!i->dMesh) continue;
 			if (!i->hasTransform)
 			{
 				wrldMat = tr;
