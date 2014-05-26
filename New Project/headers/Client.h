@@ -15,7 +15,7 @@ struct changes;
 
 void init_network();
 
-
+#define CLIENT_MAX_FORWARD 10
 
 
 class CClient
@@ -35,15 +35,19 @@ private:
 	int frames_wtanws;
 	Actions act[MAX_CLIENTS][100000];
 
+	int cSendNum[MAX_CLIENTS], cRecvNum;
 	void goforward(int frame);
 	void goback(int frame);
 	bool check_for_actions(Actions *);
 
 public:
 
+	int nPacketLossSnd, nPacketLossRcv, nLags;
 	int countTime;
 	int gResult;
 	bool gameFinish, gameRestart;
+
+	int lSrvFrame, cClFrame;
 
 	//also, put here a func to get Game for rendering
 

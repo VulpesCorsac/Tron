@@ -187,6 +187,12 @@ void read_changes(my_message * msg, Changes * some_changes)
 CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 {
 
+	fori(i, MAX_CLIENTS)
+	{
+		cSendNum[i] = 0;
+		cRecvNum[i] = 0;
+	}
+
 	for (int j = 0; j < MAX_CLIENTS; j++)
 	for (int i = 0; i < 100000; i++)
 	{
@@ -325,6 +331,7 @@ bool CServer::Line_up()
 		for (int j = i+1; j < MAX_CLIENTS; j++)
 		if (clients[j].occupied == true)
 		{
+			msg.length = cSendNum[i]++;
 			clients[i].addr = clients[j].addr;
 			clients[i].number = j;
 			clients[i].occupied = true;
@@ -501,6 +508,11 @@ bool CServer :: think()
 					int * p = (int *)msg.buff;
 					clients[msg.cl_num].count++;
 					
+					if (msg.length != cRecvNum[msg.cl_num]++)
+					{
+						cRecvNum[msg.cl_num] = msg.length + 1;
+					}
+
 					curfr = *(p++);
 					act[msg.cl_num - 1][curfr].received = true;
 					act[msg.cl_num - 1][curfr].start_bomb = *(p++);
@@ -524,6 +536,7 @@ bool CServer :: think()
 		{
 			if (clients[i].occupied == true)
 			{
+				msg.length = cSendNum[i]++;
 				sendto(my_sock, (char *) &msg, sizeof(my_message), 0, (sockaddr *)&clients[i].addr, len);
 			}
 		}

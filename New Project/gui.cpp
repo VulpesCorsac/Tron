@@ -69,6 +69,15 @@ void CGUI::enterScreen(int id)
 		b_Info3 = new CGUIElement(this, Point(rX / 2.0f, rY * 0.12f), NULL);
 		b_Info3->setText("");
 		b_Info3->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+
+		b_HInfo1 = new CGUIElement(this, Point(rX / 4.0f, rY * 0.04f), NULL);
+		b_HInfo1->setText("");
+		b_HInfo1->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+
+		b_HInfo2 = new CGUIElement(this, Point(rX / 4.0f, rY * 0.08f), NULL);
+		b_HInfo2->setText("");
+		b_HInfo2->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+
 	}
 	cScr = id;
 }
@@ -219,6 +228,15 @@ void CGUI::think(Point mPos, int mState)
 				sprintf_s(cBuff2, "Spectating player %d", gEng->cSpecPlayer+1);
 				b_Info2->setText(cBuff2);
 			}
+
+			if (gEng->cClient)
+			{
+				sprintf_s(cBuff3, "loss recv : %d, lagged : %d", gEng->cClient->nPacketLossRcv, gEng->cClient->nLags);
+				b_HInfo1->setText(cBuff3);
+				sprintf_s(cBuff4, "frm srv : %d, cl %d", gEng->cClient->lSrvFrame, gEng->cClient->cClFrame);
+				b_HInfo2->setText(cBuff4);
+			}
+
 
 			
 		}

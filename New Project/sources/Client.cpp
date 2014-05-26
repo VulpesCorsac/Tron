@@ -19,7 +19,17 @@ void init_network()
 CClient::CClient()
 {
 	connected = 0;
+	nLags = 0;
+	nPacketLossRcv = 0;
+	nPacketLossSnd = 0;
 	game_started = false;
+
+	fori(i, MAX_CLIENTS)
+	{
+		cSendNum[i] = 0;
+		cRecvNum = 0;
+	}
+
 	for (int j = 0; j < MAX_CLIENTS; j++)
 	for (int i = 0; i < 100000; i++)
 	{
@@ -36,7 +46,15 @@ CClient::CClient()
 
 CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 {
-	 game = _game;
+	game = _game;
+	nPacketLossRcv = 0;
+	nLags = 0;
+	nPacketLossSnd = 0;
+	fori(i, MAX_CLIENTS)
+	{
+		cSendNum[i] = 0;
+		cRecvNum = 0;
+	}
 	 ggame = _ggame;
 	 connected = 0;
 	 game_started = false;
@@ -204,6 +222,7 @@ bool CClient::think()
 	if (game_started)
 	{
 		cadr++;
+		cClFrame = cadr;
 	}
 
 	int len = sizeof(sockaddr_in);
@@ -242,10 +261,20 @@ bool CClient::think()
 			ggame->Start_Game_Client(beg_state);
 			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
 			cadr = 0;
+			lSrvFrame = 0;
+			cClFrame = 0;
 			game_started = true;
 			gameFinish = false;
 			gameRestart = true;
 		}
+
+		if (msg.type == PLAYER_ACTION || msg.type == START_GAME || msg.type == UPD_GAME_STATE_ACC ||
+			msg.type == UPD_GAME_STATE_NACC || msg.type == START_COUNTDOWN)
+			if (msg.length != cRecvNum++)
+			{
+				nPacketLossRcv++;
+				cRecvNum = msg.length + 1;
+			}
 
 		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
 		{
@@ -260,7 +289,6 @@ bool CClient::think()
 			if (rec_act.turn != NO_TURN)
 				act[msg.cl_num - 1][msg.pack_num] = rec_act;
 			
-
 
 			if (rec_act.received != false)
 			{
@@ -280,17 +308,13 @@ bool CClient::think()
 				}
 				else ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 			}
-		} else
-
-		if (msg.type == UPD_GAME_STATE_ACC)
+		} else if (msg.type == UPD_GAME_STATE_ACC)
 		{
 			Changes temp_changes;
 			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
 			ggame->Update_Changes_ACC(temp_changes);
-		} else
-
-		if (msg.type == UPD_GAME_STATE_NACC)
+		} else if (msg.type == UPD_GAME_STATE_NACC)
 		{
 			
 			int curcadr;
@@ -303,6 +327,7 @@ bool CClient::think()
 			ggame->Update_Changes_NACC(temp_state);
 			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
 			goforward(curcadr);
+			lSrvFrame = curcadr;
 
 			//here comes the sg.buf parsing to temp_state
 		} else
@@ -351,6 +376,12 @@ bool CClient::think()
 
 
 		ggame->UPD_Client(dt);
+
+		if (cClFrame - lSrvFrame > CLIENT_MAX_FORWARD)
+		{
+			Sleep(1000 / 60);
+			nLags++;
+		}
 	}
 //	if ()
 	return true;

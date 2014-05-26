@@ -67,7 +67,7 @@ private:
 	bool game_started;
     bool perm_to_connect;
 	int cadr;
-	int stepped;
+	int stepped, cSendNum[MAX_CLIENTS], cRecvNum[MAX_CLIENTS];
 	Actions act[MAX_CLIENTS][100000];
 	int last_frame_action[MAX_CLIENTS];
 
