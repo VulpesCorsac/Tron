@@ -287,13 +287,13 @@ CServer :: CServer()
 		for (int j = 0; j < number_of_clients ; j++)
 			if (act[j][i].received == true)
 			{
-				if (act[i][j].start_bomb == true)
+				if (act[j][i].start_bomb == true)
 					ggame->Bomb_Place(j);
 
-				if (act[i][j].start_rocket == true)
+				if (act[j][i].start_rocket == true)
 					ggame->Rocket_Place(j);
 
-				if (act[i][j].turn != NO_TURN)   //vovan << check here
+				if (act[j][i].turn != NO_TURN)   //vovan << check here
 					ggame->Player_Turn(j, act[j][i].turn == TURN_LEFT);
 			}
 			ggame->UPD(dt);
@@ -386,7 +386,7 @@ CServer :: CServer()
 		for (int i = 0; i < number_of_clients; i++)
 		{
 			if (nacc.Players[i].Alive == false)
-				clients[i].alive = false;
+				clients[i+1].alive = false;
 		}
 
 		

@@ -901,7 +901,7 @@ void Game_Engine::Update_Changes_ACC(const Changes &Ch) {
 
 void Game_Engine::Get_Changes_NACC(State &St) {
 	St = this->Game_State;
-	Clear(this->Game_State);
+//	Clear(this->Game_State);
 	return;
 }
 
