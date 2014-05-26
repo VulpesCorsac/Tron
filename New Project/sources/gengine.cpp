@@ -107,7 +107,10 @@ GLuint compileShader(const char * path, GLuint shType)
 	glGetShaderiv(sh, GL_COMPILE_STATUS, &Result);
 	glGetShaderiv(sh, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	std::vector<char> errMsg(InfoLogLength);
-	glGetShaderInfoLog(sh, InfoLogLength, NULL, &errMsg[0]);
+	if (InfoLogLength > 0)
+		glGetShaderInfoLog(sh, InfoLogLength, NULL, &errMsg[0]);
+	else
+		errMsg.push_back(0);
 	printf("%s\n", &errMsg[0]);
 
 	return sh;
