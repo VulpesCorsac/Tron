@@ -339,7 +339,7 @@ CServer :: CServer()
 	int mframe = 100000;
 
 	for (int i = 0; i < number_of_clients; i++)
-	for (int j = stepped + 1; j < stepped + 20; j++)
+	for (int j = stepped + 1; j < stepped + 200; j++)
 	{
 		if (act[i][j].received == true)
 			received[i] = 1;
@@ -469,10 +469,10 @@ CServer :: CServer()
 					clients[msg.cl_num].count++;
 					
 					curfr = *(p++);
-					act[msg.cl_num][curfr].received = true;
-					act[msg.cl_num][curfr].start_bomb = *(p++);
-					act[msg.cl_num][curfr].start_rocket = *(p++);
-					act[msg.cl_num][curfr].turn = *(p++);
+					act[msg.cl_num - 1][curfr].received = true;
+					act[msg.cl_num - 1][curfr].start_bomb = *(p++);
+					act[msg.cl_num - 1][curfr].start_rocket = *(p++);
+					act[msg.cl_num - 1][curfr].turn = *(p++);
 					broadcast(msg);
 				}
 			}
@@ -487,7 +487,7 @@ CServer :: CServer()
     bool CServer :: broadcast(my_message msg)
     {
 		int len = sizeof(clients[0].addr);
-		for (int i = 0; i < MAX_CLIENTS; i++)
+		for (int i = 1; i < MAX_CLIENTS; i++)
 		{
 			if (clients[i].occupied == true)
 			{
