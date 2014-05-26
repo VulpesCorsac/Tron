@@ -72,13 +72,10 @@ void CMesh::toBuffer(bool isDyn, bool clrTemp)
 		bufI_size = qSize * 6;
 
 		GLuint memType = isDyn ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
-	//	if (!isDyn)
-	//	{
-			bf.allocBuff(GLDB_VERTEX, bufQ_size * 4, &q_v[0], memType);
-			bf.allocBuff(GLDB_UV, bufQ_size * 4, &q_uv[0], memType);
-			bf.allocBuff(GLDB_NORMALS, bufQ_size * 4, &q_n[0], memType);
-			bf.allocBuff(GLDB_INDEX, bufQ_size * 6, &q_i[0], memType);
-	//	}
+		bf.allocBuff(GLDB_VERTEX, bufQ_size * 4, &q_v[0], memType);
+		bf.allocBuff(GLDB_UV, bufQ_size * 4, &q_uv[0], memType);
+		bf.allocBuff(GLDB_NORMALS, bufQ_size * 4, &q_n[0], memType);
+		bf.allocBuff(GLDB_INDEX, bufQ_size * 6, &q_i[0], memType);
 	} else {
 
 		bf.updBuff(GLDB_VERTEX, bufQ_size * 4, &q_v[0]);

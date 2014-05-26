@@ -370,13 +370,14 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 
 		const float asp = 0.9f;
 
+
 		if (pAngs[i->Player_Number] - nang >= 3.14159f) pAngs[i->Player_Number] -= 2 * 3.14159f;
 		if (nang - pAngs[i->Player_Number] >= 3.14159f) pAngs[i->Player_Number] += 2 * 3.14159f;
 
 		//pAngs[i->Player_Number] = pAngs[i->Player_Number] * asp + nang * (1 - asp);
-		if (pAngs[i->Player_Number] - nang > 0.3f) pAngs[i->Player_Number] -= 0.3f;
-		if (nang - pAngs[i->Player_Number] > 0.3f) pAngs[i->Player_Number] += 0.3f;
-		if (fabsf(pAngs[i->Player_Number] - nang) < 0.3f) pAngs[i->Player_Number] = nang;
+		if (pAngs[i->Player_Number] - nang >= 0.3f) pAngs[i->Player_Number] -= 0.3f;
+		if (nang - pAngs[i->Player_Number] >= 0.3f) pAngs[i->Player_Number] += 0.3f;
+		if (fabsf(pAngs[i->Player_Number] - nang) <= 0.3f) pAngs[i->Player_Number] = nang;
 
 	//		pAngs[i->Player_Number] += pAngs[i->Player_Number] * asp + nang * (1 - asp);
 
@@ -455,6 +456,7 @@ void CGEngine::drawScene(Game* gm)
 	//grid rendering
 	wrldMat = translate(vec3(floorf(cam_Pos.x) - 50.0f, 0.0f, floorf(cam_Pos.z) - 50.0f));
 	updMatrices();
+	setColorMod(vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	glDisable(GL_DEPTH_WRITEMASK);
 	glEnable(GL_DEPTH_TEST);
 	gridMesh2->draw(this);
@@ -469,11 +471,6 @@ void CGEngine::drawScene(Game* gm)
 	//overworld
 	glUniform1f(unv_3DL_refl, 1.0f);
 	drawScene(csn, mat4(1.0f));
-
-	//wrldMat = translate(vec3((cam_Trg.x), 0.0f, (cam_Trg.z))) * scale(vec3(0.002f, 0.002f, 0.002f));
-	//updMatrices();
-	//motoMesh->draw(this);
-
 
 	float alp = 0.9f;
 	cam_Pos = cam_Pos * alp + cam_Pos_t * (1 - alp);

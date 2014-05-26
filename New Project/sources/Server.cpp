@@ -348,7 +348,7 @@ CServer :: CServer()
 	}
 
 	for (int i = 0; i < number_of_clients; i++)
-	if ((mframe > max_frame[i]) && (clients[i].alive == true)) mframe = max_frame[i];
+	if ((mframe > max_frame[i]) && (clients[i+1].alive == true)) mframe = max_frame[i];
 
 
 	
