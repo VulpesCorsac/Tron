@@ -801,8 +801,6 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 		}
 	}
 
-
-
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive) {
 			for (size_t j = 0; j < this->Current_Game.Bonuses.size(); j++) {
@@ -836,6 +834,16 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 }
 
 void Game_Engine::_UPD_Client(const double dt, State &St, Changes &Ch, bool noBombs) {
+	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++) {
+		if (this->Current_Game.Bombs[i].Explode())
+			Ch.Exploded_Bombs.push_back(i);
+	}
+
+	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++) {
+		if (Intersect(this->Current_Game.Rockets[i], dt) || this->Current_Game.Rockets[i].Explode())
+			Ch.Exploded_Rockets.push_back(i);
+	}
+
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive)
 			this->Current_Game.Players[i].UPD(dt);
