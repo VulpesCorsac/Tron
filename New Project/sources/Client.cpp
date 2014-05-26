@@ -31,6 +31,7 @@ CClient::CClient()
 		act[j][i].received = false;
 	}
 	stepped = 0;
+	frames_wtanws = 0;
 }
 
 CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
@@ -50,6 +51,7 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 		 act[j][i].received = false;
 	 }
 	 stepped = 0;
+	 frames_wtanws = 0;
 }
 
 int CClient::getPID()
