@@ -3,7 +3,7 @@
 #include "../headers/Server.h"
 
 
-void write_state(my_message * msg, State * some_state)
+void write_state(my_message * msg, State * some_state, Game* game)
 {
 	int number_of_players;
 	number_of_players =(int) some_state->Players.size();
@@ -29,10 +29,15 @@ void write_state(my_message * msg, State * some_state)
 			p += 2;
 		*((double*)p) = some_state->Players[i].MyCycle.Speed;
 			p += 2;
+
+		*((double*)p) = game->Walls[i].Segment.A.x;
+		p += 2;
+		*((double*)p) = game->Walls[i].Segment.A.y;
+		p += 2;
 	}
 }
 
-void read_state(my_message * msg, State * some_state)
+void read_state(my_message * msg, State * some_state, Game* game)
 {
 	int number_of_players;
 	int* p = (int*)msg->buff;
@@ -40,7 +45,6 @@ void read_state(my_message * msg, State * some_state)
 	some_state->Players.resize(number_of_players);
 
 	for (int i = 0; i < number_of_players; i++)
-
 	{
 		some_state->Players[i].Alive = *(p++);
 		some_state->Players[i].Bomb_Ammount = *(p++);
@@ -53,9 +57,14 @@ void read_state(my_message * msg, State * some_state)
 		p += 2;
 		some_state->Players[i].MyCycle.Direction.x = *((double*)p);
 		p += 2;
-		*((double*)p) = some_state->Players[i].MyCycle.Direction.y = *((double*)p);
+		some_state->Players[i].MyCycle.Direction.y = *((double*)p);
 		p += 2;  
 		some_state->Players[i].MyCycle.Speed = *((double*)p);
+		p += 2;
+
+		if (game->Walls.size() > i) game->Walls[i].Segment.A.x = *((double*)p);
+		p += 2;
+		if (game->Walls.size() > i) game->Walls[i].Segment.A.y = *((double*)p);
 		p += 2;
 	}
 }
@@ -380,7 +389,7 @@ CServer :: CServer()
 		msg.length = 0;
 		msg.pack_num = mframe;
 		msg.type = UPD_GAME_STATE_NACC;
-		write_state(&msg, &nacc);
+		write_state(&msg, &nacc, &ggame->Current_Game);
 		broadcast(msg);
 
 		for (int i = 0; i < number_of_clients; i++)
@@ -525,7 +534,7 @@ CServer :: CServer()
 		msg.cl_num = 0;
 		msg.type = START_GAME;
 		
-		write_state( &msg, &beg_state);
+		write_state(&msg, &beg_state, &ggame->Current_Game);
 
 		broadcast(msg);
 		return true;

@@ -29,7 +29,7 @@ private:
 	int my_num;
 	int number_of_clients;
 	long long cadr;
-	long long stepped;
+	//long long stepped; SUKA BLDZJAD AAAAAAAAAAAA ZACHEM WHAI WHYYYYYYYYYYYYYYYYY??
 	CGEngine *game;
 	Game_Engine *ggame;
 	int frames_wtanws;

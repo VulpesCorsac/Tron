@@ -30,7 +30,7 @@ CClient::CClient()
 		act[j][i].turn = NO_TURN;
 		act[j][i].received = false;
 	}
-	stepped = 0;
+	//stepped = 0;
 	frames_wtanws = 0;
 }
 
@@ -50,7 +50,7 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 		 act[j][i].turn = NO_TURN;
 		 act[j][i].received = false;
 	 }
-	 stepped = 0;
+	 //stepped = 0;
 	 frames_wtanws = 0;
 }
 
@@ -65,9 +65,9 @@ int CClient::get_num()
 }
 
 
-void write_state(my_message * msg, State * some_state);
+void write_state(my_message * msg, State * some_state, Game* game);
 
-void read_state(my_message * msg, State * some_state);
+void read_state(my_message * msg, State * some_state, Game* game);
 
 void write_changes(my_message * msg, Changes * some_changes);
 
@@ -130,7 +130,7 @@ void CClient::goforward(int frame)
 	{
 		for (int i = 0; i < number_of_clients; i++)
 		if (act[i][j + frame].received == true)
-			ggame->PLayer_Turn_Client(i, act[i][j].turn == TURN_LEFT);
+			ggame->PLayer_Turn_Client(i, act[i][j + frame].turn == TURN_LEFT);
 		ggame->UPD_Client(dt);
 	}
 
@@ -225,7 +225,7 @@ bool CClient::think()
 		if (msg.type == START_GAME)
 		{	
 			State beg_state;
-			read_state(&msg, &beg_state);
+			read_state(&msg, &beg_state, &ggame->Current_Game);
 			ggame->Start_Game_Client(beg_state);
 			cadr = 0;
 			game_started = true;
@@ -240,7 +240,9 @@ bool CClient::think()
 			rec_act.start_rocket = *(p++);
 			rec_act.turn = *(p++);
 			rec_act.received = true;
-			act[msg.cl_num - 1][msg.pack_num] = rec_act;
+
+			if (rec_act.turn != NO_TURN)
+				act[msg.cl_num - 1][msg.pack_num] = rec_act;
 			
 
 
@@ -278,10 +280,10 @@ bool CClient::think()
 			int curcadr;
 			State temp_state;
 			curcadr = msg.pack_num;
-			read_state(&msg, &temp_state);
-			number_of_clients = temp_state.Players.size();
 			goback(curcadr);
+			read_state(&msg, &temp_state, &ggame->Current_Game);
 			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
+			number_of_clients = temp_state.Players.size();
 			ggame->Update_Changes_NACC(temp_state);
 			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
 			goforward(curcadr);
@@ -299,14 +301,20 @@ bool CClient::think()
 			int * p = (int *)msg.buff;
 			msg.type = PLAYER_ACTION;
 			msg.cl_num = getPID() + 1;
-			msg.pack_num = stepped;
+			msg.pack_num = cadr;
 			*(p++) = curact.cadr;
 			*(p++) = curact.start_bomb;
 			*(p++) = curact.start_rocket;
 			*(p++) = curact.turn;
-			act[getPID()][msg.pack_num] = curact;
+
+			if (curact.turn != NO_TURN)
+			{
+				act[getPID()][msg.pack_num] = curact;
+				act[getPID()][msg.pack_num].received = true;//ppfft
+			}
+
 			
-			sendto(my_sock, (char *)&msg, sizeof(my_message)- 2000, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message)- 1900, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
 			if (curact.turn != NO_TURN)
