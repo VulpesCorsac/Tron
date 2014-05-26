@@ -303,6 +303,10 @@ bool CClient::think()
 
 			if (curact.turn != NO_TURN)
 				ggame->PLayer_Turn_Client(getPID(), curact.turn == TURN_LEFT);
+			if (curact.start_bomb == true)
+				ggame->Bomb_Place(getPID());
+			if (curact.start_rocket == true)
+				ggame->Rocket_Place(getPID());
 		}
 		else frames_wtanws++;
 

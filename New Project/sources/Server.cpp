@@ -439,7 +439,7 @@ CServer :: CServer()
 								anws.cl_num = 0;
 								anws.length = 4;
 								anws.pack_num = 0;
-								sendto(my_sock, (char *)&anws, sizeof(my_message) - 2046, 0, (struct sockaddr *) &clients[i].addr, sizeof(tempaddr));
+								sendto(my_sock, (char *)&anws, sizeof(my_message) - 2044, 0, (struct sockaddr *) &clients[i].addr, sizeof(tempaddr));
 								break;
 							}
 						}
