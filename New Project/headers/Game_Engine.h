@@ -101,9 +101,9 @@ public:
 	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);
 
 	void _UPD(const double dt, State &St, Changes &Ch);
-	void _UPD_Client(const double dt);
+	void _UPD_Client(const double dt, bool noBombs);
 	void UPD(const double dt);
-	void UPD_Client(const double dt);
+	void UPD_Client(const double dt, bool noBombs = false);
 
 	bool Game_Over(int &Win_Team); // returns -1 when all are dead
 

@@ -835,16 +835,19 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 	return;
 }
 
-void Game_Engine::_UPD_Client(const double dt) {
+void Game_Engine::_UPD_Client(const double dt, bool noBombs) {
 	for (size_t i = 0; i < this->Current_Game.Players.size(); i++) {
 		if (this->Current_Game.Players[i].Alive)
 			this->Current_Game.Players[i].UPD(dt);
 	}
 	Wall_Prolong_All();
-	for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
-		this->Current_Game.Bombs[i].UPD(dt);
-	for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
-		this->Current_Game.Rockets[i].UPD(dt);
+	if (!noBombs)
+	{
+		for (size_t i = 0; i < this->Current_Game.Bombs.size(); i++)
+			this->Current_Game.Bombs[i].UPD(dt);
+		for (size_t i = 0; i < this->Current_Game.Rockets.size(); i++)
+			this->Current_Game.Rockets[i].UPD(dt);
+	}
 	return;
 }
 
@@ -859,8 +862,8 @@ void Game_Engine::UPD(const double dt) {
 	return;
 }
 
-void Game_Engine::UPD_Client(const double dt) {
-	_UPD_Client(dt);
+void Game_Engine::UPD_Client(const double dt, bool noBombs) {
+	_UPD_Client(dt, noBombs);
 	return;
 }
 

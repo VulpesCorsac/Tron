@@ -131,7 +131,7 @@ void CClient::goforward(int frame)
 		for (int i = 0; i < number_of_clients; i++)
 		if (act[i][j + frame].received == true)
 			ggame->PLayer_Turn_Client(i, act[i][j + frame].turn == TURN_LEFT);
-		ggame->UPD_Client(dt);
+		ggame->UPD_Client(dt, true);
 	}
 
 }

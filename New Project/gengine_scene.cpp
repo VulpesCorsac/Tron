@@ -53,6 +53,8 @@ vec4 indToCol( int i)
 	if (i == 1) return vec4(0.9f, 0.6f, 0.6f, 1.0f);
 	if (i == 2) return vec4(0.4f, 1.0f, 0.4f, 1.0f);
 	if (i == 3) return vec4(1.0f, 0.4f, 0.4f, 1.0f);
+	if (i == 4) return vec4(1.0f, 0.4f, 1.0f, 1.0f);
+	if (i == 5) return vec4(1.0f, 0.8f, 0.2f, 1.0f);
 	return vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
