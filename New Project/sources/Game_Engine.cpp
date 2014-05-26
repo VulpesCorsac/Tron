@@ -717,7 +717,7 @@ void Game_Engine::Player_Turn(const int &Player_number, const bool &left_turn, S
 void Game_Engine::PLayer_Turn_Client(const int &Player_number, const bool &left_turn) {
 	Point2D < double >  C_P = this->Current_Game.Players[Player_number].MyCycle.Current_Point;
 	this->Current_Game.Players[Player_number].Turn(left_turn);
-	this->Current_Game.Walls.push_back(Wall(this->Current_Game.Walls[Player_number].Segment, Player_number, this->Current_Game.Walls.size()));
+	this->Current_Game.Walls.push_back(Wall(this->Current_Game.Walls[Player_number].Segment, Player_number, -1));
 	this->Current_Game.Walls[Player_number] = Wall(Segment2D <double>(C_P, C_P), Player_number, Player_number);
 }
 
@@ -840,6 +840,8 @@ void Game_Engine::UPD(const double dt) {
 	State _St;
 	Changes _Ch;
 	_UPD(dt, _St, _Ch);
+	Update_Changes_ACC(_Ch);
+	Update_Changes_NACC(_St);
 	this->Game_State += _St;
 	this->Game_Changes += _Ch;
 	return;

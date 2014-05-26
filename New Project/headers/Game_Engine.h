@@ -36,15 +36,6 @@ private:
 	void Make_some_magic(const Circle < double > &C, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
 	bool Out_of_Field(const Player &_Player, const double &dt);
 
-public:
-	// Data
-	Init_Constants* Constants;
-	Game Current_Game;
-	int Veryfied_Walls;
-	State Game_State;
-	Changes Game_Changes;
-
-	// Changes
 	void Bomb_Add(const Bomb &_Bomb);
 	void Bomb_Add(const vector < Bomb > &Bombs);
 	bool Bomb_Delete(const int &n);
@@ -52,7 +43,6 @@ public:
 	bool Bomb_Delete(const vector < int >  &Bombs);
 	bool Bomb_Delete(const vector < Bomb > &Bombs);
 	void Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
-	void Bomb_Place(const int &Player_number);
 
 	void Rocket_Add(const Rocket &_Rocket);
 	void Rocket_Add(const vector < Rocket > &Rockets);
@@ -61,7 +51,6 @@ public:
 	bool Rocket_Delete(const vector < int >  &Rockets);
 	bool Rocket_Delete(const vector < Rocket > &Rockets);
 	void Rocket_Explosion(const int &Rocket_Number, vector < int > &Killed_Players, vector < std::pair < int, Wall > > &New_Tails, vector < int > &Deleted_Walls, vector < Wall > &New_walls);
-	void Rocket_Place(const int &Player_number);
 
 	bool Wall_Modify(const int &n, const Wall &New_Wall);
 	bool Wall_Modify(const Wall &_Wall, const Wall &New_Wall);
@@ -94,6 +83,18 @@ public:
 	void Player_Add(vector < Player > &Players);
 	void PLayer_Kill(const int &Player_number);
 	void PLayer_Kill(const vector < int > &Players_Numbers);
+
+public:
+	// Data
+	Init_Constants* Constants;
+	Game Current_Game;
+	int Veryfied_Walls;
+	State Game_State;
+	Changes Game_Changes;
+
+	// Changes
+	void Bomb_Place(const int &Player_number);
+	void Rocket_Place(const int &Player_number);
 
 	void Player_Turn(const int &Player_number, const bool &left_turn, State &St, Changes &Ch);
 	void PLayer_Turn_Client(const int &Player_number, const bool &left_turn);
