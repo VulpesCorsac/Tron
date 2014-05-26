@@ -39,6 +39,7 @@ void Player::Turn(const double &aplha) {
 
 void Player::Turn(const bool &is_left_turn) {
 	this->MyCycle.Turn(is_left_turn);
+	this->MyCycle.Current_Point += (this->Constants->LightCycle_Width * 0.6) * this->MyCycle.Direction;
 	return;
 }
 

@@ -278,6 +278,7 @@ bool CClient::think()
 			State temp_state;
 			curcadr = msg.pack_num;
 			read_state(&msg, &temp_state);
+			forvec(Player, temp_state.Players, i) i->Constants = ggame->Constants;
 			number_of_clients = temp_state.Players.size();
 			goback(curcadr);
 			ggame->Update_Changes_NACC(temp_state);
