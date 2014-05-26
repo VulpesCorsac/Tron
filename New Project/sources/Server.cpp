@@ -118,54 +118,57 @@ void write_changes(my_message * msg, Changes * some_changes)
 void read_changes(my_message * msg, Changes * some_changes)
 {
 	int len;
-	int * p = (int *)msg->buff;
-	*(p++) = len = some_changes->Killed_Players.size();
+	int  *p = (int *)msg->buff;
+	some_changes->Killed_Players.resize(len);
+	len = *(p++);
 	for (int i = 0; i < len; i++)
-		*(p++) = some_changes->Killed_Players[i];
+	some_changes->Killed_Players[i] = *(p++);
 
 
-	*(p++) = len = some_changes->Modifyed_Walls.size();
+	len = *(p++);
+	some_changes->Modifyed_Walls.resize(len);
 	assert(len < 10);
 	for (int i = 0; i < len; i++)
 	{
-		*(p++) = some_changes->Modifyed_Walls[i].first.Player_Number;
-		*(p++) = some_changes->Modifyed_Walls[i].first.Wall_Number;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.x;
+		some_changes->Modifyed_Walls[i].first.Player_Number = *(p++);
+		some_changes->Modifyed_Walls[i].first.Wall_Number = *(p++);
+		some_changes->Modifyed_Walls[i].first.Segment.A.x = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.y;
+		some_changes->Modifyed_Walls[i].first.Segment.A.y = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.x;
+		some_changes->Modifyed_Walls[i].first.Segment.B.x = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.y;
+		some_changes->Modifyed_Walls[i].first.Segment.B.y = *((double *)p);
 		p = p + 2;
 
 
-		*(p++) = some_changes->Modifyed_Walls[i].second.Player_Number;
-		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.x;
+		some_changes->Modifyed_Walls[i].second.Player_Number = *(p++);
+		some_changes->Modifyed_Walls[i].second.Segment.A.x = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.y;
+		some_changes->Modifyed_Walls[i].second.Segment.A.y = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.B.x;
+		some_changes->Modifyed_Walls[i].second.Segment.B.x = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.B.y;
+		some_changes->Modifyed_Walls[i].second.Segment.B.y = *((double *)p);
 		p = p + 2;
-		*(p++) = some_changes->Modifyed_Walls[i].second.Wall_Number;
+		some_changes->Modifyed_Walls[i].second.Wall_Number = *(p++);
 
 	}
 
-	*(p++) = len = some_changes->New_Walls.size();
+	len = *(p++);
+	some_changes->New_Walls.resize(len);
 	for (int i = 0; i < len; i++)
 	{
-		*(p++) = some_changes->New_Walls[i].Player_Number;
-		*((double *)p) = some_changes->New_Walls[i].Segment.A.x;
+		some_changes->New_Walls[i].Player_Number = *(p++);
+		some_changes->New_Walls[i].Segment.A.x = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->New_Walls[i].Segment.A.y;
+		some_changes->New_Walls[i].Segment.A.y = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->New_Walls[i].Segment.B.x;
+		some_changes->New_Walls[i].Segment.B.x = *((double *)p);
 		p = p + 2;
-		*((double *)p) = some_changes->New_Walls[i].Segment.B.y;
+		some_changes->New_Walls[i].Segment.B.y = *((double *)p);
 		p = p + 2;
-		*(p++) = some_changes->New_Walls[i].Wall_Number;
+		some_changes->New_Walls[i].Wall_Number = *(p++);
 	}
 
 }
