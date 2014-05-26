@@ -48,6 +48,7 @@ public:
 	bool gameFinish, gameRestart;
 
 	int lSrvFrame, cClFrame;
+	bool frameSkip;
 
 	//also, put here a func to get Game for rendering
 

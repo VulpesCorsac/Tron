@@ -221,7 +221,7 @@ bool CClient::think()
 {
 	if (game_started)
 	{
-		cadr++;
+		if (!frameSkip) cadr++;
 		cClFrame = cadr;
 	}
 
@@ -375,12 +375,16 @@ bool CClient::think()
 		else frames_wtanws++;
 
 
-		ggame->UPD_Client(dt);
+		if (!frameSkip) ggame->UPD_Client(dt);
 
 		if (cClFrame - lSrvFrame > CLIENT_MAX_FORWARD)
 		{
-			Sleep(1000 / 60);
+			//Sleep(1000 / 60);
 			nLags++;
+			frameSkip = true;
+		}
+		else {
+			frameSkip = false;
 		}
 	}
 //	if ()
