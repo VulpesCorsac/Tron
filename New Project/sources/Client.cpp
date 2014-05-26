@@ -81,6 +81,8 @@ void read_changes(my_message * msg, Changes * some_changes);
 bool CClient :: check_for_actions(Actions *act)
 {
 	act->turn = NO_TURN;
+	act->start_bomb = false;
+	act->start_rocket = false;
 	bool a = false;
 	if (game->isKeyJustPressed(VK_LEFT))
 	{
