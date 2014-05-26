@@ -303,10 +303,14 @@ bool CClient::think()
 					if (rec_act.start_rocket == true)
 						ggame->Rocket_Place(msg.cl_num - 1);
 					if (rec_act.turn != NO_TURN)
-					ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
+						ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
 				}
-				else ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
+				else
+				{
+					if (rec_act.turn != NO_TURN)
+						ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
+				}
 			}
 		} else if (msg.type == UPD_GAME_STATE_ACC)
 		{

@@ -429,7 +429,7 @@ void CGEngine::cycle()
 				rGame->Walls[0].Wall_Number = 0;
 
 				rGame->Players.push_back(pl);*/
-
+				gui->enterScreen(GSCR_GAME);
 				setGame(rGame);
 			}
 		}

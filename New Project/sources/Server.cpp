@@ -537,7 +537,7 @@ bool CServer :: think()
 			if (clients[i].occupied == true)
 			{
 				msg.length = cSendNum[i]++;
-				sendto(my_sock, (char *) &msg, sizeof(my_message), 0, (sockaddr *)&clients[i].addr, len);
+				sendto(my_sock, (char *) &msg, sizeof(my_message) - 1000, 0, (sockaddr *)&clients[i].addr, len);
 			}
 		}
 		return true;
