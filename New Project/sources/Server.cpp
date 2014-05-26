@@ -294,7 +294,7 @@ CServer :: CServer()
 					ggame->Rocket_Place(j);
 
 				if (act[i][j].turn != NO_TURN)   //vovan << check here
-					ggame->PLayer_Turn_Client(j, act[j][i].turn == TURN_LEFT);
+					ggame->Player_Turn(j, act[j][i].turn == TURN_LEFT);
 			}
 			ggame->UPD(dt);
 			stepped++;
