@@ -11,9 +11,13 @@
 #define PLAYER_ACTION 6
 #define CHANGE_IN_NUM 7
 #define START_GAME 8
-
+#define START_COUNTDOWN 9
+#define GAME_RESTART 10
 
 //typedef int type = {};
+
+
+#define COUNTDOWN_TIME (60*4)
 
 class CGEngine;
 class Game_Engine;
@@ -70,9 +74,9 @@ private:
 	CGEngine *game;
 	Game_Engine *ggame;
 
-
+	bool gameFinish;
 	bool Line_up();
-
+	int countTime;
 
 public:
 

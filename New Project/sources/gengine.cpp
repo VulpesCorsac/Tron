@@ -404,8 +404,9 @@ void CGEngine::cycle()
 			delete cClient;
 			cClient = NULL;
 		}
-		if (!rGame)
+		if (!rGame || cClient->gameRestart)
 		{
+			cClient->gameRestart = false;
 			rGame = cClient->getGame_r();
 			//okay, we receive no correct game from vovan so let's make it
 			if (rGame)
@@ -488,14 +489,16 @@ void CGEngine::draw()
 	glEnable(GL_BLEND);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	go3D();
+	if (rGame)
+		drawScene(rGame);
+
 	go2D();
 	if (gui)
 		gui->render();
 	//testSpr->render(this, Point(20, 20), false);
 
-	go3D();
-	if (rGame)
-		drawScene(rGame);
 
 	glutSwapBuffers();
 }

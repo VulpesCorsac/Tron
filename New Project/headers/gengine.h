@@ -94,6 +94,7 @@ private:
 
 	CMesh* generateGridMesh(int nx, int ny, float sp, float w);
 	CMesh* generateGridMesh2(int nx, int ny, float sp);
+	void switchSpectator(int d);
 public:
 	Game* rGame;
 
@@ -105,6 +106,8 @@ public:
 	CClient* cClient;
 
 	GLuint cTex;
+	int cSpecPlayer;
+	bool isLAlive;
 
 	void doExit();
 	void setRasterTrg(Point p);

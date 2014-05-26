@@ -31,7 +31,7 @@ CClient::CClient()
 		act[j][i].received = false;
 	}
 	//stepped = 0;
-	frames_wtanws = 0;
+	frames_wtanws = 0; gameRestart = false;
 }
 
 CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
@@ -51,7 +51,7 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 		 act[j][i].received = false;
 	 }
 	 //stepped = 0;
-	 frames_wtanws = 0;
+	 frames_wtanws = 0; gameRestart = false;
 }
 
 int CClient::getPID()
@@ -223,13 +223,28 @@ bool CClient::think()
 		}
 
 		if (msg.type == START_GAME)
-		{	
+		{
+			ggame->Current_Game.Clear();
+			for (int j = 0; j < MAX_CLIENTS; j++)
+			for (int i = 0; i < 100000; i++)
+			{
+				//	 last_frame_action[j] = 0;
+				act[j][i].cadr = i;
+				act[j][i].start_bomb = false;
+				act[j][i].start_rocket = false;
+				act[j][i].turn = NO_TURN;
+				act[j][i].received = false;
+			}
+			frames_wtanws = 0;
+
 			State beg_state;
 			read_state(&msg, &beg_state, &ggame->Current_Game);
 			ggame->Start_Game_Client(beg_state);
 			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
 			cadr = 0;
 			game_started = true;
+			gameFinish = false;
+			gameRestart = true;
 		}
 
 		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
@@ -265,7 +280,7 @@ bool CClient::think()
 				}
 				else ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 			}
-		}
+		} else
 
 		if (msg.type == UPD_GAME_STATE_ACC)
 		{
@@ -273,7 +288,7 @@ bool CClient::think()
 			read_changes(&msg, &temp_changes);
 		//	here comes the msg.buf parsing to temp_changes
 			ggame->Update_Changes_ACC(temp_changes);
-		}
+		} else
 
 		if (msg.type == UPD_GAME_STATE_NACC)
 		{
@@ -290,10 +305,17 @@ bool CClient::think()
 			goforward(curcadr);
 
 			//here comes the sg.buf parsing to temp_state
+		} else
+
+		if (msg.type == START_COUNTDOWN)
+		{
+			countTime = *((int*)msg.buff);
+			gResult = msg.cl_num;
+			gameFinish = true;
 		}
 	}
 
-	if (game_started)
+	if (game_started && !gameFinish)
 	{
 		Actions curact;
 		curact.cadr = cadr;

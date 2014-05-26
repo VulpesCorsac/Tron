@@ -355,6 +355,8 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 
 	forvec(Player, gm->Players, i)
 	{
+		if (!i->Alive) continue;
+
 		CDrawEl e;
 		e.cMod = 0.9f * indToCol(i->Team_Number);
 		e.cMod.a = 1.0f;
@@ -431,19 +433,65 @@ void CGEngine::drawScene(CCurScene& cs, glm::mat4 &tr)
 	}
 }
 
+void CGEngine::switchSpectator(int d)
+{
+	int N = 50;
+	do
+	{
+		cSpecPlayer += d;
+		if (cSpecPlayer < 0) cSpecPlayer = ((int)rGame->Players.size()) - 1;
+		if (cSpecPlayer >= (int)rGame->Players.size()) cSpecPlayer = 0;
+	
+		N--;
+		if (N < 0) break;
+	} while (!rGame->Players[cSpecPlayer].Alive);
+}
+
 void CGEngine::drawScene(Game* gm)
 {
 
 	//camera update
 	cam_Up = vec3(0.0f, 1.0f, 0.0f);
-	cam_Trg_t = point2DToVec3(gm->Players[lPlayer].MyCycle.Current_Point) + vec3(0.0f, 0.5f, 0.0f);
-	vec3 dps = normalize(vector2DToVec3(gm->Players[lPlayer].MyCycle.Direction));
-	cam_Pos_t = cam_Trg_t - dps * 1.0f /*+ vec3(dps.z, 0, -dps.x) */ + vec3(0.0f, 0.5f, 0.0f);
-	//tm += 0.001f;
-	updCamera();
 
-	fori(i, (int)gm->Players.size())
-		gm->Walls[i].Segment.B = gm->Players[i].MyCycle.Current_Point;	//pffft...
+	isLAlive = gm->Players[lPlayer].Alive;
+	int cmPlayer = -1;
+
+	if (isLAlive)
+	{
+		cmPlayer = lPlayer;
+	} else {
+		cmPlayer = cSpecPlayer;
+		if (cmPlayer < 0 || !gm->Players[cmPlayer].Alive)
+		{
+			fori(i, (int)gm->Players.size())
+			{
+				if (gm->Players[i].Alive)
+				{
+					cmPlayer = cSpecPlayer = i;
+					break;
+				}
+			}
+		}
+	}
+
+	if (cmPlayer >= 0 && cmPlayer < int(gm->Players.size()) && gm->Players[cmPlayer].Alive)
+	{
+		cam_Trg_t = point2DToVec3(gm->Players[cmPlayer].MyCycle.Current_Point) + vec3(0.0f, 0.5f, 0.0f);
+		vec3 dps = normalize(vector2DToVec3(gm->Players[cmPlayer].MyCycle.Direction));
+		cam_Pos_t = cam_Trg_t - dps * 1.0f + vec3(0.0f, 0.5f, 0.0f);
+	}
+	else {
+		cam_Trg_t = vec3(ic->Field_Width * 0.5f, 0.0f, ic->Field_Length * 0.5f);
+		cam_Pos_t = vec3(ic->Field_Width * 0.5f, 1.0f * ic->Field_Length, ic->Field_Length * 0.5f + 1);
+	}
+
+	if (!isLAlive)
+	{
+		if (isKeyJustPressed(VK_LEFT)) switchSpectator(-1);
+		if (isKeyJustPressed(VK_RIGHT)) switchSpectator(1);
+	}
+
+	updCamera();
 
 	//scene preparing
 
@@ -500,8 +548,15 @@ void CGEngine::prepForScene(Game* gm)
 		wRender->wWidth = ic->Wall_Width;
 		wRender->prepare(gm, ic, this);
 	}
+	else {
+
+		wRender->prepare(gm, ic, this);
+	}
 
 	pAngs.resize(gm->Players.size(), 0.0f);
+
+	cSpecPlayer = -1;
+	isLAlive = true;
 }
 
 void CGEngine::setGame(Game* gm)

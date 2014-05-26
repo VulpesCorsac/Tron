@@ -890,7 +890,7 @@ bool Game_Engine::Game_Over(int &Win_Team) {
 			Win_Team = this->Current_Game.Players[i].Team_Number;
 		}
 	}
-	return (Alive_Teams.size() == 1);
+	return (Alive_Teams.size() <= 1);
 }
 
 void Game_Engine::Start_Game(const int &_Players_Ammount, State &St) {

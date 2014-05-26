@@ -56,6 +56,20 @@ void CGUI::enterScreen(int id)
 		b_Exit = new CGUIElement(this, Point(rX / 2.0f, rY * 0.8f), gEng->makeSprite(menuTex, Point(20, 30), Point(20 + 65, 30 + 24)));
 		b_Exit->setText("Close");
 	}
+	else if (id == GSCR_GAME)
+	{
+		b_Info = new CGUIElement(this, Point(rX / 2.0f, rY * 0.04f), NULL);
+		b_Info->setText("Game In Progress");
+		b_Info->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+
+		b_Info2 = new CGUIElement(this, Point(rX / 2.0f, rY * 0.08f), NULL);
+		b_Info2->setText("");
+		b_Info2->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+
+		b_Info3 = new CGUIElement(this, Point(rX / 2.0f, rY * 0.12f), NULL);
+		b_Info3->setText("");
+		b_Info3->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+	}
 	cScr = id;
 }
 
@@ -170,6 +184,43 @@ void CGUI::think(Point mPos, int mState)
 
 				gEng->setGame(gEng->rGame);*/
 			}
+		}
+	}
+	else if (cScr == GSCR_GAME)
+	{
+		if (gEng->rGame)
+		{
+			int npl = (int) gEng->rGame->Players.size();
+			int alpl = 0;
+			forvec(Player, gEng->rGame->Players, i)
+			{
+				if (i->Alive) alpl++;
+			}
+
+			sprintf_s(cBuff, "Game Active : %d/%d", alpl, npl);
+
+			b_Info->setText(cBuff);
+			if (gEng->isLAlive)
+			{
+				b_Info2->setText("");
+			}
+			else if (gEng->cClient && gEng->cClient->gameFinish)
+			{
+				if (gEng->cClient->gResult >= 0 && gEng->rGame)
+				{
+					sprintf_s(cBuff2, "Team %d won!", gEng->cClient->gResult + 1);
+				}
+				else {
+					sprintf_s(cBuff2, "Tie");
+				}
+				b_Info2->setText(cBuff2);
+			} else
+			{
+				sprintf_s(cBuff2, "Spectating player %d", gEng->cSpecPlayer+1);
+				b_Info2->setText(cBuff2);
+			}
+
+			
 		}
 	}
 }

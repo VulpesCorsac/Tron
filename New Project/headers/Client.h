@@ -41,6 +41,10 @@ private:
 
 public:
 
+	int countTime;
+	int gResult;
+	bool gameFinish, gameRestart;
+
 	//also, put here a func to get Game for rendering
 
 	Game* getGame_r();	//okay, i'll do it

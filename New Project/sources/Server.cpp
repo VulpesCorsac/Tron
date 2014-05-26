@@ -199,7 +199,7 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 	}
 	stepped = 0;
 
-
+	gameFinish = false;
 	game = _game;
 	ggame = _ggame;
 	cadr = 0;
@@ -312,7 +312,7 @@ CServer :: CServer()
 
 }
 
-	bool CServer::Line_up()
+bool CServer::Line_up()
 {
 	my_message msg;
 	msg.type = CHANGE_IN_NUM;
@@ -334,10 +334,15 @@ CServer :: CServer()
 			break;
 		}
 	}
+	for (int i = 1; i < MAX_CLIENTS; i++)
+	{
+		clients[i].alive = clients[i].occupied;
+	}
+
 	return true;
 }
 
-	bool CServer :: check_frame()
+bool CServer :: check_frame()
 {
 
 	int max_frame[MAX_CLIENTS], received[MAX_CLIENTS];
@@ -362,7 +367,7 @@ CServer :: CServer()
 
 
 	
-	if (mframe > stepped)
+	if (mframe > stepped && !gameFinish)
 	{
 		gotoframe(mframe);
 
@@ -398,8 +403,29 @@ CServer :: CServer()
 				clients[i+1].alive = false;
 		}
 
+		int win_team = -1;
+		if (!(number_of_clients == 1 && clients[1].alive) && ggame->Game_Over(win_team))
+		{
+			gameFinish = true;
+			msg.cl_num = win_team;
+			msg.length = 0;
+			msg.type = START_COUNTDOWN;
+			*((int*)msg.buff) = COUNTDOWN_TIME;
+			countTime = COUNTDOWN_TIME;
+			broadcast(msg);
+		}
+
 		
 		return true;
+	}
+	else if (gameFinish)
+	{
+		countTime--;
+		Sleep(1000/60);
+		if (countTime < 0)
+		{
+			startgame();
+		}
 	}
 	return false;
 }
@@ -407,8 +433,8 @@ CServer :: CServer()
 
 
 
-    bool CServer :: think()
-    {
+bool CServer :: think()
+{
             sockaddr_in tempaddr;
             int slen = sizeof(sockaddr_in);
             my_message msg, anws;
@@ -454,9 +480,6 @@ CServer :: CServer()
 						}
 					}
 				}
-
-
-
 
 				if (msg.type == DISCONNECT)
 				{
@@ -521,12 +544,28 @@ CServer :: CServer()
 		if (number_of_clients < 1)
 			return false;
 		Line_up();
+
+		for (int j = 0; j < MAX_CLIENTS; j++)
+		for (int i = 0; i < 100000; i++)
+		{
+			last_frame_action[j] = 0;
+			act[j][i].cadr = i;
+			act[j][i].start_bomb = false;
+			act[j][i].start_rocket = false;
+			act[j][i].turn = NO_TURN;
+			act[j][i].received = false;
+		}
+
 		game_started = true;
 		perm_to_connect = false;
+		gameFinish = false;
+
+		ggame->Current_Game.Clear();
 
 		State beg_state;	//vovan << check here
 		ggame->Start_Game(number_of_clients, beg_state);
 		cadr = 0;
+		stepped = 0;
 
 //		ggame->Get_Changes_NACC( beg_state); 
 

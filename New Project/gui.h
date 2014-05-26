@@ -25,6 +25,7 @@ private:
 	bool isHl;
 public:
 
+	glm::vec4 fntColor;
 	void render(CGEngine * eng);
 	bool getClick();
 	void setText(const char* txt);
@@ -39,9 +40,9 @@ private:
 	int cScr;
 	vector<CGUIElement*> els;
 
-	CGUIElement* b_Host, *b_Client, *b_Exit, *b_Layout, *b_IP, *b_Connect, *b_Info, *b_Players;
+	CGUIElement* b_Host, *b_Client, *b_Exit, *b_Layout, *b_IP, *b_Connect, *b_Info, *b_Players, *b_Info2, *b_Info3;
 
-	char cIp[64], cBuff[128];
+	char cIp[64], cBuff[128], cBuff2[128], cBuff3[128];
 
 	CGLTexture* menuTex;
 	void clearScreen();
