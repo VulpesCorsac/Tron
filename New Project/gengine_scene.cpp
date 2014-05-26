@@ -183,12 +183,13 @@ private:
 			tw.m->setTexture(wTex);
 		}
 		tw.cMod = indToCol(w.Player_Number);
-		makeWall(tw.m, point2DToVec3(w.Segment.A), point2DToVec3(w.Segment.B), 0.01f, isLast);
+		makeWall(tw.m, point2DToVec3(w.Segment.A), point2DToVec3(w.Segment.B), wWidth, isLast);
 		tw.m->toBuffer(true);
 	}
 
 public:
 	CGLTexture* wTex;
+	float wWidth;
 	void addTo(CCurScene& sc)
 	{
 		forvec(CWallMesh, dWalls, i)
@@ -494,6 +495,7 @@ void CGEngine::prepForScene(Game* gm)
 	{
 		wRender = new CWallRender();
 		wRender->wTex = wallTex;
+		wRender->wWidth = ic->Wall_Width;
 		wRender->prepare(gm, ic, this);
 	}
 
