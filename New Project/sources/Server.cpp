@@ -282,7 +282,7 @@ CServer :: CServer()
 	int tostep;
 	int startframe = stepped;
 	tostep = mframe - stepped;
-	for (int i = startframe; i < tostep; i++)
+	for (int i = startframe; i < mframe; i++)
 	{
 		for (int j = 0; j < number_of_clients ; j++)
 			if (act[j][i].received == true)
