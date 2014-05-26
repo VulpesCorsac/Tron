@@ -227,6 +227,7 @@ bool CClient::think()
 			State beg_state;
 			read_state(&msg, &beg_state, &ggame->Current_Game);
 			ggame->Start_Game_Client(beg_state);
+			forvec(Player, ggame->Current_Game.Players, i) i->Constants = ggame->Constants;
 			cadr = 0;
 			game_started = true;
 		}
