@@ -239,17 +239,22 @@ bool CClient::think()
 			rec_act.turn = *(p++);
 			rec_act.received = true;
 			act[msg.cl_num - 1][msg.pack_num] = rec_act;
-//			if (rec_act.start_bomb == true)
+			
 
-//			if (rec_act.start_rocket == true)
-				
 
-			if (rec_act.turn != NO_TURN)
+			if (rec_act.received != false)
 			{
 				if (cadr > rec_act.cadr)
-				{
+				{	
+					
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(-dt *(cadr - rec_act.cadr));
 					ggame->Wall_Prolong(msg.cl_num - 1);
+
+					if (rec_act.start_bomb == true)
+						ggame->Bomb_Place(msg.cl_num - 1);
+					if (rec_act.start_rocket == true)
+						ggame->Rocket_Place(msg.cl_num - 1);
+
 					ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
 				}

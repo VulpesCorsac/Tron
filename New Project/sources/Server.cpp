@@ -287,10 +287,11 @@ CServer :: CServer()
 		for (int j = 0; j < number_of_clients ; j++)
 			if (act[j][i].received == true)
 			{
-				//			if (act[i][j].start_bomb == true)
+				if (act[i][j].start_bomb == true)
+					ggame->Bomb_Place(j);
 
-				//			if (act[i][j].start_rocket == true)
-
+				if (act[i][j].start_rocket == true)
+					ggame->Rocket_Place(j);
 
 				if (act[i][j].turn != NO_TURN)   //vovan << check here
 					ggame->PLayer_Turn_Client(j, act[j][i].turn == TURN_LEFT);
