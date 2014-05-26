@@ -293,12 +293,13 @@ bool CClient::think()
 			int * p = (int *)msg.buff;
 			msg.type = PLAYER_ACTION;
 			msg.cl_num = getPID() + 1;
+			msg.pack_num = stepped;
 			*(p++) = curact.cadr;
 			*(p++) = curact.start_bomb;
 			*(p++) = curact.start_rocket;
 			*(p++) = curact.turn;
 			
-			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message)- 2000, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 
 			if (curact.turn != NO_TURN)

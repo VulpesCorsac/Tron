@@ -70,7 +70,7 @@ void write_changes(my_message * msg, Changes * some_changes)
 
 
 	*(p++) = len = some_changes->Modifyed_Walls.size();
-	assert(len < 10);
+	assert(len < 15);
 	for (int i = 0; i < len; i++)
 	{
 		*(p++) = some_changes->Modifyed_Walls[i].first.Player_Number;
