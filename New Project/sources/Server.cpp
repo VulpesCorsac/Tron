@@ -114,7 +114,7 @@ void write_changes(my_message * msg, Changes * some_changes)
 	}
 
 //	len = some_changes->Exploded_Bombs.size();
-	(*p++) = len = some_changes->Placed_Bonuses.size();
+	*(p++) = len = some_changes->Placed_Bonuses.size();
 	for (int i = 0; i < len; i++)
 	{
 		*(p++) = some_changes->Placed_Bonuses[i].Bomb;
@@ -125,7 +125,8 @@ void write_changes(my_message * msg, Changes * some_changes)
 		p = p + 2;
 	}
 
-
+	*(p++) = len = some_changes->Collected_Bonuses.size();
+	//for ()
 
 	msg->sizeofmsg = (p - (int *)msg->buff + 1) * 4;
 }
@@ -177,6 +178,20 @@ void read_changes(my_message * msg, Changes * some_changes)
 		p = p + 2;
 		some_changes->New_Walls[i].Wall_Number = *(p++);
 	}
+
+
+	len = *(p++);
+	some_changes->Placed_Bonuses.resize(len);
+	for (int i = 0; i < len; i++)
+	{
+		some_changes->Placed_Bonuses[i].Bomb = *(p++);
+		some_changes->Placed_Bonuses[i].Rocket = *(p++);
+		some_changes->Placed_Bonuses[i].Point.x = *(p);
+		p = p + 2;
+		some_changes->Placed_Bonuses[i].Point.y = *(p);
+		p = p + 2;
+	}
+
 
 }
 
