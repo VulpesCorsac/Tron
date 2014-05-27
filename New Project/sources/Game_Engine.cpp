@@ -370,6 +370,7 @@ void Game_Engine::Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_
 void Game_Engine::Bomb_Place(const int &Player_number) {
 	if (!this->Current_Game.Players[Player_number].Bomb_Ammount)
 		return;
+	this->Current_Game.Players[Player_number].Bomb_Ammount--;
 	Bomb _Bomb(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Constants->Bomb_Time, this->Constants->Bomb_Radius);
 	_Bomb.Owner = Player_number;
 	this->Current_Game.Bombs.push_back(_Bomb);
@@ -431,6 +432,7 @@ void Game_Engine::Rocket_Explosion(const int &Rocket_Number, vector < int > &Kil
 void Game_Engine::Rocket_Place(const int &Player_number) {
 	if (!this->Current_Game.Players[Player_number].Rocket_Ammount)
 		return;
+	this->Current_Game.Players[Player_number].Rocket_Ammount--;
 	Rocket _Rock(this->Current_Game.Players[Player_number].MyCycle.Current_Point + (1.2*this->Constants->LightCycle_Length)*(Norm(this->Current_Game.Players[Player_number].MyCycle.Direction)), this->Current_Game.Players[Player_number].MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Length, this->Constants->Rocket_Radius );
 	_Rock.Owner = Player_number;
 	this->Current_Game.Rockets.push_back(_Rock);
