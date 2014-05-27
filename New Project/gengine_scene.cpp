@@ -399,7 +399,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		e.dMesh = bombMesh;
 		e.hasTransform = true;
 		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
-		e.wMat = tMatrix * scale(vec3(1.0f, 1.0f, 1.0f));
+		e.wMat = tMatrix * scale(vec3(0.004f));
 
 		cs.e[RG_OP_LIGHTING].push_back(e);
 	}
@@ -415,7 +415,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		e.dMesh = rockMesh;
 		e.hasTransform = true;
 		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
-		e.wMat = tMatrix * rMatrix * scale(vec3(1.0f, 1.0f, 1.0f));
+		e.wMat = tMatrix * rMatrix * scale(vec3(0.0075f));
 
 		cs.e[RG_OP_LIGHTING].push_back(e);
 	}
