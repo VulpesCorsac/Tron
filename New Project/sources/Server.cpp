@@ -124,6 +124,13 @@ void write_changes(my_message * msg, Changes * some_changes)
 		*(p) = some_changes->Placed_Bonuses[i].Point.y;
 		p = p + 2;
 	}
+	
+	*(p++) = len = some_changes->Collected_Bonuses.size();
+	for (int i = 0; i < len; i++)
+	{
+		*(p++) = some_changes->Collected_Bonuses[i];
+	}
+
 
 	msg->sizeofmsg = (p - (int *)msg->buff + 1) * 4;
 }
@@ -188,6 +195,14 @@ void read_changes(my_message * msg, Changes * some_changes)
 		some_changes->Placed_Bonuses[i].Point.y = *(p);
 		p = p + 2;
 	}
+
+	len = *(p++);
+	some_changes->Collected_Bonuses.resize(len);
+	for (int i = 0; i < len; i++)
+	{
+		some_changes->Collected_Bonuses[i] = *(p++);
+	}
+
 
 
 }
