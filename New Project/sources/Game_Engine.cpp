@@ -342,8 +342,12 @@ bool Game_Engine::Bomb_Delete(const Bomb &_Bomb) {
 	return false;
 }
 
-bool Game_Engine::Bomb_Delete(const vector < int > &Bombs) {
+bool Game_Engine::Bomb_Delete(const vector < int > &Bomabs) {
 	bool f = false;
+	vector<int> Bombs = Bomabs;
+	sort(Bombs.begin(), Bombs.end());
+	reverse(Bombs.begin(), Bombs.end());
+
 	for (size_t i = 0; i < Bombs.size(); i++) {
 		if (Bomb_Delete(Bombs[i]))
 			f = true;
@@ -610,8 +614,13 @@ bool Game_Engine::Bonus_Delete(const Bonus &_Bonus) {
 	return false;
 }
 
-bool Game_Engine::Bonus_Delete(const vector < int > &Bonuses) {
+bool Game_Engine::Bonus_Delete(const vector < int > &Bonusas) {
 	bool f = false;
+
+	vector<int> Bonuses = Bonusas;
+	sort(Bonuses.begin(), Bonuses.end());
+	reverse(Bonuses.begin(), Bonuses.end());
+
 	for (size_t i = 0; i < Bonuses.size(); i++) {
 		if (Bonus_Delete(Bonuses[i]))
 			f = true;
