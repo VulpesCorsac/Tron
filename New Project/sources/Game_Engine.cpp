@@ -427,6 +427,7 @@ void Game_Engine::Rocket_Explosion(const int &Rocket_Number, vector < int > &Kil
 void Game_Engine::Rocket_Place(const int &Player_number) {
 	Rocket _Rock(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Current_Game.Players[Player_number].MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Length, this->Constants->Rocket_Radius );
 	this->Current_Game.Rockets.push_back(_Rock);
+//	Rocket _Rock2(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Current_Game.Players[Player_number].MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Length, this->Constants->Rocket_Radius);
 	this->Game_Changes.Placed_Rocket.push_back(_Rock);
 	return;
 }

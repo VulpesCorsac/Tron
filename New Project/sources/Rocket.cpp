@@ -28,6 +28,7 @@ Rocket::~Rocket(void) {
 
 }
 
+
 Rocket &Rocket::operator = (const Rocket &_Rocket) {
 	if (this == &_Rocket)
 		return *this;

@@ -153,10 +153,10 @@ void CClient::goforward(int frame)
 			if (act[i][j + frame].received == true)
 			{
 				Actions& a = act[i][j + frame];
-				if (a.start_bomb == true)
-					ggame->Bomb_Place(i);
-				if (a.start_rocket == true)
-					ggame->Rocket_Place(i);
+				//if (a.start_bomb == true)
+				//	ggame->Bomb_Place(i);
+				//if (a.start_rocket == true)
+				///	ggame->Rocket_Place(i);
 				if (a.turn != NO_TURN)
 					ggame->PLayer_Turn_Client(i, a.turn == TURN_LEFT);
 			}
