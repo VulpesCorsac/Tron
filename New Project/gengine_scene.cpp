@@ -359,7 +359,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		if (!i->Alive) continue;
 
 		CDrawEl e;
-		e.cMod = 0.9f * indToCol(i->Team_Number);
+		e.cMod = 1.3f * indToCol(i->Team_Number);
 		e.cMod.a = 1.0f;
 
 		e.dMesh = motoMesh;

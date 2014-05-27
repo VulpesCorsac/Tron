@@ -288,7 +288,8 @@ void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Ki
 			if (dist(P1, this->Current_Game.Walls[i].Segment.A) <= dist(P2, this->Current_Game.Walls[i].Segment.A)) {
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P1), i));
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P2), i));
-			} else {
+			}
+			else {
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P1), i));
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.A, P2), i));
 			}
@@ -300,7 +301,7 @@ void Game_Engine::Make_some_magic(const Circle < double > &C, vector < int > &Ki
 			else
 				New_walls.push_back(Wall(Segment2D <double>(this->Current_Game.Walls[i].Segment.B, P1), i));
 		}
-		if (Point_in_circle(this->Current_Game.Walls[i].Segment.A, C))
+		if ((Point_in_circle(this->Current_Game.Walls[i].Segment.A, C)) && (Cross_segment_circle(this->Current_Game.Walls[i].Segment, C, P1, P2) == 0))
 			Deleted_Walls.push_back(i);
 	}
 	return;

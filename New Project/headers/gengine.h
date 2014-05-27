@@ -104,7 +104,7 @@ private:
 
 	double cGraphTime;
 
-	CGLTexture* menuTex, *gridTex, *gridTex2, *whiteTex, *wallTex, *bombTex, * rockTex;
+	CGLTexture* menuTex, *gridTex, *gridTex2, *whiteTex, *wallTex, *bombTex, * rockTex, *motoTex;
 	CMesh* gridMesh, *motoMesh, *gridMesh2, *bombMesh, *rockMesh;
 
 	//size (x,z) ; spacing and line width

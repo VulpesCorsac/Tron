@@ -19,7 +19,7 @@
 
 #define COUNTDOWN_TIME (60*4)
 #define BUFF_SIZE 2048
-#define FRAMES_PER_BONUS 600
+#define FRAMES_PER_BONUS 100
 
 class CGEngine;
 class Game_Engine;

@@ -125,9 +125,6 @@ void write_changes(my_message * msg, Changes * some_changes)
 		p = p + 2;
 	}
 
-	*(p++) = len = some_changes->Collected_Bonuses.size();
-	//for ()
-
 	msg->sizeofmsg = (p - (int *)msg->buff + 1) * 4;
 }
 
