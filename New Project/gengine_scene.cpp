@@ -62,6 +62,7 @@ class CWallRender
 {
 	struct CWallMesh
 	{
+		int rFrame;
 		CMesh* m;
 		vec4 cMod;
 		CWallMesh()
@@ -192,11 +193,13 @@ private:
 public:
 	int team_cols[MAX_CLIENTS];
 	CGLTexture* wTex;
+	int cFrame;
 	float wWidth;
 	void addTo(CCurScene& sc)
 	{
 		forvec(CWallMesh, dWalls, i)
 		{
+			if (i->rFrame != cFrame) return;
 			CDrawEl e;
 			e.dMesh = i->m;
 			e.wMat = mat4(1.0f);
@@ -220,6 +223,7 @@ public:
 			dWalls.resize(ind + 1);
 			dWallsS.resize(ind + 1);
 		}
+		dWalls[ind].rFrame = cFrame;
 		if (dWallsS[ind] == w) return;
 		dWallsS[ind] = w;
 		setWall(dWalls[ind], w, isLast);
@@ -348,6 +352,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 	//temporary - everything is dynamic
 	cs.e->clear();
 
+	wRender->cFrame++;
 	forvec(Wall, gm->Walls, i)
 	{
 		wRender->setDynamicWall(*i, i - gm->Walls.begin(), (i - gm->Walls.begin()) < int(gm->Players.size()));
@@ -359,7 +364,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		if (!i->Alive) continue;
 
 		CDrawEl e;
-		e.cMod = 1.3f * indToCol(i->Team_Number);
+		e.cMod = 1.0f * indToCol(i->Team_Number);
 		e.cMod.a = 1.0f;
 
 		e.dMesh = motoMesh;
@@ -396,10 +401,13 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		e.cMod = indToCol(wRender->team_cols[i->Owner]);
 		e.cMod.a = 1.0f;
 
+		float ang = atan2f(i->Vector.y, i->Vector.x);
+		mat4 rMatrix = rotate(ang, vec3(0.0f, 1.0f, 0.0f));
+
 		e.dMesh = bombMesh;
 		e.hasTransform = true;
-		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
-		e.wMat = tMatrix * scale(vec3(0.004f));
+		mat4 tMatrix = translate(point2DToVec3(i->Current_Point) + vec3(0.0f, 0.3f, 0.0f));
+		e.wMat = tMatrix * rMatrix * scale(vec3(0.004f));
 
 		cs.e[RG_OP_LIGHTING].push_back(e);
 	}
@@ -409,12 +417,12 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		e.cMod = indToCol(wRender->team_cols[i->Owner]);
 		e.cMod.a = 1.0f;
 
-		float ang = -atan2f(i->Direction.y, i->Direction.x);
+		float ang = atan2f(i->Direction.x, i->Direction.y);
 		mat4 rMatrix = rotate(ang, vec3(0.0f, 1.0f, 0.0f));
 
 		e.dMesh = rockMesh;
 		e.hasTransform = true;
-		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
+		mat4 tMatrix = translate(point2DToVec3(i->Current_Point) + vec3(0.0f, 0.3f, 0.0f));
 		e.wMat = tMatrix * rMatrix * scale(vec3(0.0075f));
 
 		cs.e[RG_OP_LIGHTING].push_back(e);
