@@ -184,12 +184,13 @@ private:
 			tw.m = new CMesh();
 			tw.m->setTexture(wTex);
 		}
-		tw.cMod = indToCol(w.Player_Number);
+		tw.cMod = indToCol(team_cols[w.Player_Number]);
 		makeWall(tw.m, point2DToVec3(w.Segment.A), point2DToVec3(w.Segment.B), wWidth, isLast);
 		tw.m->toBuffer(true);
 	}
 
 public:
+	int team_cols[MAX_CLIENTS];
 	CGLTexture* wTex;
 	float wWidth;
 	void addTo(CCurScene& sc)
@@ -482,7 +483,7 @@ void CGEngine::drawScene(Game* gm)
 	}
 	else {
 		cam_Trg_t = vec3(ic->Field_Width * 0.5f, 0.0f, ic->Field_Length * 0.5f);
-		cam_Pos_t = vec3(ic->Field_Width * 0.5f, 1.0f * ic->Field_Length, ic->Field_Length * 0.5f + 1);
+		cam_Pos_t = vec3(ic->Field_Width * 0.5f, 0.65f * ic->Field_Length, ic->Field_Length * 0.5f + 1);
 	}
 
 	if (!isLAlive)
@@ -551,6 +552,11 @@ void CGEngine::prepForScene(Game* gm)
 	else {
 
 		wRender->prepare(gm, ic, this);
+	}
+
+	fori(i, (int)gm->Players.size())
+	{
+		wRender->team_cols[i] = gm->Players[i].Team_Number;
 	}
 
 	pAngs.resize(gm->Players.size(), 0.0f);

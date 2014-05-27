@@ -15,7 +15,7 @@ struct changes;
 
 void init_network();
 
-#define CLIENT_MAX_FORWARD 10
+#define CLIENT_MAX_FORWARD 9
 
 
 class CClient
@@ -42,7 +42,7 @@ private:
 
 public:
 
-	int nPacketLossSnd, nPacketLossRcv, nLags;
+	int nPacketLossSnd, nPacketLossRcv, nLags, nPacketShuffle, lSkipId;
 	int countTime;
 	int gResult;
 	bool gameFinish, gameRestart;

@@ -394,9 +394,6 @@ bool CServer :: check_frame()
 		write_changes(&msg, &acc);
 		broadcast(msg);
 
-
-
-
 		msg.cl_num = 0;
 		msg.length = 0;
 		msg.pack_num = mframe;

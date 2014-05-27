@@ -207,8 +207,10 @@ void CGUI::think(Point mPos, int mState)
 			}
 
 			sprintf_s(cBuff, "Game Active : %d/%d", alpl, npl);
-
+			if (gEng->cClient && gEng->cClient->gameFinish) sprintf_s(cBuff, "Restarting...");
 			b_Info->setText(cBuff);
+
+
 			if (gEng->isLAlive)
 			{
 				b_Info2->setText("");
@@ -231,7 +233,8 @@ void CGUI::think(Point mPos, int mState)
 
 			if (gEng->cClient)
 			{
-				sprintf_s(cBuff3, "loss recv : %d, lagged : %d", gEng->cClient->nPacketLossRcv, gEng->cClient->nLags);
+				sprintf_s(cBuff3, "loss recv : %d/%d, skips : %d", gEng->cClient->nPacketLossRcv,
+					gEng->cClient->nPacketShuffle, gEng->cClient->nLags);
 				b_HInfo1->setText(cBuff3);
 				sprintf_s(cBuff4, "frm srv : %d, cl %d", gEng->cClient->lSrvFrame, gEng->cClient->cClFrame);
 				b_HInfo2->setText(cBuff4);

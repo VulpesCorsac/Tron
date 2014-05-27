@@ -70,6 +70,8 @@ CClient::CClient(CGEngine * _game, Game_Engine *_ggame)
 	 }
 	 //stepped = 0;
 	 frames_wtanws = 0; gameRestart = false;
+	 lSkipId = -1;
+	 nPacketShuffle = 0;
 }
 
 int CClient::getPID()
@@ -147,8 +149,18 @@ void CClient::goforward(int frame)
 	for (int j = 0; j < cadr - frame; j++)
 	{
 		for (int i = 0; i < number_of_clients; i++)
-		if (act[i][j + frame].received == true)
-			ggame->PLayer_Turn_Client(i, act[i][j + frame].turn == TURN_LEFT);
+		{
+			if (act[i][j + frame].received == true)
+			{
+				Actions& a = act[i][j + frame];
+				if (a.start_bomb == true)
+					ggame->Bomb_Place(i);
+				if (a.start_rocket == true)
+					ggame->Rocket_Place(i);
+				if (a.turn != NO_TURN)
+					ggame->PLayer_Turn_Client(i, a.turn == TURN_LEFT);
+			}
+		}
 		ggame->UPD_Client(dt, true);
 	}
 
@@ -272,8 +284,16 @@ bool CClient::think()
 			msg.type == UPD_GAME_STATE_NACC || msg.type == START_COUNTDOWN)
 			if (msg.length != cRecvNum++)
 			{
-				nPacketLossRcv++;
-				cRecvNum = msg.length + 1;
+				if (msg.length == lSkipId)
+				{
+					nPacketShuffle++;
+				}
+				else
+				{
+					nPacketLossRcv++;
+					lSkipId = cRecvNum - 1;
+					cRecvNum = msg.length + 1;
+				}
 			}
 
 		if ((msg.type == PLAYER_ACTION) && (msg.cl_num != my_num))
@@ -286,9 +306,7 @@ bool CClient::think()
 			rec_act.turn = *(p++);
 			rec_act.received = true;
 
-			if (rec_act.turn != NO_TURN)
-				act[msg.cl_num - 1][msg.pack_num] = rec_act;
-			
+			act[msg.cl_num - 1][msg.pack_num] = rec_act;
 
 			if (rec_act.received != false)
 			{
@@ -306,10 +324,9 @@ bool CClient::think()
 						ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
 					ggame->Current_Game.Players[msg.cl_num - 1].UPD(dt *(cadr - rec_act.cadr));
 				}
-				else
+				else if (cadr == rec_act.cadr)
 				{
-					if (rec_act.turn != NO_TURN)
-						ggame->PLayer_Turn_Client(msg.cl_num - 1, rec_act.turn == TURN_LEFT);
+
 				}
 			}
 		} else if (msg.type == UPD_GAME_STATE_ACC)
@@ -348,7 +365,7 @@ bool CClient::think()
 	{
 		Actions curact;
 		curact.cadr = cadr;
-		if (check_for_actions(&curact) || (frames_wtanws >=5))
+		if (check_for_actions(&curact) || (frames_wtanws >=4))
 		{
 			int * p = (int *)msg.buff;
 			msg.type = PLAYER_ACTION;
@@ -359,27 +376,32 @@ bool CClient::think()
 			*(p++) = curact.start_rocket;
 			*(p++) = curact.turn;
 
-			if (curact.turn != NO_TURN)
-			{
-				act[getPID()][msg.pack_num] = curact;
-				act[getPID()][msg.pack_num].received = true;//ppfft
-			}
-
+			act[getPID()][msg.pack_num] = curact;
+			act[getPID()][msg.pack_num].received = true;
 			
 			sendto(my_sock, (char *)&msg, sizeof(my_message)- 1900, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
-
-			if (curact.turn != NO_TURN)
-				ggame->PLayer_Turn_Client(getPID(), curact.turn == TURN_LEFT);
-			if (curact.start_bomb == true)
-				ggame->Bomb_Place(getPID());
-			if (curact.start_rocket == true)
-				ggame->Rocket_Place(getPID());
 		}
 		else frames_wtanws++;
 
 
-		if (!frameSkip) ggame->UPD_Client(dt);
+		if (!frameSkip)
+		{
+			fori(i, number_of_clients)
+			{
+				if (act[i][cadr].received)
+				{
+					Actions& rec_act = act[i][cadr];
+					if (rec_act.start_bomb == true)
+						ggame->Bomb_Place(i);
+					if (rec_act.start_rocket == true)
+						ggame->Rocket_Place(i);
+					if (rec_act.turn != NO_TURN)
+						ggame->PLayer_Turn_Client(i, rec_act.turn == TURN_LEFT);
+				}
+			}
+			ggame->UPD_Client(dt);
+		}
 
 		if (cClFrame - lSrvFrame > CLIENT_MAX_FORWARD)
 		{
