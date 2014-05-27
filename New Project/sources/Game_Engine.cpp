@@ -373,6 +373,7 @@ void Game_Engine::Bomb_Place(const int &Player_number) {
 	this->Current_Game.Players[Player_number].Bomb_Ammount--;
 	Bomb _Bomb(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Constants->Bomb_Time, this->Constants->Bomb_Radius);
 	_Bomb.Owner = Player_number;
+	_Bomb.Vector = Norm(this->Current_Game.Players[Player_number].MyCycle.Direction);
 	this->Current_Game.Bombs.push_back(_Bomb);
 	this->Game_Changes.Placed_Bomb.push_back(_Bomb);
 	return;
