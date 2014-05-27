@@ -131,8 +131,8 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 	Point2D < double > P1 = Polygon_from_cycle(_Cycle).Polygon[0];
 	Point2D < double > P2 = Polygon_from_cycle(_Cycle).Polygon[1];
 	_Cycle.UPD(dt);
-	Point2D < double > P3 = Polygon_from_cycle(_Cycle).Polygon[2];
-	Point2D < double > P4 = Polygon_from_cycle(_Cycle).Polygon[3];
+	Point2D < double > P4 = Polygon_from_cycle(_Cycle).Polygon[2];
+	Point2D < double > P3 = Polygon_from_cycle(_Cycle).Polygon[3];
 	Point2D < double > O = _Bonus.Point;
 	if (abs(P4.x - P1.x) < EPS)
 		if (O.x < max(P1.x, P2.x) &&
@@ -405,8 +405,11 @@ bool Game_Engine::Rocket_Delete(const Rocket &_Rocket) {
 	return false;
 }
 
-bool Game_Engine::Rocket_Delete(const vector < int > &Rockets) {
+bool Game_Engine::Rocket_Delete(const vector < int > &RockeAts) {
 	bool f = false;
+	vector<int> Rockets = RockeAts;
+	sort(Rockets.begin(), Rockets.end());
+	reverse(Rockets.begin(), Rockets.end());
 	for (size_t i = 0; i < Rockets.size(); i++) {
 		if (Rocket_Delete(Rockets[i]))
 			f = true;
