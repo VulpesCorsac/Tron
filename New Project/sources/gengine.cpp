@@ -160,6 +160,10 @@ void CGEngine::load()
 	rockTex = new CGLTexture();
 	rockTex->load("rocketTex.bmp");
 
+	motoTex = new CGLTexture();
+	motoTex->load("motoTex.jpg");
+	
+
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
 
 	gridMesh = generateGridMesh(400, 400, 1.0f, 0.05f);
@@ -167,7 +171,7 @@ void CGEngine::load()
 
 	motoMesh = new CMesh();
 	motoMesh->loadFrom("models\\cycle.objm");
-	motoMesh->setTexture(whiteTex);
+	motoMesh->setTexture(motoTex);
 
 	bombMesh = new CMesh();
 	bombMesh->loadFrom("models\\bomb.objm");
@@ -176,6 +180,7 @@ void CGEngine::load()
 	rockMesh = new CMesh();
 	rockMesh->loadFrom("models\\rocket.objm");
 	rockMesh->setTexture(rockTex);
+
 }
 
 void CGEngine::initRender()
