@@ -19,7 +19,7 @@
 
 #define COUNTDOWN_TIME (60*4)
 #define BUFF_SIZE 2048
-
+#define FRAMES_PER_BONUS 600
 
 class CGEngine;
 class Game_Engine;
@@ -70,6 +70,7 @@ private:
 	bool game_started;
     bool perm_to_connect;
 	int cadr;
+	int frameswtbonus;
 	int stepped, cSendNum[MAX_CLIENTS], cRecvNum[MAX_CLIENTS];
 	Actions act[MAX_CLIENTS][100000];
 	int last_frame_action[MAX_CLIENTS];

@@ -73,7 +73,7 @@ private:
 	bool Bonus_Delete(const Bonus &_Bonus);
 	bool Bonus_Delete(const vector < int >   &Bonuses);
 	bool Bonus_Delete(const vector < Bonus > &Bonuses);
-	void Bonus_Place(void);
+
 
 	Player Player_Generate(void);
 	vector < Player > Player_Generate(const int &n);
@@ -96,6 +96,8 @@ public:
 	// Changes
 	void Bomb_Place(const int &Player_number);
 	void Rocket_Place(const int &Player_number);
+	void Bonus_Place(void);
+
 
 	bool Wall_Prolong(const int &n);
 	bool Wall_Prolong_All(void);

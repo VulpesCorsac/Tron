@@ -85,9 +85,6 @@ void write_changes(my_message * msg, Changes * some_changes)
 	{
 		*(p++) = some_changes->Modifyed_Walls[i].first.Player_Number;
 		*(p++) = some_changes->Modifyed_Walls[i].first.Wall_Number;
-
-
-
 		*(p++) = some_changes->Modifyed_Walls[i].second.Player_Number;
 		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.x;
 		p = p + 2;
@@ -115,6 +112,20 @@ void write_changes(my_message * msg, Changes * some_changes)
 		p = p + 2;
 		*(p++) = some_changes->New_Walls[i].Wall_Number;
 	}
+
+//	len = some_changes->Exploded_Bombs.size();
+	(*p++) = len = some_changes->Placed_Bonuses.size();
+	for (int i = 0; i < len; i++)
+	{
+		*(p++) = some_changes->Placed_Bonuses[i].Bomb;
+		*(p++) = some_changes->Placed_Bonuses[i].Rocket;
+		*(p) = some_changes->Placed_Bonuses[i].Point.x;
+		p = p + 2;
+		*(p) = some_changes->Placed_Bonuses[i].Point.y;
+		p = p + 2;
+	}
+
+
 
 	msg->sizeofmsg = (p - (int *)msg->buff + 1) * 4;
 }
@@ -179,6 +190,7 @@ CServer::CServer(CGEngine * _game, Game_Engine *_ggame)
 		cSendNum[i] = 0;
 		cRecvNum[i] = 0;
 	}
+	frameswtbonus = 0;
 
 	for (int j = 0; j < MAX_CLIENTS; j++)
 	for (int i = 0; i < 100000; i++)
@@ -240,6 +252,7 @@ CServer :: CServer()
 		act[j][i].turn = NO_TURN;
 		act[j][i].received = false;
 	}
+	frameswtbonus = 0;
 	stepped = 0;
 
 
@@ -299,6 +312,7 @@ CServer :: CServer()
 					ggame->Player_Turn(j, act[j][i].turn == TURN_LEFT);
 			}
 			ggame->UPD(dt);
+			frameswtbonus++;
 			stepped++;
 	}
 
@@ -365,6 +379,13 @@ bool CServer :: check_frame()
 	if (mframe > stepped && !gameFinish)
 	{
 		gotoframe(mframe);
+
+		if (frameswtbonus > FRAMES_PER_BONUS)
+		{
+			frameswtbonus = 0;
+			ggame->Bonus_Place();
+		}
+
 
 		Changes acc;
 		State nacc;
@@ -558,6 +579,7 @@ bool CServer :: think()
 			act[j][i].turn = NO_TURN;
 			act[j][i].received = false;
 		}
+		frameswtbonus = 0;
 
 		game_started = true;
 		perm_to_connect = false;
