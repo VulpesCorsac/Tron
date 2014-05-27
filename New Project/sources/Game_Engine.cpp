@@ -145,7 +145,7 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 			O.x > min(P3.x, P2.x) &&
 			O.y < max(P3.y, P4.y) &&
 			O.y > min(P3.y, P4.y))
-			return true;
+			return true;/*
 	if ((P4.y > P1.y) && (P4.y > P3.y))
 		if ((O.y > P2.y + (O.x - P2.x)*(P1.y - P2.y) / (P1.x - P2.x)) &&
 			(O.y > P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
@@ -169,7 +169,7 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 			(O.y < P2.y + (O.x - P2.x)*(P3.y - P2.y) / (P3.x - P2.x)) &&
 			(O.y < P4.y + (O.x - P4.x)*(P3.y - P4.y) / (P3.x - P4.x)) &&
 			(O.y > P4.y + (O.x - P4.x)*(P1.y - P4.y) / (P1.x - P4.x)))
-			return true;
+			return true;*/
 	return false;
 }
 
