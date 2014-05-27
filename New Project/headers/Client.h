@@ -31,7 +31,6 @@ private:
 	long long cadr;
 	//long long stepped; SUKA BLDZJAD AAAAAAAAAAAA ZACHEM WHAI WHYYYYYYYYYYYYYYYYY??
 	CGEngine *game;
-	Game_Engine *ggame;
 	int frames_wtanws;
 	Actions act[MAX_CLIENTS][100000];
 
@@ -42,6 +41,7 @@ private:
 
 public:
 
+	Game_Engine *ggame;
 	int nPacketLossSnd, nPacketLossRcv, nLags, nPacketShuffle, lSkipId;
 	int countTime;
 	int gResult;

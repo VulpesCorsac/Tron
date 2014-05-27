@@ -287,6 +287,9 @@
     <ClCompile Include="sources\State_and_Changes.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="gengine_sound.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="WorkDir\config.cfg">

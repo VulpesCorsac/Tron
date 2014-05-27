@@ -536,6 +536,9 @@ void CGEngine::start()
 {
 	isExit = false;
 	mPos.x = 0; mPos.y = 0;
+
+
+
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 //	glutInitContextVersion(3, 3);
 //	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
@@ -544,8 +547,12 @@ void CGEngine::start()
 	glutInitWindowSize(resX, resY);
 	glutInitWindowPosition(50, 50);
 
-
 	glutCreateWindow("Tron");
+
+
+	printf("Initializing BASS & sound..\n");
+	BASS_Init(-1, 44100, 0, GetForegroundWindow(), NULL);
+
 	glutIdleFunc(r_cycle);
 	glutPassiveMotionFunc(r_mouseMove);
 	glutKeyboardFunc(r_keyb);

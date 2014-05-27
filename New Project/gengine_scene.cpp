@@ -419,6 +419,11 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 
 		//cs.e[RG_OP_LIGHTING].push_back(e);
 	}
+
+	forvec(CGEngEffect, effs, i)
+	{
+		
+	}
 }
 
 void CGEngine::drawScene(CCurScene& cs, glm::mat4 &tr)
@@ -480,6 +485,28 @@ void CGEngine::switchSpectator(int d)
 
 void CGEngine::drawScene(Game* gm)
 {
+	/*
+	if (cClient && cClient->ggame)
+	{
+		forvec(Bomb, cClient->ggame->Exploded_Bomb, i)
+		{
+			CGEngEffect e;
+			e.pos = point2DToVec3(i->Current_Point);
+			e.rad = i->Radius;
+			e.t = 0;
+			e.type = EFF_EXPLOSION;
+			effs.push_back(e);
+		}
+		forvec(Rocket, cClient->ggame->Exploded_Rocket, i)
+		{
+			CGEngEffect e;
+			e.pos = point2DToVec3(i->Current_Point);
+			e.rad = i->Radius;
+			e.t = 0;
+			e.type = EFF_EXPLOSION;
+			effs.push_back(e);
+		}
+	}*/
 
 	//camera update
 	cam_Up = vec3(0.0f, 1.0f, 0.0f);
@@ -593,6 +620,7 @@ void CGEngine::prepForScene(Game* gm)
 
 	cSpecPlayer = -1;
 	isLAlive = true;
+	effs.clear();
 }
 
 void CGEngine::setGame(Game* gm)

@@ -20,7 +20,16 @@ class CWallRender;
 
 class CGEngine
 {
+	static const int EFF_EXPLOSION = 1;
+
+	struct CGEngEffect
+	{
+		glm::vec3 pos;
+		int type;
+		float t, rad;
+	};
 private:
+	vector<CGEngEffect> effs;
 
 	friend CWallRender;
 

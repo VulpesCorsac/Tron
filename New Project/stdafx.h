@@ -25,6 +25,8 @@
 #include <map>
 #include <assert.h>
 
+#include <bass.h>
+
 //#define GLEW_STATIC wtf it doesn't work but k
 
 #include <glew.h>
