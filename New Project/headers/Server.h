@@ -18,6 +18,8 @@
 
 
 #define COUNTDOWN_TIME (60*4)
+#define BUFF_SIZE 2048
+
 
 class CGEngine;
 class Game_Engine;
@@ -32,7 +34,7 @@ struct my_message
     int pack_num;
     int length;
 	int sizeofmsg;
-    char buff[2048];
+    char buff[BUFF_SIZE];
 
 };
 

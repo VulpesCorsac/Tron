@@ -200,7 +200,7 @@ bool CClient :: connect(const char *ip)
     int msg_size;
 	int lol_size = 0;
 
-	sendto(my_sock, (char *)&msg, sizeof(my_message)-2048, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+	sendto(my_sock, (char *)&msg, sizeof(my_message)-BUFF_SIZE + msg.sizeofmsg, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
     while(((msg_size = recvfrom(my_sock, (char*) &msg, sizeof(my_message), 0, (struct sockaddr *) &anyaddr, &len)) == -1) && (lol_size < 1000))
     {
 		lol_size++;
@@ -381,7 +381,7 @@ bool CClient::think()
 			act[getPID()][msg.pack_num] = curact;
 			act[getPID()][msg.pack_num].received = true;
 			
-			sendto(my_sock, (char *)&msg, sizeof(my_message)- 2048 + msg.sizeofmsg, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message)- BUFF_SIZE + msg.sizeofmsg, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 		}
 		else frames_wtanws++;

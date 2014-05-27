@@ -325,7 +325,7 @@ bool CServer::Line_up()
 			clients[j].occupied = false;
 			sprintf(msg.buff, "%d", i);
 			msg.sizeofmsg = 4;
-			sendto(my_sock, (char *)&msg, sizeof(my_message) - 2044, 0, (sockaddr *)&clients[i].addr, sizeof(sockaddr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message) - BUFF_SIZE + msg.sizeofmsg, 0, (sockaddr *)&clients[i].addr, sizeof(sockaddr));
 			break;
 		}
 	}
@@ -450,7 +450,7 @@ bool CServer :: think()
 						anws.length = 1;
 						anws.pack_num = 0;
 						anws.sizeofmsg = 4;
-						sendto(my_sock, (char *)&anws, sizeof(my_message) - 2044, 0, (struct sockaddr *) &tempaddr, sizeof(tempaddr));
+						sendto(my_sock, (char *)&anws, sizeof(my_message) - BUFF_SIZE + anws.sizeofmsg, 0, (struct sockaddr *) &tempaddr, sizeof(tempaddr));
 					}
 					else
 					{
@@ -469,7 +469,7 @@ bool CServer :: think()
 								anws.length = 4;
 								anws.pack_num = 0;
 								anws.sizeofmsg = 4;
-								sendto(my_sock, (char *)&anws, sizeof(my_message) - 2044, 0, (struct sockaddr *) &clients[i].addr, sizeof(tempaddr));
+								sendto(my_sock, (char *)&anws, sizeof(my_message) - BUFF_SIZE + anws.sizeofmsg, 0, (struct sockaddr *) &clients[i].addr, sizeof(tempaddr));
 								break;
 							}
 						}
@@ -527,7 +527,7 @@ bool CServer :: think()
 			if (clients[i].occupied == true)
 			{
 				msg.length = cSendNum[i]++;
-				sendto(my_sock, (char *) &msg, sizeof(my_message) - 2048 + msg.sizeofmsg, 0, (sockaddr *)&clients[i].addr, len);
+				sendto(my_sock, (char *) &msg, sizeof(my_message) - BUFF_SIZE + msg.sizeofmsg, 0, (sockaddr *)&clients[i].addr, len);
 			}
 		}
 		return true;
