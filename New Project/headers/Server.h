@@ -31,6 +31,7 @@ struct my_message
     int cl_num;
     int pack_num;
     int length;
+	int sizeofmsg;
     char buff[2048];
 
 };

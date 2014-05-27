@@ -35,6 +35,7 @@ void write_state(my_message * msg, State * some_state, Game* game)
 		*((double*)p) = game->Walls[i].Segment.A.y;
 		p += 2;
 	}
+	msg->sizeofmsg = (p - (int *)msg->buff + 1) * 4;
 }
 
 void read_state(my_message * msg, State * some_state, Game* game)
@@ -122,6 +123,7 @@ void write_changes(my_message * msg, Changes * some_changes)
 		*(p++) = some_changes->New_Walls[i].Wall_Number;
 	}
 
+	msg->sizeofmsg = (p - (int *)msg->buff + 1) * 4;
 }
 
 void read_changes(my_message * msg, Changes * some_changes)
@@ -337,7 +339,8 @@ bool CServer::Line_up()
 			clients[i].occupied = true;
 			clients[j].occupied = false;
 			sprintf(msg.buff, "%d", i);
-			sendto(my_sock, (char *)&msg, sizeof(my_message), 0, (sockaddr *)&clients[i].addr, sizeof(sockaddr));
+			msg.sizeofmsg = 4;
+			sendto(my_sock, (char *)&msg, sizeof(my_message) - 2044, 0, (sockaddr *)&clients[i].addr, sizeof(sockaddr));
 			break;
 		}
 	}
@@ -416,6 +419,7 @@ bool CServer :: check_frame()
 			msg.type = START_COUNTDOWN;
 			*((int*)msg.buff) = COUNTDOWN_TIME;
 			countTime = COUNTDOWN_TIME;
+			msg.sizeofmsg = 4;
 			broadcast(msg);
 		}
 
@@ -460,7 +464,8 @@ bool CServer :: think()
 						anws.cl_num = 0;
 						anws.length = 1;
 						anws.pack_num = 0;
-						sendto(my_sock, (char *)&anws, sizeof(my_message) - 2046, 0, (struct sockaddr *) &tempaddr, sizeof(tempaddr));
+						anws.sizeofmsg = 4;
+						sendto(my_sock, (char *)&anws, sizeof(my_message) - 2044, 0, (struct sockaddr *) &tempaddr, sizeof(tempaddr));
 					}
 					else
 					{
@@ -478,6 +483,7 @@ bool CServer :: think()
 								anws.cl_num = 0;
 								anws.length = 4;
 								anws.pack_num = 0;
+								anws.sizeofmsg = 4;
 								sendto(my_sock, (char *)&anws, sizeof(my_message) - 2044, 0, (struct sockaddr *) &clients[i].addr, sizeof(tempaddr));
 								break;
 							}
@@ -492,6 +498,7 @@ bool CServer :: think()
 					anws.type = DISCONNECT;
 					anws.cl_num = 0;
 					anws.length = 1;
+					anws.sizeofmsg = 4;
 					broadcast(anws);
 					clients[msg.cl_num].occupied = 0;
 					clients[msg.cl_num].packets_sended = 0;
@@ -515,6 +522,7 @@ bool CServer :: think()
 					act[msg.cl_num - 1][curfr].start_bomb = *(p++);
 					act[msg.cl_num - 1][curfr].start_rocket = *(p++);
 					act[msg.cl_num - 1][curfr].turn = *(p++);
+					msg.sizeofmsg = sizeof(Actions);
 					broadcast(msg);
 				}
 			}
@@ -534,7 +542,7 @@ bool CServer :: think()
 			if (clients[i].occupied == true)
 			{
 				msg.length = cSendNum[i]++;
-				sendto(my_sock, (char *) &msg, sizeof(my_message) - 1000, 0, (sockaddr *)&clients[i].addr, len);
+				sendto(my_sock, (char *) &msg, sizeof(my_message) - 2048 + msg.sizeofmsg, 0, (sockaddr *)&clients[i].addr, len);
 			}
 		}
 		return true;

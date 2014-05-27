@@ -194,6 +194,7 @@ bool CClient :: connect(const char *ip)
     msg.cl_num = 0;
     msg.type = REGISTER_PLAYER;
     msg.pack_num = 0;
+	msg.sizeofmsg = 0;
     msg.length = 0;
     int len = sizeof(sockaddr_in);
     int msg_size;
@@ -371,6 +372,7 @@ bool CClient::think()
 			msg.type = PLAYER_ACTION;
 			msg.cl_num = getPID() + 1;
 			msg.pack_num = cadr;
+			msg.length = 20;
 			*(p++) = curact.cadr;
 			*(p++) = curact.start_bomb;
 			*(p++) = curact.start_rocket;
@@ -379,7 +381,7 @@ bool CClient::think()
 			act[getPID()][msg.pack_num] = curact;
 			act[getPID()][msg.pack_num].received = true;
 			
-			sendto(my_sock, (char *)&msg, sizeof(my_message)- 1900, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+			sendto(my_sock, (char *)&msg, sizeof(my_message)- 2048 + msg.sizeofmsg, 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 			frames_wtanws = 0;
 		}
 		else frames_wtanws++;
