@@ -73,7 +73,6 @@ private:
 
 	CSprite* testSpr;
 
-	int lPlayer;
 
 	glm::mat4 TRM_2d, TRM_3d;
 	glm::vec4 cColorMod;
@@ -102,6 +101,8 @@ private:
 
 	glm::vec3 cam_Pos, cam_Trg, cam_Up;
 	glm::vec3 cam_Pos_t, cam_Trg_t;	//target state
+
+	double cGraphTime;
 
 	CGLTexture* menuTex, *gridTex, *gridTex2, *whiteTex, *wallTex, *bombTex, * rockTex;
 	CMesh* gridMesh, *motoMesh, *gridMesh2, *bombMesh, *rockMesh;
@@ -135,6 +136,7 @@ public:
 	GLuint cTex;
 	int cSpecPlayer;
 	bool isLAlive;
+	int lPlayer;
 
 	void doExit();
 	void setRasterTrg(Point p);

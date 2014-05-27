@@ -78,6 +78,10 @@ void CGUI::enterScreen(int id)
 		b_HInfo2->setText("");
 		b_HInfo2->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
 
+		b_BInfo = new CGUIElement(this, Point(rX / 6.0f, rY * 0.94f), NULL);
+		b_BInfo->setText("");
+		b_BInfo->fntColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
 		gEng->startPlaying();
 	}
 	cScr = id;
@@ -211,10 +215,15 @@ void CGUI::think(Point mPos, int mState)
 			if (gEng->cClient && gEng->cClient->gameFinish) sprintf_s(cBuff, "Restarting...");
 			b_Info->setText(cBuff);
 
+			cBuff5[0] = 0;
 
 			if (gEng->isLAlive)
 			{
 				b_Info2->setText("");
+
+				sprintf_s(cBuff5, "Roc./Bombs : %d/%d", gEng->rGame->Players[gEng->lPlayer].Rocket_Ammount,
+					gEng->rGame->Players[gEng->lPlayer].Bomb_Ammount);
+
 			}
 			else if (gEng->cClient && gEng->cClient->gameFinish)
 			{
@@ -240,9 +249,8 @@ void CGUI::think(Point mPos, int mState)
 				sprintf_s(cBuff4, "frm srv : %d, cl %d", gEng->cClient->lSrvFrame, gEng->cClient->cClFrame);
 				b_HInfo2->setText(cBuff4);
 			}
+			b_BInfo->setText(cBuff5);
 
-
-			
 		}
 	}
 }

@@ -401,7 +401,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
 		e.wMat = tMatrix * scale(vec3(1.0f, 1.0f, 1.0f));
 
-		//cs.e[RG_OP_LIGHTING].push_back(e);
+		cs.e[RG_OP_LIGHTING].push_back(e);
 	}
 	forvec(Rocket, gm->Rockets, i)
 	{
@@ -417,7 +417,35 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
 		e.wMat = tMatrix * rMatrix * scale(vec3(1.0f, 1.0f, 1.0f));
 
-		//cs.e[RG_OP_LIGHTING].push_back(e);
+		cs.e[RG_OP_LIGHTING].push_back(e);
+	}
+
+	forvec(Bonus, gm->Bonuses, i)
+	{
+		CDrawEl e;
+		e.hasTransform = true;
+		mat4 tMatrix = translate(point2DToVec3(i->Point));
+
+		float rAng = i->Point.x - i->Point.y + cGraphTime * 2.0;
+
+		mat4 rMatrix1 = rotate(1.0f, vec3(1.0f, 0.0f, 0.0f));
+		mat4 rMatrix2 = rotate(rAng, vec3(0.0f, 1.0f, 0.0f));
+		mat4 sMatrix;
+
+		if (i->Bomb)
+		{
+			e.dMesh = bombMesh;
+			sMatrix = scale(vec3(1.0f, 1.0f, 1.0f));
+		}
+		else if (i->Rocket)
+		{
+			e.dMesh = rockMesh;
+			sMatrix = scale(vec3(1.0f, 1.0f, 1.0f));
+		}
+		else assert(false);
+
+		e.wMat = tMatrix * rMatrix2 * rMatrix1 * sMatrix;
+		cs.e[RG_OP_LIGHTING].push_back(e);
 	}
 
 	forvec(CGEngEffect, effs, i)
@@ -507,6 +535,8 @@ void CGEngine::drawScene(Game* gm)
 			effs.push_back(e);
 		}
 	}*/
+
+	cGraphTime += 1.0 / 60.0;
 
 	//camera update
 	cam_Up = vec3(0.0f, 1.0f, 0.0f);
@@ -621,6 +651,8 @@ void CGEngine::prepForScene(Game* gm)
 	cSpecPlayer = -1;
 	isLAlive = true;
 	effs.clear();
+
+	cGraphTime = 0;
 }
 
 void CGEngine::setGame(Game* gm)

@@ -41,9 +41,9 @@ private:
 	vector<CGUIElement*> els;
 
 	CGUIElement* b_Host, *b_Client, *b_Exit, *b_Layout, *b_IP, *b_Connect, *b_Info, *b_Players, *b_Info2, *b_Info3;
-	CGUIElement* b_HInfo1, *b_HInfo2;
+	CGUIElement* b_HInfo1, *b_HInfo2, *b_BInfo;
 
-	char cIp[64], cBuff[128], cBuff2[128], cBuff3[128], cBuff4[128];
+	char cIp[64], cBuff[128], cBuff2[128], cBuff3[128], cBuff4[128], cBuff5[128];
 
 	CGLTexture* menuTex;
 	void clearScreen();

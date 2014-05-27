@@ -155,10 +155,10 @@ void CGEngine::load()
 	wallTex->load("wallTex.png");
 
 	bombTex = new CGLTexture();
-	bombTex->load("bombTex.png");
+	bombTex->load("bombTex.bmp");
 
 	rockTex = new CGLTexture();
-	rockTex->load("rocketTex.png");
+	rockTex->load("rocketTex.bmp");
 
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
 
@@ -168,6 +168,14 @@ void CGEngine::load()
 	motoMesh = new CMesh();
 	motoMesh->loadFrom("models\\cycle.objm");
 	motoMesh->setTexture(whiteTex);
+
+	bombMesh = new CMesh();
+	bombMesh->loadFrom("models\\bomb.objm");
+	bombMesh->setTexture(bombTex);
+
+	rockMesh = new CMesh();
+	rockMesh->loadFrom("models\\rocket.objm");
+	rockMesh->setTexture(rockTex);
 }
 
 void CGEngine::initRender()
