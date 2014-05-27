@@ -5,9 +5,9 @@ void Bonus::Place(const Point2D < double > &_Point, const int &Type) {
 	this->Point = _Point;
 	this->Bomb = false;
 	this->Rocket = false;
-	if (Type == 1)
+	if (Type == 0)
 		this->Bomb = true;
-	if (Type == 2)
+	if (Type == 1)
 		this->Rocket = true;
 	return;
 }

@@ -367,7 +367,10 @@ void Game_Engine::Bomb_Explosion(const int &Bomb_Number, vector < int > &Killed_
 }
 
 void Game_Engine::Bomb_Place(const int &Player_number) {
+	if (!this->Current_Game.Players[Player_number].Bomb_Ammount)
+		return;
 	Bomb _Bomb(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Constants->Bomb_Time, this->Constants->Bomb_Radius);
+	_Bomb.Owner = Player_number;
 	this->Current_Game.Bombs.push_back(_Bomb);
 	this->Game_Changes.Placed_Bomb.push_back(_Bomb);
 	return;
@@ -425,8 +428,11 @@ void Game_Engine::Rocket_Explosion(const int &Rocket_Number, vector < int > &Kil
 }
 
 void Game_Engine::Rocket_Place(const int &Player_number) {
+	if (!this->Current_Game.Players[Player_number].Rocket_Ammount)
+		return;
 	Rocket _Rock(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Current_Game.Players[Player_number].MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Length, this->Constants->Rocket_Radius );
 	this->Current_Game.Rockets.push_back(_Rock);
+	_Rock.Owner = Player_number;
 //	Rocket _Rock2(this->Current_Game.Players[Player_number].MyCycle.Current_Point, this->Current_Game.Players[Player_number].MyCycle.Direction, this->Constants->Rocket_Speed, this->Constants->Rocket_Length, this->Constants->Rocket_Radius);
 	this->Game_Changes.Placed_Rocket.push_back(_Rock);
 	return;
@@ -772,7 +778,8 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 			for (size_t j = 0; j < N_Ts.size(); j++)
 				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[N_Ts[j].first],N_Ts[j].second));
 			for (size_t j = 0; j < D_Ws.size(); j++)
-				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D <double>(Point2D <double>(0, 0), Point2D <double>(0, 0)), -1, -1)));
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D < double >(Point2D < double >(-100, -100), Point2D < double >(-100, -100)), -1, this->Current_Game.Walls[D_Ws[j]].Wall_Number)));
+			Ch_buf.Exploded_Bombs.push_back(i);
 			Ch += Ch_buf;
 		}
 	}
@@ -785,7 +792,8 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 			for (size_t j = 0; j < N_Ts.size(); j++)
 				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[N_Ts[j].first], N_Ts[j].second));
 			for (size_t j = 0; j < D_Ws.size(); j++)
-				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D <double>(Point2D <double>(0, 0), Point2D <double>(0, 0)), -1, -1)));
+				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D < double >(Point2D < double >(-100, -100), Point2D < double >(-100, -100)), -1, this->Current_Game.Walls[D_Ws[j]].Wall_Number)));
+			Ch_buf.Exploded_Rockets.push_back(i);
 			Ch += Ch_buf;
 		}
 	}
@@ -798,6 +806,7 @@ void Game_Engine::_UPD(const double dt, State &St, Changes &Ch) {
 				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[N_Ts[j].first], N_Ts[j].second));
 			for (size_t j = 0; j < D_Ws.size(); j++)
 				Ch_buf.Modifyed_Walls.push_back(make_pair(this->Current_Game.Walls[D_Ws[j]], Wall(Segment2D <double>(Point2D <double>(0, 0), Point2D <double>(0, 0)), -1, -1)));
+			Ch_buf.Exploded_Rockets.push_back(i);
 			Ch += Ch_buf;
 		}
 	}
