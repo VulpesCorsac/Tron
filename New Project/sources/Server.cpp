@@ -85,6 +85,15 @@ void write_changes(my_message * msg, Changes * some_changes)
 	{
 		*(p++) = some_changes->Modifyed_Walls[i].first.Player_Number;
 		*(p++) = some_changes->Modifyed_Walls[i].first.Wall_Number;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.y;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.x;
+		p = p + 2;
+		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.y;
+		p = p + 2;
+
 		*(p++) = some_changes->Modifyed_Walls[i].second.Player_Number;
 		*((double *)p) = some_changes->Modifyed_Walls[i].second.Segment.A.x;
 		p = p + 2;
@@ -143,7 +152,7 @@ void read_changes(my_message * msg, Changes * some_changes)
 	some_changes->Killed_Players.resize(len);
 	for (int i = 0; i < len; i++)
 	some_changes->Killed_Players[i] = *(p++);
-
+	
 
 	len = *(p++);
 	some_changes->Modifyed_Walls.resize(len);
@@ -152,6 +161,14 @@ void read_changes(my_message * msg, Changes * some_changes)
 	{
 		some_changes->Modifyed_Walls[i].first.Player_Number = *(p++);
 		some_changes->Modifyed_Walls[i].first.Wall_Number = *(p++);
+		some_changes->Modifyed_Walls[i].first.Segment.A.x = *((double *)p);
+		p = p + 2;
+		some_changes->Modifyed_Walls[i].first.Segment.A.y = *((double *)p);
+		p = p + 2;
+		some_changes->Modifyed_Walls[i].first.Segment.B.x = *((double *)p);
+		p = p + 2;
+		some_changes->Modifyed_Walls[i].first.Segment.B.y = *((double *)p);
+		p = p + 2;
 
 
 		some_changes->Modifyed_Walls[i].second.Player_Number = *(p++);
