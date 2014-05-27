@@ -12,6 +12,12 @@ void Bonus::Place(const Point2D < double > &_Point, const int &Type) {
 	return;
 }
 
+Bonus::Bonus()
+{
+	return;
+}
+
+
 Bonus::Bonus(const Point2D < double > &_Point, const int &Type) {
 	Place(_Point, Type);
 }

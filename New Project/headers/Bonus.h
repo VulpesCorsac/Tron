@@ -11,6 +11,7 @@ public:
 
 	void Place(const Point2D < double > &_Point, const int &Type);
 
+	Bonus();
 	Bonus(const Point2D < double > &_Point, const int &Type);
 	~Bonus();
 

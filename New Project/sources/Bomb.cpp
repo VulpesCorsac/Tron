@@ -25,6 +25,15 @@ Bomb::~Bomb(void) {
 
 }
 
+Bomb::Bomb (Bomb *a)
+{
+	this->Current_Point = a->Current_Point;
+	this->Owner = a->Owner;
+	this->Radius = a->Radius;
+	this->Time_for_explosion = a->Time_for_explosion;
+}
+
+
 Bomb &Bomb::operator = (const Bomb &_Bomb) {
 	if (this == &_Bomb)
 		return *this;

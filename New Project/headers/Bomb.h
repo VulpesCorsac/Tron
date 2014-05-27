@@ -21,6 +21,8 @@ public:
 
 	Bomb(const Point2D < double > &Point, const double &Time_Left, const double &_R);
 	~Bomb(void);
+	
+	Bomb(Bomb *a);
 
 	Bomb &operator = (const Bomb &_Bomb);
 	friend bool operator == (const Bomb &Bomb1, const Bomb &Bomb2);
