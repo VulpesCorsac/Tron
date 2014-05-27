@@ -66,5 +66,5 @@ void CGEngine::switchMp3(int i)
 void CGEngine::startPlaying()
 {
 	if (mpFiles.size())
-		switchMp3(rand() % ((int)mpFiles.size()));
+		/*switchMp3*/(rand() % ((int)mpFiles.size()));
 }
