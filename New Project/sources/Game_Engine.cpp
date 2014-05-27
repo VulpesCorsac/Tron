@@ -904,6 +904,7 @@ void Game_Engine::UPD_Client(const double dt, bool noBombs) {
 		this->Exploded_Bomb.push_back(this->Current_Game.Bombs[i]);
 	for (size_t i = 0; i < Ch.Exploded_Rockets.size(); i++)
 		this->Exploded_Rocket.push_back(this->Current_Game.Rockets[i]);
+	Update_Changes_ACC(Ch);
 	return;
 }
 
