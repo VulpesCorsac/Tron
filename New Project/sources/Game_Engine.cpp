@@ -134,13 +134,13 @@ bool Game_Engine::Intersect(const Player &_Player, const Bonus &_Bonus, const do
 	Point2D < double > P3 = Polygon_from_cycle(_Cycle).Polygon[2];
 	Point2D < double > P4 = Polygon_from_cycle(_Cycle).Polygon[3];
 	Point2D < double > O = _Bonus.Point;
-	if (P4.x == P1.x)
+	if (abs(P4.x - P1.x) < EPS)
 		if (O.x < max(P1.x, P2.x) &&
 			O.x > min(P1.x, P2.x) &&
 			O.y < max(P1.y, P4.y) &&
 			O.y > min(P1.y, P4.y))
 			return true;
-	if (P4.x == P3.x)
+	if (abs(P4.x - P3.x) < EPS)
 		if (O.x < max(P3.x, P2.x) &&
 			O.x > min(P3.x, P2.x) &&
 			O.y < max(P3.y, P4.y) &&
