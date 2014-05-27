@@ -424,7 +424,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 	{
 		CDrawEl e;
 		e.hasTransform = true;
-		mat4 tMatrix = translate(point2DToVec3(i->Point));
+		mat4 tMatrix = translate(point2DToVec3(i->Point) + vec3(0.0f, 0.3f, 0.0f));
 
 		float rAng = i->Point.x - i->Point.y + cGraphTime * 2.0;
 
@@ -435,12 +435,12 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		if (i->Bomb)
 		{
 			e.dMesh = bombMesh;
-			sMatrix = scale(vec3(1.0f, 1.0f, 1.0f));
+			sMatrix = scale(vec3(0.004f));
 		}
 		else if (i->Rocket)
 		{
 			e.dMesh = rockMesh;
-			sMatrix = scale(vec3(1.0f, 1.0f, 1.0f));
+			sMatrix = scale(vec3(0.0075f));
 		}
 		else assert(false);
 
