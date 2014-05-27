@@ -440,6 +440,7 @@ void CGEngine::cycle()
 		}
 	}
 
+	updateSong();
 	glutPostRedisplay();
 }
 
@@ -552,6 +553,11 @@ void CGEngine::start()
 
 	printf("Initializing BASS & sound..\n");
 	BASS_Init(-1, 44100, 0, GetForegroundWindow(), NULL);
+
+	rebuildMp3List("Sound OST\\Daft Punk - TRON Legacy (Recording Sessions) (2010)");
+	printf("Known compositions : %d\n", mpFiles.size());
+	curStream = 0;
+	switchMp3(0);
 
 	glutIdleFunc(r_cycle);
 	glutPassiveMotionFunc(r_mouseMove);

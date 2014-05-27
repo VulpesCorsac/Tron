@@ -28,8 +28,23 @@ class CGEngine
 		int type;
 		float t, rad;
 	};
+	struct CMP3File
+	{
+		char fName[256];
+	};
+
 private:
-	vector<CGEngEffect> effs;
+
+	//MP3 stuff
+	HSTREAM curStream;
+	vector<CMP3File> mpFiles;
+
+	int lastSong;
+	void rebuildMp3List(const char* baseDir);
+	void switchMp3(int i);
+	void updateSong();
+	//
+
 
 	friend CWallRender;
 
@@ -82,6 +97,7 @@ private:
 
 	vector<float> pAngs;
 
+	vector<CGEngEffect> effs;
 	glm::mat4 projMat, camMat, pcMat, wrldMat, pcwMat;
 
 	glm::vec3 cam_Pos, cam_Trg, cam_Up;
@@ -105,6 +121,8 @@ private:
 	CMesh* generateGridMesh2(int nx, int ny, float sp);
 	void switchSpectator(int d);
 public:
+	void startPlaying();
+
 	Game* rGame;
 
 	Point mPos;

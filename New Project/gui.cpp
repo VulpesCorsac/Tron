@@ -78,6 +78,7 @@ void CGUI::enterScreen(int id)
 		b_HInfo2->setText("");
 		b_HInfo2->fntColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
 
+		gEng->startPlaying();
 	}
 	cScr = id;
 }
