@@ -8,6 +8,7 @@ public:
 	Point2D < double > Current_Point;
 	double Time_for_explosion;
 	double Radius;
+	int Owner;
 
 	// Place bomb
 	void Place(const Point2D < double > &Point, const double &Time_Left, const double &_R);

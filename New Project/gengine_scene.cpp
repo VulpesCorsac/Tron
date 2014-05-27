@@ -372,7 +372,7 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 		mat4 tMatrix2 = translate(vec3(0.55,0,0));
 		e.wMat = tMatrix * rMatrix * tMatrix2 * scale(vec3(0.002f, 0.002f, 0.002f));
 
-		float nang = -atan2f(i->MyCycle.Direction.y, i->MyCycle.Direction.x);
+		float nang = -atan2f((float)i->MyCycle.Direction.y, (float)i->MyCycle.Direction.x);
 
 		const float asp = 0.9f;
 
@@ -388,6 +388,36 @@ void CGEngine::buildScene(Game* gm, CCurScene& cs)
 	//		pAngs[i->Player_Number] += pAngs[i->Player_Number] * asp + nang * (1 - asp);
 
 		cs.e[RG_OP_LIGHTING].push_back(e);
+	}
+
+	forvec(Bomb, gm->Bombs, i)
+	{
+		CDrawEl e;
+		e.cMod = indToCol(wRender->team_cols[i->Owner]);
+		e.cMod.a = 1.0f;
+
+		e.dMesh = bombMesh;
+		e.hasTransform = true;
+		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
+		e.wMat = tMatrix * scale(vec3(1.0f, 1.0f, 1.0f));
+
+		//cs.e[RG_OP_LIGHTING].push_back(e);
+	}
+	forvec(Rocket, gm->Rockets, i)
+	{
+		CDrawEl e;
+		e.cMod = indToCol(wRender->team_cols[i->Owner]);
+		e.cMod.a = 1.0f;
+
+		float ang = -atan2f(i->Direction.y, i->Direction.x);
+		mat4 rMatrix = rotate(ang, vec3(0.0f, 1.0f, 0.0f));
+
+		e.dMesh = rockMesh;
+		e.hasTransform = true;
+		mat4 tMatrix = translate(point2DToVec3(i->Current_Point));
+		e.wMat = tMatrix * rMatrix * scale(vec3(1.0f, 1.0f, 1.0f));
+
+		//cs.e[RG_OP_LIGHTING].push_back(e);
 	}
 }
 

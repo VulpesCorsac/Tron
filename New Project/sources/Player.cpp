@@ -93,6 +93,7 @@ bool operator == (const Player &Player1, const Player &Player2) {
 		return false;
 	if (Player1.Team_Number != Player2.Team_Number)
 		return false;
+	return true;
 }
 
 bool operator != (const Player &Player1, const Player &Player2) {

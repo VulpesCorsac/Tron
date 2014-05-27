@@ -11,7 +11,8 @@ public:
 	double Speed;
 	double Length;
 	double Radius;
-	
+	int Owner;
+
 	// Shoot
 	void Shoot(const Point2D < double > &Start, const Vector2D < double > &Dir, const double &_Speed, const double &Len, const double &_R);
 	

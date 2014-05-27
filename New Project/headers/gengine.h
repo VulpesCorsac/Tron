@@ -78,8 +78,8 @@ private:
 	glm::vec3 cam_Pos, cam_Trg, cam_Up;
 	glm::vec3 cam_Pos_t, cam_Trg_t;	//target state
 
-	CGLTexture* menuTex, *gridTex, *gridTex2, *whiteTex, *wallTex;
-	CMesh* gridMesh, *motoMesh, *gridMesh2;
+	CGLTexture* menuTex, *gridTex, *gridTex2, *whiteTex, *wallTex, *bombTex, * rockTex;
+	CMesh* gridMesh, *motoMesh, *gridMesh2, *bombMesh, *rockMesh;
 
 	//size (x,z) ; spacing and line width
 	void updCamera();

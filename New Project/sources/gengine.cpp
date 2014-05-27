@@ -154,6 +154,11 @@ void CGEngine::load()
 	wallTex = new CGLTexture();
 	wallTex->load("wallTex.png");
 
+	bombTex = new CGLTexture();
+	bombTex->load("bombTex.png");
+
+	rockTex = new CGLTexture();
+	rockTex->load("rocketTex.png");
 
 	testSpr = makeSprite(menuTex, Point(20, 30), Point(20+25, 30+24));
 
