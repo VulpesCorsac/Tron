@@ -6,6 +6,7 @@
 class Bomb {
 public:
 	Point2D < double > Current_Point;
+	Vector2D < double > Vector;
 	double Time_for_explosion;
 	double Radius;
 	int Owner;
