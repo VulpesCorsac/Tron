@@ -80,19 +80,12 @@ void write_changes(my_message * msg, Changes * some_changes)
 
 
 	*(p++) = len = some_changes->Modifyed_Walls.size();
-	assert(len < 15);
+	assert(len < 30);
 	for (int i = 0; i < len; i++)
 	{
 		*(p++) = some_changes->Modifyed_Walls[i].first.Player_Number;
 		*(p++) = some_changes->Modifyed_Walls[i].first.Wall_Number;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.x;
-		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.A.y;
-		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.x;
-		p = p + 2;
-		*((double *)p) = some_changes->Modifyed_Walls[i].first.Segment.B.y;
-		p = p + 2;
+
 
 
 		*(p++) = some_changes->Modifyed_Walls[i].second.Player_Number;
@@ -138,19 +131,11 @@ void read_changes(my_message * msg, Changes * some_changes)
 
 	len = *(p++);
 	some_changes->Modifyed_Walls.resize(len);
-	assert(len < 10);
+	assert(len < 30);
 	for (int i = 0; i < len; i++)
 	{
 		some_changes->Modifyed_Walls[i].first.Player_Number = *(p++);
 		some_changes->Modifyed_Walls[i].first.Wall_Number = *(p++);
-		some_changes->Modifyed_Walls[i].first.Segment.A.x = *((double *)p);
-		p = p + 2;
-		some_changes->Modifyed_Walls[i].first.Segment.A.y = *((double *)p);
-		p = p + 2;
-		some_changes->Modifyed_Walls[i].first.Segment.B.x = *((double *)p);
-		p = p + 2;
-		some_changes->Modifyed_Walls[i].first.Segment.B.y = *((double *)p);
-		p = p + 2;
 
 
 		some_changes->Modifyed_Walls[i].second.Player_Number = *(p++);
