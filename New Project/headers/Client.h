@@ -15,7 +15,7 @@ struct changes;
 
 void init_network();
 
-#define CLIENT_MAX_FORWARD 9
+#define CLIENT_MAX_FORWARD 14
 
 
 class CClient
